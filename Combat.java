@@ -36,10 +36,6 @@ import javax.swing.JTextArea;
 * @since 8.0
 */
 public class Combat extends JFrame {
-	private String keybindAttack = "a";
-	private String keybindSpells = "s";
-	private String keybindItems = "z";
-	private String keybindRetreat = "x"; 
 	
 	private ArrayList<String> spellBook; //TEMP VAR
 	
