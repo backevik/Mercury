@@ -6,6 +6,12 @@ import java.util.Random;
 import player.Playable;
 import character.Character;
 
+/**
+ * @author      Andreas Bäckevik	<backevik@student.chalmers.se>
+ * @version     0.4
+ * @since       2015-02-09
+ */
+
 
 public class Combat {
 	boolean turn;

@@ -4,7 +4,7 @@ import character.Character;
 
 /**
  * @author      Andreas Bäckevik
- * @version     0.1
+ * @version     0.4
  * @since       2015-02-01
  */
 

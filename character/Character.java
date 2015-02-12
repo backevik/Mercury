@@ -11,8 +11,8 @@ import player.Inventory;
 
 /**
  * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     0.2
+ * @author	Andreas Bäckevik	<backevik@student.chalmers.se>
+ * @version     0.4
  * @since       2015-02-01
  */
 
