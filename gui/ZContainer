@@ -1,0 +1,30 @@
+package gui;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
+
+import core.Drawable;
+import core.EventAdder;
+import core.MouseObject;
+
+public class ZContainer extends ZImage implements Drawable
+{
+	protected List<ZImage> components = new ArrayList<>();
+	@SuppressWarnings("unused")
+	private List<MouseObject> mouseObjects;
+	
+	public ZContainer (EventAdder eventAdder, Image image, int x, int y, List<MouseObject> mouseObjects) {
+		super(image, x, y);
+		this.mouseObjects = mouseObjects;
+	}
+
+	@Override
+	public void render(Graphics g) {
+		super.render(g);
+		for (ZImage i : components) {
+			i.render(g);
+		}
+	}
+}
