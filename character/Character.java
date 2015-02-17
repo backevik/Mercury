@@ -11,7 +11,7 @@ import player.Inventory;
 
 /**
  * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author	Andreas Bäckevik	<backevik@student.chalmers.se>
+ * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
  * @version     0.4
  * @since       2015-02-01
  */
@@ -99,22 +99,41 @@ public abstract class Character
 	 * @param value - the amount reduced on vital
 	 */
 	public void reduceVital(String s, double value){
-		vitals.get(s).reduceVital(value);
+		if(s.equals("Energy")){
+			vitals.get(s).reduceVital(value);
+		}
+		if(s.equals("Health") && (vitals.get(s).getValue()-value)<=0){
+			vitals.get(s).reduceVital(vitals.get(s).getValue());
+			System.out.println(this.getName()+" died!");
+			//RETURN TO WORLDMAP
+		}else{
+			vitals.get(s).reduceVital(value);
+		}		
+	}
+	
+	/**
+	 * Regenerate mana by five each call
+	 */
+	public void manaReg(){
+		if((vitals.get("Energy").getValue()+5)>vitals.get("Energy").getMax()){
+			
+		}else{
+			vitals.get("Energy").healVital(5);
+		}
 	}
 	/**
 	 * heal the value of vital by name s with number value
 	 * @param s - the name of the vital
 	 * @param value - the amount healed on vital
+	 * @return heal - the difference between max and current health
+	 * @return value - the amount healed
 	 */
 	public double healVital(String s, double value){
-		if((vitals.get(s).getValue()+value)>vitals.get(s).getMax()){
-			double diff = (vitals.get(s).getValue()+value)-vitals.get(s).getMax();
-			vitals.get(s).healVital(diff);
-			return diff;
-		}else{
-			vitals.get(s).healVital(value);
-			return value;
+		if(vitals.get(s).getMax()<(vitals.get(s).getValue()+value)){
+			value = vitals.get(s).getMax() - vitals.get(s).getValue();
 		}
+		vitals.get(s).healVital(value);
+		return value;
 	}
 	/**
 	 * Returns a reference to the Character's inventory

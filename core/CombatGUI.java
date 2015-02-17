@@ -28,6 +28,7 @@ import java.util.List;
 
 	import javax.swing.JTextArea;
 
+import character.Spell;
 import player.Playable;
 import combat.Combat;
 import combat.Enemy;
@@ -40,8 +41,6 @@ import combat.Enemy;
 	* @since 2015-01-30
 	*/
 	public class CombatGUI extends JFrame{
-		
-		private ArrayList<String> spellBook; //TEMP VAR
 		
 		private JPanel contentPane;
 		private JTextArea textarea;
@@ -72,10 +71,6 @@ import combat.Enemy;
 			setContentPane(new JLabel(new ImageIcon("nice_country_road-903315.jpg")));
 
 			setTitle("Game");
-			
-			spellBook = new ArrayList<>(); //TEMPVAR
-			spellBook.add("fireball"); //TEMPVAR
-			spellBook.add("ice nova"); //TEMPVAR
 
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,15 +115,17 @@ import combat.Enemy;
 				}
 			});
 			
-			for(String spell : spellBook){
-				spell_menu = new JMenuItem(spell);
+			for(Spell spell : player.getSpellBook().getSpells()){
+				spell_menu = new JMenuItem(spell.getName());
 				spell_menu.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e){
-						combat.playerSpell(spell);
+						combat.playerSpell(spell.getName());
 						playerHealth.setValue((int)player.getValueOfVital("Health"));
 						enemyHealth.setValue((int)enemy.getValueOfVital("Health"));
 						enemyHealth.setString(""+(int)enemy.getValueOfVital("Health"));
 						playerHealth.setString(""+(int)player.getValueOfVital("Health"));
+						manaBar.setValue((int)player.getValueOfVital("Energy"));
+						manaBar.setString(""+(int)player.getValueOfVital("Energy"));
 					}
 				});
 				menu.add(spell_menu);

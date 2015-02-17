@@ -1,6 +1,7 @@
 package core;
 
 import character.Spell;
+import character.SpellBook;
 import constants.Attributes;
 import constants.Skills;
 import constants.Vitals;
@@ -16,8 +17,13 @@ public class Test {
 	private Enemy enemy;
 	
 	public Test () {
+		Spell fireball = new Spell("fireball","ball of fire",20,"damage");
+		Spell Heal = new Spell("heal","Heal yourself",20,"heal");
+
 		player = new Player("TestChar");
 		enemy = new Enemy("fittsture");
+		player.getPC().getSpellBook().addSpell(fireball);
+		player.getPC().getSpellBook().addSpell(Heal);
 		Combat combat = new Combat(player.getPC(),enemy);
 		CombatGUI cGUI = new CombatGUI(player.getPC(),enemy,combat);
 		printPlayerData ();
