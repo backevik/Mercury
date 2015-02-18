@@ -12,6 +12,7 @@ public class GlobalStateManager implements Serializable
 	private static GlobalStateManager globalStateManager;
 	private final Map<String, String> worldState = new HashMap<>();
 	private String currentState = "";
+	private String Location = "";
 	
 	private GlobalStateManager () {}	
 	
