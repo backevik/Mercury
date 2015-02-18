@@ -1,12 +1,11 @@
 package combat;
 
-
-
-
 import gui.CombatGUI;
 import gui.WorldMap;
 
 import java.util.Random;
+
+import core.GlobalStateManager;
 
 import player.Playable;
 import character.Character;
@@ -64,6 +63,8 @@ public class Combat implements Entity{
 				player.reduceVital("Health", enemy.getValueOfSkill("Attack"));
 				playerTurn();
 				System.out.println("Enemy attacked for: "+enemy.getValueOfSkill("Attack")); //Supposed to write to log here
+				//while(clockTick<30);
+				System.out.println(player.getName()+" turn!");
 			}else{
 				playerDeath();
 			}
@@ -85,10 +86,13 @@ public class Combat implements Entity{
 					}
 					enemy.reduceVital("Energy", spell.getEnergyCost());
 					enemyTurn();
-					System.out.println("Player turn!"); //Supposed to write to log here
+					//while(clockTick<30);
+					System.out.println(player.getName()+" turn!"); //Supposed to write to log here
 				}else{
 					System.out.println("Not enough Energy!"); //Supposed to write to log here
 				}
+			}else{
+				System.out.println("FATAL ERROR! SPELL NOT FOUND");
 			}
 		}
 	}
@@ -100,16 +104,6 @@ public class Combat implements Entity{
 			}
 		}	
 	}
-	
-	public void enemyRetreat(){
-		if(retreatChance(enemy)>=nextInt()){
-			System.out.println("Run bitch!");
-			//Render the worldmap here.
-		}else{
-			System.out.println("The enemy failed to run!"); //Supposed to write to log here
-		}
-	}
-	
 	/**
 	 * Set turn to player;
 	 */
@@ -126,8 +120,8 @@ public class Combat implements Entity{
 		
 				System.out.println("Enemy turn!"); //Supposed to write to log here
 				resetUpdateCount();
-				//while(clockTick<30);
-				enemyAttack();
+				enemyNextMove();
+				//while(clockTick<30);		
 			}else{
 				enemyDeath();
 			}
@@ -157,7 +151,7 @@ public class Combat implements Entity{
 		}
 		resetUpdateCount();
 		//while(clockTick<30);
-		enemyAttack();
+		enemyNextMove();
 	}
 	
 	private void playerDeath(){
@@ -221,6 +215,18 @@ public class Combat implements Entity{
 	
 	private boolean firstTurn(){
 		return(player.getValueOfSkill("Speed")>=enemy.getValueOfSkill("Speed"));
+	}
+	
+	private void enemyNextMove(){
+		if(enemy.AI()=="attack"){
+			enemyAttack();
+		}else if(enemy.AI()=="spell"){
+			enemySpell("fireball");
+		}else if(enemy.AI()=="heal"){
+			enemySpell("heal");
+		}else{
+			enemyAttack();	
+		}
 	}
 
 }
