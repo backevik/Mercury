@@ -1,13 +1,10 @@
 package combat;
 
-import gui.CombatViewer;
-import gui.WorldMapViewer;
-
 import java.util.Random;
 
-import core.Entity;
 import core.EventAdder;
 import core.GlobalStateManager;
+import core.RealTime;
 import player.Playable;
 import character.Character;
 import character.Spell;
@@ -18,11 +15,12 @@ import character.Spell;
  * @since       2015-02-09
  */
 
-public class Combat implements Entity {
-	private boolean turn;
+public class Combat implements RealTime {
+	private boolean playerTurn;
 	private Random rand;
 	private Playable player;
 	private Enemy enemy;
+	@SuppressWarnings("unused")
 	private int clockTick;
 	private EventAdder eventAdder;
 	
@@ -33,8 +31,8 @@ public class Combat implements Entity {
 		//initializing random factor;
 		rand = new Random();
 		// decide who starts, true for player, false for enemy.
-		turn = firstTurn();
-		if(turn==false){
+		playerTurn = firstTurn();
+		if (!playerTurn) {
 			enemyNextMove();
 		}
 		this.eventAdder = eventAdder;
@@ -58,7 +56,7 @@ public class Combat implements Entity {
 	 * Set turn to enemy;
 	 */
 	private void enemyTurn(){
-		turn=false;
+		playerTurn=false;
 		//enemy.manaReg();
 	}
 	
@@ -66,7 +64,7 @@ public class Combat implements Entity {
 	 * Enemy melee attack
 	 */
 	public void enemyAttack(){
-		if(turn==false){
+		if(playerTurn==false){
 			if((player.getValueOfVital("Health")-enemy.getValueOfSkill("Attack"))<=0){
 				playerDeath();
 			}else{
@@ -113,7 +111,7 @@ public class Combat implements Entity {
 	 * Set turn to player;
 	 */
 	private void playerTurn(){
-		turn=true;
+		playerTurn=true;
 		//player.manaReg();
 	}
 	
@@ -121,7 +119,7 @@ public class Combat implements Entity {
 	 * Player melee attack
 	 */
 	public void playerAttack(){
-		if(turn==true){
+		if(playerTurn==true){
 			if((enemy.getValueOfVital("Health")-player.getValueOfSkill("Attack"))<=0){
 				enemyDeath();
 			}else{
@@ -142,7 +140,7 @@ public class Combat implements Entity {
 	 * @param name - name of spell we want to cast
 	 */
 	public void playerSpell(String name){
-		if(turn==true){
+		if(playerTurn==true){
 			for(Spell spell : player.getSpellBook().getSpells()){
 				if(spell.getName().equals(name)){ //Check for correct spell
 					if((player.getValueOfVital("Energy")-spell.getEnergyCost())>=0){ //Check if char has Energy for spell

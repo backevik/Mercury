@@ -7,7 +7,7 @@ import java.util.List;
 
 import core.Drawable;
 import core.EventAdder;
-import core.MouseObject;
+import core.Entity;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
@@ -19,9 +19,9 @@ import core.MouseObject;
 public abstract class ZContainer extends ZImage implements Drawable
 {
 	protected List<ZImage> components = new ArrayList<>();
-	protected List<MouseObject> mouseObjects;
+	protected List<Entity> mouseObjects;
 	
-	public ZContainer (EventAdder eventAdder, Image image, int x, int y, List<MouseObject> mouseObjects) {
+	public ZContainer (EventAdder eventAdder, Image image, int x, int y, List<Entity> mouseObjects) {
 		super(image, x, y);
 		this.mouseObjects = mouseObjects;
 	}

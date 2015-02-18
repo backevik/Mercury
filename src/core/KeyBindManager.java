@@ -24,7 +24,11 @@ public class KeyBindManager implements KeyEventDispatcher
 	        	keyPresses.add(pressed);
 	        	
 	        	switch (keyToLowerCaseIfUpperCase(e.getKeyChar())) {
-	        		case 'q': if (GlobalStateManager.getInstance().getWorldState("CharacterExists").equals("true")) eventAdder.add("questLogViewerToggle"); break;
+	        		case 'q':
+	        			if (GlobalStateManager.getInstance().getWorldState("CharacterExists").equals("true")) {
+	        				eventAdder.add("questLogViewerToggle");
+	        			}
+	        			break;
 	        		case KeyEvent.VK_ESCAPE: eventAdder.add("exitGame");
 	        		default: break;
 	        	}

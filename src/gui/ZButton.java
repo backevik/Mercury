@@ -4,7 +4,7 @@ import java.awt.Image;
 
 import core.Drawable;
 import core.EventAdder;
-import core.MouseObject;
+import core.Entity;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
@@ -17,7 +17,7 @@ import core.MouseObject;
  * 
  * Can be constructed with an Image or using a default appearance.
  */
-public class ZButton extends ZImage implements MouseObject, Drawable
+public class ZButton extends ZImage implements Entity, Drawable
 {
 	private EventAdder eventAdder;
 	private String eventOnClick;

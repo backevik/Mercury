@@ -12,12 +12,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.DataState;
 import database.GameDataManager;
 import character.Spell;
 import combat.Combat;
 import combat.Enemy;
-import player.Playable;
 import player.Player;
 import player.Quest;
 import gui.CharacterCreationViewer;
@@ -63,8 +61,8 @@ public class Game implements MouseListener
     
     // interface lists
     private final List<Drawable> drawables = new ArrayList<>();
-    private final List<Entity> entities = new ArrayList<>();
-    private final List<MouseObject> mouseObjects = new ArrayList<>();
+    private final List<RealTime> realTimes = new ArrayList<>();
+    private final List<Entity> entities  = new ArrayList<>();
     private final EventQueue eventQueue = new EventQueue ();
     
     // instance of KeyBindManager
@@ -150,7 +148,7 @@ public class Game implements MouseListener
             currentTime = System.nanoTime();
             updateCount = 0;
             
-            // poll the first event and execute it
+            // all events and execute them
             String currentEvent;
             while ((currentEvent = eventQueue.get()) != null ) {
             	eventHandler (currentEvent);
@@ -202,8 +200,8 @@ public class Game implements MouseListener
      * Updates all entities to be updated
      */
     private  void update () {
-    	for (Entity e : entities) {
-    		e.update();
+    	for (RealTime r : realTimes) {
+    		r.update();
     	}
     }
     
@@ -233,7 +231,7 @@ public class Game implements MouseListener
 	 * 
 	 */
 	public void sceneMainMenu () {
-    	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
+    	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), null, 0, 0, entities);
     	drawables.add(mainMenuViewer);
     }
     
@@ -243,7 +241,7 @@ public class Game implements MouseListener
     public void sceneCharacterCreation () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
+    	characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, entities);
     	drawables.add(characterCreationViewer);
     }
     
@@ -298,7 +296,7 @@ public class Game implements MouseListener
 				characterCreationViewer = null;
 				break;
 		}
-		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), mouseObjects);
+		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities);
 		drawables.add(worldMapViewer);
 	}
 	    
@@ -314,7 +312,7 @@ public class Game implements MouseListener
     			removeContainer(combatViewer);
     			break;
     	}
-    	townViewer = new TownViewer (mouseObjects,eventQueue.getEventAdder());
+    	townViewer = new TownViewer (entities,eventQueue.getEventAdder());
     	drawables.add(townViewer);
     }
     
@@ -328,7 +326,7 @@ public class Game implements MouseListener
     		enemy = new Enemy("Bengan",2);
     	//}
     	combat = new Combat(player.getPC(), enemy, eventQueue.getEventAdder());
-    	combatViewer = new CombatViewer(mouseObjects,eventQueue.getEventAdder(),player.getPC(),enemy);
+    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),enemy);
     	drawables.add(combatViewer);
     }
     
@@ -337,7 +335,7 @@ public class Game implements MouseListener
      */
 	public void questLogViewerToggle () {
     	if (questLogViewer == null) {
-    		questLogViewer = new QuestLogViewer(eventQueue.getEventAdder(), GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, mouseObjects, player.getQuestLog());
+    		questLogViewer = new QuestLogViewer(eventQueue.getEventAdder(), GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, entities, player.getQuestLog());
     		drawables.add(questLogViewer);
     	} else {
     		removeContainer (questLogViewer);
@@ -374,7 +372,7 @@ public class Game implements MouseListener
      */
 	@Override
 	public void mouseClicked(MouseEvent me) {
-		for (MouseObject m : mouseObjects) {
+		for (Entity m : entities) {
     		m.onClick(me.getX(), me.getY());
     	}
 	}

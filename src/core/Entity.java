@@ -4,12 +4,12 @@ package core;
  * @author	Anton Andrén & Mattias Benngård
  * @version	0.4
  * @since	2015-02-16
- *
- * Interface for all objects that need real-time updates
- * All classes that implement Entity must implement public void update()
+ * 
+ * Interface that keeps track of all objects with mouse (click) interaction
+ * 
+ * All subclasses that implement MouseObject must implement public void onClick(int, int)
  */
-
 public interface Entity
 {
-	public void update ();
+	public void onClick (int mouseX, int mouseY);
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import gui.ZContainer;
 import core.Drawable;
 import core.EventAdder;
-import core.MouseObject;
+import core.Entity;
 
 public class MainMenuViewer extends ZContainer implements Drawable {
 
@@ -15,7 +15,7 @@ public class MainMenuViewer extends ZContainer implements Drawable {
 	private ZButton btnCredits;
 	private ZButton btnExitGame;
 	
-	public MainMenuViewer(EventAdder eventAdder, Image image, int x, int y, List<MouseObject> mouseObjects) {
+	public MainMenuViewer(EventAdder eventAdder, Image image, int x, int y, List<Entity> mouseObjects) {
 		super(eventAdder, image, x, y, mouseObjects);
 		
 		btnNewGame = new ZButton(eventAdder, "sceneCharacterCreation", "New Game", 300, 100, 180, 80);

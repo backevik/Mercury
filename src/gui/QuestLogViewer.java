@@ -6,7 +6,7 @@ import java.util.List;
 import player.QuestLog;
 //import player.QuestStatus;
 import core.EventAdder;
-import core.MouseObject;
+import core.Entity;
 import database.GameDataManager;
 
 /**
@@ -30,7 +30,7 @@ public class QuestLogViewer extends ZContainer
 	@SuppressWarnings("unused")
 	private QuestLog questLog;
 	
-	public QuestLogViewer (EventAdder eventAdder, Image image, int x, int y, List<MouseObject> mouseObjects, QuestLog questLog) {
+	public QuestLogViewer (EventAdder eventAdder, Image image, int x, int y, List<Entity> mouseObjects, QuestLog questLog) {
 		super(eventAdder, image, x, y, mouseObjects);
 
 		ZImage title = new ZImage ("Quest Log", x, y+7, 20);

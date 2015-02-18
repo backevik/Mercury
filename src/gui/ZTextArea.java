@@ -8,9 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import core.MouseObject;
+import core.Entity;
 
-public class ZTextArea extends ZImage implements MouseObject {
+public class ZTextArea extends ZImage implements Entity {
 
 	private int w;
 	private int h;

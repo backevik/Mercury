@@ -5,7 +5,7 @@ import java.util.List;
 import core.Drawable;
 import core.EventAdder;
 import core.GlobalStateManager;
-import core.MouseObject;
+import core.Entity;
 import database.GameDataManager;
 
 /**
@@ -20,7 +20,7 @@ public class WorldMapViewer extends ZContainer implements Drawable{
 	private Zone btnForest;
 	private Zone btnGrass;
 	
-	public WorldMapViewer(EventAdder eventAdder,List<MouseObject> mouseObjects) {
+	public WorldMapViewer(EventAdder eventAdder,List<Entity> mouseObjects) {
 		super(eventAdder,GameDataManager.getInstance().getImage("bgWorldMap.jpg"), 0, 0, mouseObjects);
 		
 		GlobalStateManager.getInstance().updateCurrentState("WorldMap");

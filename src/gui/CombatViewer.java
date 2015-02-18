@@ -9,7 +9,7 @@ import core.EventAdder;
 import core.GlobalStateManager;
 import player.Playable;
 import combat.Enemy;
-import core.MouseObject;
+import core.Entity;
 import database.GameDataManager;
 
 /**
@@ -39,7 +39,7 @@ public class CombatViewer extends ZContainer implements Drawable
 	 * The constructor of Combat creates all the necessary components and adding relevant player spells.
 	 * It also sets actionListeners to work with the game-logic.
 	 */
-	public CombatViewer (List<MouseObject> mouseObjects, EventAdder eventAdder, Playable players, Enemy enemies) {
+	public CombatViewer (List<Entity> mouseObjects, EventAdder eventAdder, Playable players, Enemy enemies) {
 		super(eventAdder,GameDataManager.getInstance().getImage("bgDefault.jpg"), 0, 0, mouseObjects);
 		this.player = players;
 		this.enemy = enemies;
