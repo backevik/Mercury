@@ -20,10 +20,19 @@ public class Zone extends ZButton
 		super(eventAdder, eventOnClick, image, x, y);
 		this.zoneName = name;
 		this.enemy = enemy;
+<<<<<<< HEAD
 		GlobalStateManager.getInstance().updateWorldState("Location", zoneName);
 	}
 	
 	public String getName(){
+=======
+		GlobalStateManager.getInstance().updateWorldState(zoneName, "");
+	}
+	
+	public String getname()
+	{
+>>>>>>> origin/Mercury-game
 		return zoneName;
 	}
+
 }

@@ -7,9 +7,9 @@ import java.util.List;
 import character.Item;
 
 /**
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     0.4
- * @since       2015-02-01
+ * @author      Mattias BenngÃ¥rd	<mbengan@gmail.com>
+ * @version     0.3.1
+ * @since       2015-02-18
  */
 
 public class Inventory
@@ -53,10 +53,14 @@ public class Inventory
 		// add items to new items slots
 		for (int i = 0; i < MAX_ITEMS && quantity > 0; i++) {
 			if (items.get(i).getItem() == null) {
-				int deltaQuantiy = 0;
+				int deltaQuantity = quantity;
+
+				items.get(i).addItem (item, 0);
+				if(quantity > items.get(i).getItem().getMaxStackSize())	//if maxStackSize is to small for all items
+					deltaQuantity -= items.get(i).getItem().getMaxStackSize();
 				
-				items.get(i).addItem (item, deltaQuantiy);
-				quantity -= deltaQuantiy;
+				items.get(i).addQuantity(deltaQuantity);	//Add highest possible number of items to stack
+				quantity -= deltaQuantity;	//If no leftovers, quantity = 0, for-loop will stop
 			}
 		}
 		
