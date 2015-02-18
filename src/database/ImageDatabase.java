@@ -22,7 +22,7 @@ public class ImageDatabase
 	
 	public void initialize() {
 		try {
-			File directory = new File("img/World/");
+			File directory = new File("img/");
 			File[] f = directory.listFiles();
 			
 			if(directory.isDirectory()) {

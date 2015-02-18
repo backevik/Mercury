@@ -27,9 +27,14 @@ public abstract class ZContainer extends ZImage implements Drawable
 	}
 	
 	/**
-	 * Abstract method, called when removing this container from Game.removeContainer(ZContainer z)
+	 * Called when removing this container from Game.removeContainer(ZContainer z)
 	 */
-	public abstract void remove ();
+	public void remove () {
+		for (ZImage z : components) {
+			mouseObjects.remove(z);
+			z = null;
+		}
+	}
 
 	/**
 	 * Calls render for the background ZImage of the container 

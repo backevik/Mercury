@@ -1,42 +1,29 @@
 package gui;
+import core.EventAdder;
+import core.GlobalStateManager;
 
-import java.util.HashMap;;
+import java.awt.Image;
+
+import combat.Enemy;
 
 /**
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3
- * @since		2015-02-17
- */
-
-public class Zone
-{	
-	private HashMap<String, Zone> routes;
+* @author	Daniel Edsinger <danieledsinger@hotmail.com>
+* @version	0.3.1
+* @since	2015-02-18
+*/
+public class Zone extends ZButton
+{
+	private String zoneName;
+	private Enemy enemy;
 	
-	public Zone(int borderX, int borderY, int sizeX, int sizeY, String off, String on)
-	{
-		routes = new HashMap<String, Zone>();	//Routes to other zones
-	}	
-	
-	/**
-	 * Checks if this zone is connected to the other zone
-	 * 
-	 * @param other
-	 * @return	true if the buttons are connected
-	 * 			false otherwise
-	 */
-	public boolean isConnected(Zone other)
-	{
-		return routes.containsValue(other);
+	public Zone(EventAdder eventAdder, String eventOnClick, Image image, int x, int y, String name){
+		super(eventAdder, eventOnClick, image, x, y);
+		this.zoneName = name;
+		this.enemy = enemy;
+		GlobalStateManager.getInstance().updateWorldState("Location", zoneName);
 	}
 	
-	/**
-	 * 
-	 * @param direction
-	 * @return	Zone if zones are connected in the chosen direction
-	 * 			false if no zone connected
-	 */
-	public Zone getNextZone(String direction)
-	{
-		return routes.get(direction);
+	public String getName(){
+		return zoneName;
 	}
 }

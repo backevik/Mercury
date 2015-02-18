@@ -23,22 +23,18 @@ import java.awt.Graphics;
  */
 import core.Drawable;
 
-public class ZTextField extends ZImage implements Drawable 
+public class ZTextField extends ZButton implements Drawable
 {
 	private static String displayedString;
 	
 
 	public ZTextField (String firstTextToBeDisplayed, int x, int y, int w, int h){
-		super(null, 0, 0);
-		
-		
+		super (null, null, firstTextToBeDisplayed, x, y, w, h);
 	}
 	
 
 	public ZTextField (int x, int y, int w, int h){
-		super(null, 0, 0);
-		
-		
+		super (null, null, "", x, y, w, h);
 	}
 	
 	
@@ -46,15 +42,14 @@ public class ZTextField extends ZImage implements Drawable
 	 * Displays S in the ZTextField
 	 * @param S
 	 */
-	public void setText(String S){
-		
+	public void setText (String s) {		
 	}
 	
 	/**
 	 * Returns the String currently displayed in the ZTextField
-	 * @return
+	 * @return String inside textfield
 	 */
-	public String getText(){
+	public String getText () {
 		return displayedString;
 	}
 
@@ -64,7 +59,7 @@ public class ZTextField extends ZImage implements Drawable
 	 */
 	@Override
 	public void render(Graphics g) {
-		// TODO Auto-generated method stub
+		super.render(g);
 	}
 
 }

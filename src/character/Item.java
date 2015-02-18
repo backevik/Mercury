@@ -1,5 +1,7 @@
 package character;
 
+import java.io.Serializable;
+
 /**
  * @author      Mattias Benngård	<mbengan@gmail.com>
  * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
@@ -7,8 +9,10 @@ package character;
  * @since       2015-02-01
  */
 
-public abstract class Item
+public abstract class Item implements Serializable
 {
+	private static final long serialVersionUID = 1212417444730053211L;
+
 	private String name;
 	private String description;
 	private int maxStackSize;

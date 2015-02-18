@@ -1,4 +1,10 @@
 package player;
+/**
+ * @author      Mattias Benngård	<mbengan@gmail.com>
+ * @author		Martin Claesson		<marclae@student.chalmers.se>
+ * @version     0.4
+ * @since       2015-02-09
+ */
 
 import character.Attribute;
 import character.Character;
@@ -8,12 +14,14 @@ public class Playable extends Character
 	private int level;
 	private double expCur;
 	private double expTnl;
+	private double currency;
 	
 	public Playable (String name) {
 		super (name);
 		
 		level = 1;
 		setExpTnl ();
+		currency = 100;
 	}
 	
 	/**
@@ -85,5 +93,27 @@ public class Playable extends Character
 		if (checkForLevel () == true) {
 			doLevelUp ();
 		}
-	}	
+	}
+	/**
+	 * 
+	 * @return current amount of currency
+	 */
+	public double getCurrency() {
+		return currency;
+	}
+	/**
+	 * 
+	 * @param price amount of currency to subtract from player
+	 */
+	public void subtractCurrency(double price) {
+		currency-=price;
+	}
+	/**
+	 * 
+	 * @param adds coins amount of currency to player
+	 */
+	public void addCurrency(double coins) {
+		currency+=coins;
+	}
+	
 }

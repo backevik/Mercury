@@ -13,12 +13,14 @@ public class Spell
 	private String description;
 	private int energyCost;
 	private String type;
+	private double effect;
 	
-	public Spell (String name, String description, int energyCost, String type) {
+	public Spell (String name, String description, int energyCost, String type, double effect) {
 		this.name = name;
 		this.description = description;
 		this.energyCost = energyCost;
 		this.type = type;
+		this.effect = effect;
 	}
 	
 	public String getName () {
@@ -35,5 +37,9 @@ public class Spell
 	
 	public String getType () {
 		return type;
+	}
+	
+	public double getEffect(){
+		return effect;
 	}
 }

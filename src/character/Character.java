@@ -102,11 +102,7 @@ public abstract class Character
 		if(s.equals("Energy")){
 			vitals.get(s).reduceVital(value);
 		}
-		if(s.equals("Health") && (vitals.get(s).getValue()-value)<=0){
-			vitals.get(s).reduceVital(vitals.get(s).getValue());
-			System.out.println(this.getName()+" died!");
-			//RETURN TO WORLDMAP
-		}else{
+		if(s.equals("Health")){
 			vitals.get(s).reduceVital(value);
 		}		
 	}

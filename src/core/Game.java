@@ -12,9 +12,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.DataState;
+import database.GameDataManager;
+import character.Spell;
+import combat.Combat;
+import combat.Enemy;
+import player.Playable;
+import player.Player;
+import player.Quest;
 import gui.CharacterCreationViewer;
+import gui.CombatViewer;
 import gui.MainMenuViewer;
-import gui.ZButton;
+import gui.QuestLogViewer;
+import gui.TownViewer;
+import gui.WorldMapViewer;
 import gui.ZContainer;
 
 /**
@@ -56,21 +67,33 @@ public class Game implements MouseListener
     private final List<MouseObject> mouseObjects = new ArrayList<>();
     private final EventQueue eventQueue = new EventQueue ();
     
-    // instance of keybindmanager
+    // instance of KeyBindManager
 	private final KeyBindManager keyBindManager = new KeyBindManager(eventQueue.getEventAdder());
     
+	// player
+	private Player player;
+	private Combat combat;
+	private Enemy enemy;
+	
     // gui containers
 	private MainMenuViewer mainMenuViewer;
 	private CharacterCreationViewer characterCreationViewer;
 	//private LoadGameViewer loadGameViewer;
 	//private ShowCreditsViewer showCreditsViewer;
-    
+	
+	private WorldMapViewer worldMapViewer;
+	private TownViewer townViewer;
+	
+	private CombatViewer combatViewer;
+	
+	private QuestLogViewer questLogViewer;
+	    
     /**
      * public Game
      * 
      * Settings for the Frame.
      */
-    public Game () {
+    private Game () {
     	frame.setSize (FRAME_X, FRAME_Y);
     	frame.setResizable (false);    	
     	frame.setTitle ("Mercury 0.1");    	
@@ -101,7 +124,7 @@ public class Game implements MouseListener
      * Starts the new thread.
      */
     private void startGameLoop () {
-    	eventQueue.getEventAdder().add("initializeGame");
+    	eventQueue.getEventAdder().add("sceneMainMenu");
     	
         Thread gameLoopThread = new Thread(){
             public void run(){
@@ -154,7 +177,7 @@ public class Game implements MouseListener
     }
     
     /**
-     * Renders all objects to be render using a bufferstrategy.
+     * Renders all objects to be render using a bufferStrategy.
      */
     private void render () {
     	BufferStrategy bs = frame.getBufferStrategy();
@@ -169,7 +192,7 @@ public class Game implements MouseListener
     	
     	for (Drawable d : drawables) {
     		d.render(g);
-    	}    	
+    	}
     	
     	g.dispose ();
     	bs.show ();
@@ -185,14 +208,14 @@ public class Game implements MouseListener
     }
     
     /**
-     * Handles events by using s in recursion
+     * Handles events by using s in reflection
      * @param s
      */
 	private void eventHandler (String s) {
+		System.out.println("Event: " + s);
 		try {
 			this.getClass().getMethod(s).invoke(this);
 		} catch (NoSuchMethodException nsme) {
-			System.out.println(s);
 			nsme.printStackTrace();			
 		} catch (IllegalAccessException iae) {
 			iae.printStackTrace();
@@ -204,51 +227,146 @@ public class Game implements MouseListener
 	private void removeContainer (ZContainer z) {
 		drawables.remove(z);
 		z.remove ();
-    	z = null;
 	}
     
 	/**
-	 * Initializes needed data for the game
+	 * 
 	 */
-    public void initializeGame () {
+	public void sceneMainMenu () {
     	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
     	drawables.add(mainMenuViewer);
     }
     
     /**
-	 * Initializes needed data for the game
+	 * 
 	 */
-    public void initNewGame () {
+    public void sceneCharacterCreation () {
     	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
     	characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
+    	drawables.add(characterCreationViewer);
     }
     
     /**
-	 * Initializes needed data for the game
+	 * 
 	 */
-    public void loadGame () {
-    	
+    public void sceneLoadGame () {
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	//characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
+    	//drawables.add(characterCreationViewer);
     }
     
     /**
-	 * Initializes needed data for the game
+	 * 
 	 */
-    public void showCredits () {
-    	
+    public void sceneShowCredits () {
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	//characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
+    	//drawables.add(characterCreationViewer);
     }
     
     /**
-	 * Initializes needed data for the game
-	 */
-    public void exitGame () {
-    	System.exit(0);
-    }
-    
-    /**
-     * Toggles the questlog on or off depending on current state of questGuiShow.
+     * 
      */
-    @SuppressWarnings("unused")
-	private void questLogViewerToggle () {
+    public void createCharacter () {
+    	removeContainer (characterCreationViewer);
+    	player = new Player("John Doe");
+    	player.getQuestLog().addQuest(new Quest("First Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
+    	player.getQuestLog().addQuest(new Quest("Second Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
+    	player.getQuestLog().addQuest(new Quest("Third Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
+    	GlobalStateManager.getInstance().updateWorldState("CharacterExists", "true");
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
+    
+	/**
+	 * Render world map when returning from combat
+	 */
+    public void sceneWorldMap (){
+    	switch(GlobalStateManager.getInstance().getCurrentState()){
+			case "InCombat":	
+				removeContainer(combatViewer);
+				combatViewer = null;
+				break;
+			case "town":		
+				removeContainer(townViewer);
+				townViewer = null;
+				break;
+			default:			
+				removeContainer(characterCreationViewer);
+				characterCreationViewer = null;
+				break;
+		}
+		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), mouseObjects);
+		drawables.add(worldMapViewer);
+	}
+	    
+    /**
+     * 
+     */
+    public void sceneTown(){
+    	switch(GlobalStateManager.getInstance().getCurrentState()){
+    		case "WorldMap":
+    			removeContainer(worldMapViewer);
+    			break;
+    		case "inCombat_dead":
+    			removeContainer(combatViewer);
+    			break;
+    	}
+    	townViewer = new TownViewer (mouseObjects,eventQueue.getEventAdder());
+    	drawables.add(townViewer);
+    }
+    
+    /**
+     * 
+     */
+    public void sceneCombat(){
+    	removeContainer(worldMapViewer);
+    	worldMapViewer = null;
+    	//if(zoneName.equals("a2")){
+    		enemy = new Enemy("Bengan",2);
+    	//}
+    	combat = new Combat(player.getPC(), enemy, eventQueue.getEventAdder());
+    	combatViewer = new CombatViewer(mouseObjects,eventQueue.getEventAdder(),player.getPC(),enemy);
+    	drawables.add(combatViewer);
+    }
+    
+    /**
+     * 
+     */
+	public void questLogViewerToggle () {
+    	if (questLogViewer == null) {
+    		questLogViewer = new QuestLogViewer(eventQueue.getEventAdder(), GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, mouseObjects, player.getQuestLog());
+    		drawables.add(questLogViewer);
+    	} else {
+    		removeContainer (questLogViewer);
+    		questLogViewer = null;
+    	}
+    }
+	
+	/**
+	 * TEMP
+	 */
+	public void attack(){
+		combat.playerAttack();
+	}
+	public void spell(){
+		player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
+		combat.playerSpell("fireball");
+	}
+	
+	/**
+	 * 
+	 */
+	public void leaveTown () {
+	}
+    
+    /**
+	 *
+	 */
+	public void exitGame () {
+    	System.exit(0);
     }
 
     /**
