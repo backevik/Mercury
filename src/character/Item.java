@@ -3,8 +3,8 @@ package character;
 /**
  * @author      Mattias Benngård	<mbengan@gmail.com>
  * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     0.4
- * @since       2015-02-01
+ * @version     0.3.1
+ * @since       2015-02-18
  */
 
 public abstract class Item implements Serializable
