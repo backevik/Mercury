@@ -1,6 +1,11 @@
 package gui;
 
-import java.util.HashMap;;
+import core.EventAdder;
+import core.MouseObject;
+
+import java.awt.Image;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
@@ -8,35 +13,14 @@ import java.util.HashMap;;
  * @since		2015-02-17
  */
 
-public class Zone
-{	
-	private HashMap<String, Zone> routes;
+public class Zone extends ZButton
+{
 	
-	public Zone(int borderX, int borderY, int sizeX, int sizeY, String off, String on)
-	{
-		routes = new HashMap<String, Zone>();	//Routes to other zones
-	}	
+	private String zoneName;
 	
-	/**
-	 * Checks if this zone is connected to the other zone
-	 * 
-	 * @param other
-	 * @return	true if the buttons are connected
-	 * 			false otherwise
-	 */
-	public boolean isConnected(Zone other)
-	{
-		return routes.containsValue(other);
+	public Zone(EventAdder eventAdder, String eventOnClick, Image image, int x, int y, String name){
+		super(eventAdder, eventOnClick, image, x, y);
+		zoneName = name;
 	}
-	
-	/**
-	 * 
-	 * @param direction
-	 * @return	Zone if zones are connected in the chosen direction
-	 * 			false if no zone connected
-	 */
-	public Zone getNextZone(String direction)
-	{
-		return routes.get(direction);
-	}
+
 }
