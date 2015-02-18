@@ -20,6 +20,10 @@ public class GlobalStateManager implements Serializable
 		worldState.put(state, value);
 	}
 	
+	public void updateCurrentLocation(String value){
+		
+	}
+	
 	public String getWorldState (String state) {
 		return (worldState.get(state) != null) ? worldState.get(state) : "";
 	}
