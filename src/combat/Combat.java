@@ -1,19 +1,24 @@
 package combat;
 
+
+
+
+import gui.CombatGUI;
+import gui.WorldMap;
+
 import java.util.Random;
 
-import core.Entity;
 import player.Playable;
 import character.Character;
 import character.Spell;
 
 /**
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃ¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
 
-public class Combat implements Entity {
+public class Combat implements Entity{
 	private boolean turn;
 	private Random rand;
 	private Playable player;
@@ -42,38 +47,40 @@ public class Combat implements Entity {
 	 * Resetting count of real-time clock
 	 */
 	public void resetUpdateCount(){
-		clockTick = 0;
+		clockTick=0;
 	}
 	
 	/**
 	 * Set turn to enemy;
 	 */
 	private void enemyTurn(){
-		turn = false;
+		turn=false;
 		//enemy.manaReg();
 	}
 	
 	public void enemyAttack(){
 		if(turn==false){
-			player.reduceVital("Health", enemy.getValueOfSkill("Attack"));
-			playerTurn();
-			System.out.println("Enemy attacked for: "+enemy.getValueOfSkill("Attack")); //Supposed to write to log here
+			if((player.getValueOfVital("Health")-enemy.getValueOfSkill("Attack"))>0){
+				player.reduceVital("Health", enemy.getValueOfSkill("Attack"));
+				playerTurn();
+				System.out.println("Enemy attacked for: "+enemy.getValueOfSkill("Attack")); //Supposed to write to log here
+			}else{
+				playerDeath();
+			}
 		}
 	}
-	public void enemySpell(String name){ //Look att playerSpell for comments
+	public void enemySpell(String name){ //Look at playerSpell for comments
 		for(Spell spell : enemy.getSpellBook().getSpells()){
 			if(spell.getName().equals(name)){
 				if((enemy.getValueOfVital("Energy")-spell.getEnergyCost())>=0){
 					if(spell.getType().equals("heal")){
-						System.out.println(enemy.getName()+" casted spell "+name+" that healed: "+enemy.healVital("Health", 20)+" on "+enemy.getName()); // Supposed to write to log here
+						System.out.println(enemy.getName()+" casted spell "+name+" that healed: "+enemy.healVital("Health", spell.getEffect())+" on "+enemy.getName()); // Supposed to write to log here
 					}else{
-						if((player.getValueOfVital("Health")-enemy.getValueOfSkill("Attack"))>0){
-							player.reduceVital("Health", enemy.getValueOfSkill("Attack"));		
-							System.out.println(enemy.getName()+" casted spell "+name+" that damaged: "+enemy.getValueOfSkill("Attack")+" on "+player.getName()); //Write to log
+						if((player.getValueOfVital("Health")-spell.getEffect())>0){
+							player.reduceVital("Health", spell.getEffect());		
+							System.out.println(enemy.getName()+" casted spell "+name+" that damaged: "+spell.getEffect()+" on "+player.getName()); //Write to log
 						}else{
-							player.reduceVital("Health",player.getValueOfVital("Health"));
-							System.out.println(player.getName()+" has died!"); //Supposed to write to log here
-							//RENDER WORLD MAP
+							playerDeath();
 						}
 					}
 					enemy.reduceVital("Energy", spell.getEnergyCost());
@@ -85,12 +92,11 @@ public class Combat implements Entity {
 			}
 		}
 	}
-	public void enemyItem(int itemIndex){
+	public void enemyItem(String itemName){
 		for(int i=0;i<enemy.getInventory().getItems().size();i++){
-			if(enemy.getInventory().getItems().get(i).getItem().equals("health potion")){ //Gör om med en extra loop när jag har tillgång till datasbas med items.
+			if(enemy.getInventory().getItems().get(i).getItem().getName().equals(itemName)){ //GÃ¶r om med en extra loop nÃ¤r jag har tillgÃ¥ng till datasbas med items.
 				enemy.getInventory().getItems().get(i).getItem().reduceCharges();
 				enemy.healVital("Health", 40); //Fixar effekt i item senare.
-				enemy.getInventory().useItem(itemIndex);
 			}
 		}	
 	}
@@ -111,32 +117,34 @@ public class Combat implements Entity {
 		turn=true;
 		//player.manaReg();
 	}
-	public void playerAttack(){
+	private void playerAttack(){
 		if(turn==true){
-			enemy.reduceVital("Health", player.getValueOfSkill("Attack"));
-			enemyTurn();
-			System.out.println("Player attacked for: "+player.getValueOfSkill("Attack")); //Supposed to write to log here
+			if((player.getValueOfVital("Health")-player.getValueOfSkill("Attack"))>0){
+				enemy.reduceVital("Health", player.getValueOfSkill("Attack"));
+				enemyTurn();
+				System.out.println("Player attacked for: "+player.getValueOfSkill("Attack")); //Supposed to write to log here
 		
-			System.out.println("Enemy turn!"); //Supposed to write to log here
-			resetUpdateCount();
-			//while(clockTick<30);
-			enemyAttack();
+				System.out.println("Enemy turn!"); //Supposed to write to log here
+				resetUpdateCount();
+				//while(clockTick<30);
+				enemyAttack();
+			}else{
+				enemyDeath();
+			}
 		}
 	}
-	public void playerSpell(String name){
+	private void playerSpell(String name){
 		for(Spell spell : player.getSpellBook().getSpells()){
 			if(spell.getName().equals(name)){ //Check for correct spell
 				if((player.getValueOfVital("Energy")-spell.getEnergyCost())>=0){ //Check if char has Energy for spell
 					if(spell.getType().equals("heal")){ //Check if spell is a heal
-						System.out.println(player.getName()+" casted spell "+name+" that healed: "+player.healVital("Health", 20)+" on "+player.getName()); // Supposed to write to log here
+						System.out.println(player.getName()+" casted spell "+name+" that healed: "+player.healVital("Health", spell.getEffect())+" on "+player.getName()); // Supposed to write to log here
 					}else{
-						if((enemy.getValueOfVital("Health")-player.getValueOfSkill("Attack"))>0){ //check if attacked person dies or not
-							enemy.reduceVital("Health", player.getValueOfSkill("Attack"));		
-							System.out.println(player.getName()+" casted spell "+name+" that damaged: "+player.getValueOfSkill("Attack")+" on "+enemy.getName()); //Write to log
+						if((enemy.getValueOfVital("Health")-spell.getEffect())>0){ //check if attacked person dies or not
+							enemy.reduceVital("Health", spell.getEffect());		
+							System.out.println(player.getName()+" casted spell "+name+" that damaged: "+spell.getEffect()+" on "+enemy.getName()); //Write to log
 						}else{
-							enemy.reduceVital("Health",enemy.getValueOfVital("Health"));
-							System.out.println(enemy.getName()+" has died!"); //Supposed to write to log here
-							//RENDER WORLD MAP
+							enemyDeath();
 						}
 					}
 					player.reduceVital("Energy", spell.getEnergyCost());
@@ -152,17 +160,43 @@ public class Combat implements Entity {
 		enemyAttack();
 	}
 	
-	public void playerItem(int itemIndex){
+	private void playerDeath(){
+		player.reduceVital("Health",player.getValueOfVital("Health"));
+		System.out.println(player.getName()+" has died! The fight is lost.");
+		
+		player.healVital("Health", player.getMaxOfVital("Health"));
+		player.healVital("Energy", player.getMaxOfVital("Energy"));				
+		
+		enemy.healVital("Health", enemy.getMaxOfVital("Health"));
+		enemy.healVital("Energy", enemy.getMaxOfVital("Energy"));
+		
+		//Return to world map
+	}
+	
+	private void enemyDeath(){
+		enemy.reduceVital("Health",enemy.getValueOfVital("Health"));
+		System.out.println(enemy.getName()+" has died! The fight is won."); //Supposed to write to log here
+		int levelCheck=player.getLevel();
+		player.addExp(5*enemy.getLevel());
+		if(levelCheck<player.getLevel()){
+			System.out.println("Congratulations "+player.getName()+"! You leveled to "+player.getLevel());
+		}else{
+			System.out.println(player.getName()+" got "+5*enemy.getLevel()+" xp!");
+		}
+		
+		//Return to world map
+	}
+	
+	private void playerItem(String itemName){								
 		for(int i=0;i<player.getInventory().getItems().size();i++){
-			if(player.getInventory().getItems().get(i).getItem().equals("health potion")){ //Gör om med en extra loop när jag har tillgång till datasbas med items.
+			if(player.getInventory().getItems().get(i).getItem().getName().equals(itemName)){ //GÃ¶r om med en extra loop nÃ¤r jag har tillgÃ¥ng till datasbas med items.
 				player.getInventory().getItems().get(i).getItem().reduceCharges();
 				System.out.println(player.healVital("health", 40)); //Fixar effekt i item senare.
-				player.getInventory().useItem(itemIndex);
 			}
 		}
 	}
 	
-	public double retreatChance(Character character){
+	private double retreatChance(Character character){
 		if(character instanceof Playable){
 			return ((40*player.getValueOfSkill("Speed"))/enemy.getValueOfSkill("Speed"))+10;
 		}else{
@@ -171,10 +205,11 @@ public class Combat implements Entity {
 		
 	}
 	
-	public void playerRetreat(){
+	private void playerRetreat(){
 		if(retreatChance(player)>=nextInt()){
-			System.out.println("Run bitch!");
-			//Render the worldmap here.
+			System.out.println("Successfull escape!");
+			//returnToWorldMap();
+			//Render the world map here.
 		}else{
 			System.out.println("You failed to run!"); //Supposed to write to log here
 		}
@@ -184,7 +219,7 @@ public class Combat implements Entity {
 		return rand.nextInt(100) + 1;
 	}
 	
-	public boolean firstTurn(){
+	private boolean firstTurn(){
 		return(player.getValueOfSkill("Speed")>=enemy.getValueOfSkill("Speed"));
 	}
 
