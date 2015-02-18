@@ -22,20 +22,20 @@ public class WorldMap extends ZContainer implements Drawable
 	private Zone btnForest;
 	private Zone btnGrass;
 
-	public WorldMap( EventAdder eventAdder, List<MouseObject> mouseObjects, Enemy enemy) {
+	public WorldMap( EventAdder eventAdder, List<MouseObject> mouseObjects) {
 		
 		super(eventAdder,GameDataManager.getInstance().getImage("WorldBackground.jpg"), 0, 0, mouseObjects);
 		
 		//TownButton
-		btnTown = new Zone(eventAdder, "clickSelectZone", GameDataManager.getInstance().getImage("Town.jpg"), 16, 352,"a1", enemy);
+		btnTown = new Zone(eventAdder, "clickSelectZone", GameDataManager.getInstance().getImage("Town.jpg"), 16, 352,"a1");
 		components.add(btnTown);
 		mouseObjects.add(btnTown);
 				
-		btnForest = new Zone(eventAdder, "clickSelectZone", GameDataManager.getInstance().getImage("Fight.jpg"), 104, 128,"a2", enemy);
+		btnForest = new Zone(eventAdder, "clickSelectZone", GameDataManager.getInstance().getImage("Fight.jpg"), 104, 128,"a2");
 		components.add(btnForest);
 		mouseObjects.add(btnForest);
 		
-		btnGrass = new Zone(eventAdder, "clickSelectZone", GameDataManager.getInstance().getImage("Fight.jpg"), 184, 104,"a3", enemy);
+		btnGrass = new Zone(eventAdder, "clickSelectZone", GameDataManager.getInstance().getImage("Fight.jpg"), 184, 104,"a3");
 		components.add(btnGrass);
 		mouseObjects.add(btnGrass);
 	}
