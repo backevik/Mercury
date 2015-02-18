@@ -21,7 +21,7 @@ public class GlobalStateManager implements Serializable
 	}
 	
 	public void updateCurrentLocation(String value){
-		
+		Location = value;	
 	}
 	
 	public String getWorldState (String state) {
