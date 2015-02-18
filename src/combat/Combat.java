@@ -89,7 +89,7 @@ public class Combat implements Entity{
 					//while(clockTick<30);
 					System.out.println(player.getName()+" turn!"); //Supposed to write to log here
 				}else{
-					System.out.println("Not enough Energy!"); //Supposed to write to log here
+					enemyAttack();
 				}
 			}else{
 				System.out.println("FATAL ERROR! SPELL NOT FOUND");
