@@ -6,11 +6,11 @@ import java.util.List;
 import player.QuestLog;
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
+import zlibrary.ZEntity;
 import zlibrary.ZImage;
 import zlibrary.ZText;
 //import player.QuestStatus;
 import core.EventAdder;
-import core.Entity;
 import database.GameDataManager;
 
 /**
@@ -34,15 +34,15 @@ public class QuestLogViewer extends ZContainer
 	@SuppressWarnings("unused")
 	private QuestLog questLog;
 	
-	public QuestLogViewer (Image image, int x, int y, EventAdder eventAdder, List<Entity> mouseObjects, QuestLog questLog) {
-		super(image, x, y, eventAdder, mouseObjects);
+	public QuestLogViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, QuestLog questLog) {
+		super(image, x, y, eventAdder, entities);
 
 		ZText title = new ZText ("Quest Log", x+PADDING, y+PADDING, 20);
 		components.add(title);
 		
 		ZButton backToGame = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerQuit.jpg"), x+576,y+7, eventAdder, "questLogViewerToggle");
     	components.add(backToGame);
-    	mouseObjects.add(backToGame);
+    	entities.add(backToGame);
 		
     	for (int i = 0; i != questLog.getQuests().size(); ++i) {
     		ZImage questIcon = new ZImage (GameDataManager.getInstance().getImage("bgQuestViewerIcon.jpg"), x+PADDING, y+PADDING + TITLE_HEIGHT + i*QUEST_DISTANCE);

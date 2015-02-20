@@ -3,8 +3,6 @@ package zlibrary;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import core.Drawable;
-
 /**
  * @author	Anton Andrén & Mattias Benngård
  * @version	0.8			<2015-02-20>
@@ -14,7 +12,7 @@ import core.Drawable;
  *
  */
 
-public abstract class ZComponent implements Drawable
+public abstract class ZComponent implements ZDrawable
 {
 	private Image image;
 	private int x;

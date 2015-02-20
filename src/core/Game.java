@@ -19,6 +19,8 @@ import combat.Enemy;
 import player.Player;
 import player.Quest;
 import zlibrary.ZContainer;
+import zlibrary.ZDrawable;
+import zlibrary.ZEntity;
 import zlibrary.ZPopup;
 import gui.CharacterCreationViewer;
 import gui.CombatViewer;
@@ -63,9 +65,9 @@ public class Game implements MouseListener
     private static final double TARGET_TIME_BETWEEN_RENDERS = 1000_000_000.0 / TARGET_GAME_RENDER_RATE;
     
     // interface lists
-    private final List<Drawable> drawables = new ArrayList<>();
+    private final List<ZDrawable> drawables = new ArrayList<>();
+    private final List<ZEntity> entities  = new ArrayList<>();
     private final List<RealTime> realTimes = new ArrayList<>();
-    private final List<Entity> entities  = new ArrayList<>();
     private final EventQueue eventQueue = new EventQueue ();
     
     // instance of KeyBindManager
@@ -160,7 +162,7 @@ public class Game implements MouseListener
             	eventHandler (currentEvent);
             }
             
-            // while loop for update() in entity interface. Has a catch up function if need be.
+            // while loop for update() in ZEntity interface. Has a catch up function if need be.
             while(((currentTime - lastUpdateTime) > TARGET_TIME_BETWEEN_UPDATES) && (updateCount < MAX_UPDATES_BEFORE_RENDER)){
                 update ();
                 lastUpdateTime += TARGET_TIME_BETWEEN_UPDATES;
@@ -194,7 +196,7 @@ public class Game implements MouseListener
     	Graphics g = bs.getDrawGraphics();
     	g.clearRect(0, 0, FRAME_X, FRAME_Y);
     	
-    	for (Drawable d : drawables) {
+    	for (ZDrawable d : drawables) {
     		d.render(g);
     	}
     	
@@ -244,7 +246,7 @@ public class Game implements MouseListener
     }
     
     public void popupWindowOff () {
-    	for (Entity e : popup.remove ()) {
+    	for (ZEntity e : popup.remove ()) {
     		entities.add(e);
     	}
     	drawables.remove(popup);
@@ -399,18 +401,18 @@ public class Game implements MouseListener
     }
 
     /**
-     * When the mouse is clicked anywhere mouseClicked checks if an action is required by notifying all active mouseObjects
+     * When the mouse is clicked anywhere mouseClicked checks if an action is required by notifying all active entities
      */
 	@Override
 	public void mouseClicked(MouseEvent me) {
-		for (Entity m : entities) {
+		for (ZEntity m : entities) {
     		m.onClick(me.getX(), me.getY());
     	}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent me) {
-		for (Entity m : entities) {
+		for (ZEntity m : entities) {
     		m.onHover(me.getX(), me.getY());
     	}
 	}

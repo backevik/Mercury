@@ -2,8 +2,6 @@ package zlibrary;
 
 import java.awt.Image;
 
-import core.Drawable;
-
 /**
  * @author	Anton Andrén & Mattias Benngård
  * @version	0.8			<2015-02-20>
@@ -15,7 +13,7 @@ import core.Drawable;
  *
  */
 
-public class ZImage extends ZComponent implements Drawable
+public class ZImage extends ZComponent
 {	
 	public ZImage (Image image, int x, int y) {
 		setImage(image);

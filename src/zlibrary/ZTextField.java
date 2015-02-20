@@ -2,7 +2,6 @@ package zlibrary;
 
 import java.awt.Graphics;
 
-
 /**
  * @author	Anton Andrén
  * @version	0.1 (testing)
@@ -21,20 +20,20 @@ import java.awt.Graphics;
  * Sets the currently displayed string to param.
  * 
  */
-import core.Drawable;
 
-public class ZTextField extends ZButton implements Drawable
+public class ZTextField extends ZButton
 {
 	private static String displayedString;
 	
 
 	public ZTextField (String firstTextToBeDisplayed, int x, int y, int w, int h){
+		super(null, x, y, null, null);
 	}
 	
 
 	public ZTextField (int x, int y, int w, int h){
-	}
-	
+		super(null, x, y, null, null);
+	}	
 	
 	/**
 	 * Displays S in the ZTextField

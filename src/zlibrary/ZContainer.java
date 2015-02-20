@@ -5,9 +5,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.Drawable;
 import core.EventAdder;
-import core.Entity;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
@@ -16,14 +14,14 @@ import core.Entity;
  *
  * Class for creating containers for Z-objects.
  */
-public abstract class ZContainer extends ZImage implements Drawable
+public abstract class ZContainer extends ZImage implements ZDrawable
 {
 	protected List<ZComponent> components = new ArrayList<>();
-	protected List<Entity> mouseObjects;
+	protected List<ZEntity> entities;
 	
-	public ZContainer (Image image, int x, int y, EventAdder eventAdder, List<Entity> mouseObjects) {
+	public ZContainer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
 		super(image, x, y);
-		this.mouseObjects = mouseObjects;
+		this.entities = entities;
 	}
 	
 	/**
@@ -31,7 +29,7 @@ public abstract class ZContainer extends ZImage implements Drawable
 	 */
 	public void remove () {
 		for (ZComponent z : components) {
-			mouseObjects.remove(z);
+			entities.remove(z);
 			z = null;
 		}
 	}

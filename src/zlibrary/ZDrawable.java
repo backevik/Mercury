@@ -1,4 +1,4 @@
-package core;
+package zlibrary;
 
 import java.awt.Graphics;
 
@@ -11,7 +11,7 @@ import java.awt.Graphics;
  * All classes implementing Drawable must implement public void render (Graphics g)
  */
 
-public interface Drawable
+public interface ZDrawable
 {
 	public abstract void render (Graphics g);
 }

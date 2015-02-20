@@ -8,6 +8,8 @@ import core.GlobalStateManager;
 import player.Playable;
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
+import zlibrary.ZDrawable;
+import zlibrary.ZEntity;
 import combat.Enemy;
 import core.Entity;
 import database.GameDataManager;
@@ -21,7 +23,7 @@ import database.GameDataManager;
  * @since 2015-01-30
  */
 
-public class CombatViewer extends ZContainer implements Drawable
+public class CombatViewer extends ZContainer implements ZDrawable
 {
 	@SuppressWarnings("unused")
 	private ZButton atkbtn;
@@ -39,8 +41,8 @@ public class CombatViewer extends ZContainer implements Drawable
 	 * The constructor of Combat creates all the necessary components and adding relevant player spells.
 	 * It also sets actionListeners to work with the game-logic.
 	 */
-	public CombatViewer (List<Entity> mouseObjects, EventAdder eventAdder, Playable players, Enemy enemies) {
-		super(eventAdder,GameDataManager.getInstance().getImage("bgDefault.jpg"), 0, 0, mouseObjects);
+	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Enemy enemies) {
+		super(eventAdder,GameDataManager.getInstance().getImage("bgDefault.jpg"), 0, 0, entities);
 		this.player = players;
 		this.enemy = enemies;
 		
@@ -48,19 +50,19 @@ public class CombatViewer extends ZContainer implements Drawable
 		
 		ZButton atkbtn = new ZButton(eventAdder, "attack", "Attack", 0, 413, 122, 81);
 		components.add(atkbtn);
-		mouseObjects.add(atkbtn);
+		entities.add(atkbtn);
 		
 		ZButton spellbtn = new ZButton(eventAdder, "spell","Spell", 120, 413, 122, 81);
 		components.add(spellbtn);
-		mouseObjects.add(spellbtn);
+		entities.add(spellbtn);
 		
 		ZButton itembtn = new ZButton(eventAdder, "combat, playerItem, String", "Items", 0, 491, 122, 81);
 		components.add(itembtn);
-		mouseObjects.add(itembtn);
+		entities.add(itembtn);
 		
 		ZButton retreatbtn = new ZButton(eventAdder, "sceneWorldMap", "Retreat", 120, 491, 122, 81);
 		components.add(retreatbtn);
-		mouseObjects.add(retreatbtn);
+		entities.add(retreatbtn);
 		
 		ZButton enemyhp = new ZButton(eventAdder, "NONE", ""+enemy.getValueOfVital("Health"), 240, 0,292, 93);
 		components.add(enemyhp);

@@ -1,8 +1,6 @@
 package zlibrary;
 
-import core.Drawable;
 import core.EventAdder;
-import core.Entity;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
@@ -16,7 +14,7 @@ import core.Entity;
  * Can be constructed with an Image or using a default appearance.
  */
 
-public abstract class ZEntity extends ZComponent implements Entity, Drawable
+public abstract class ZEntity extends ZComponent implements ZDrawable
 {
 	private EventAdder eventAdder;
 	private String eventOnClick;
@@ -50,7 +48,6 @@ public abstract class ZEntity extends ZComponent implements Entity, Drawable
 	/**
 	 * Adds event if the object was clicked and has an active listener.
 	 */
-	@Override
 	public void onHover (int mouseX, int mouseY) {
 		hover = isMouseInside (mouseX, mouseY);		
 	}
@@ -63,7 +60,7 @@ public abstract class ZEntity extends ZComponent implements Entity, Drawable
 	 * @param mouseY
 	 * @return boolean
 	 */
-	private boolean isMouseInside (int mouseX, int mouseY) {
+	protected boolean isMouseInside (int mouseX, int mouseY) {
 		return (mouseX >= getX() && mouseY >= getY() &&
 				mouseX <= getX() + getImage().getWidth(null) &&
 				mouseY <= getY() + getImage().getHeight(null));

@@ -1,4 +1,5 @@
-package gui;
+package worldmap;
+
 import core.EventAdder;
 import core.GlobalStateManager;
 
@@ -16,7 +17,7 @@ public class Zone extends ZButton
 	private String zoneName;
 	
 	public Zone(EventAdder eventAdder, String eventOnClick, Image image, int x, int y, String name){
-		super(eventAdder, eventOnClick, image, x, y);
+		super(image, x, y, eventAdder, eventOnClick);
 		this.zoneName = name;
 		GlobalStateManager.getInstance().updateWorldState("Location", zoneName);
 	}

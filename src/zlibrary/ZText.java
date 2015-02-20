@@ -9,9 +9,6 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import core.Drawable;
-import core.Entity;
-
 /**
  * @author	Anton Andrén & Mattias Benngård
  * @version	0.4
@@ -24,7 +21,7 @@ import core.Entity;
  * Can be constructed with an Image or using a default appearance.
  */
 
-public class ZText extends ZEntity implements Entity, Drawable
+public class ZText extends ZEntity
 {
 	public ZText (String string, int x, int y, int fontSize) {
 		setImage(createImageFromString(string, fontSize));

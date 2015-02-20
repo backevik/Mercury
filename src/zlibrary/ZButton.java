@@ -8,9 +8,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import core.Drawable;
 import core.EventAdder;
-import core.Entity;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
@@ -24,7 +22,7 @@ import core.Entity;
  * Can be constructed with an Image or using a default appearance.
  */
 
-public class ZButton extends ZEntity implements Entity, Drawable
+public class ZButton extends ZEntity
 {
 	public ZButton (Image image, int x, int y, EventAdder eventAdder, String eventOnClick) {
 		setImage(image);
@@ -41,21 +39,7 @@ public class ZButton extends ZEntity implements Entity, Drawable
 		setEventAdder (eventAdder);
 		setEventOnClick (eventOnClick);
 	}
-		
-	/**
-	 * Checks if the button is in the area where the mouse click was detected using parameters x & y.
-	 * If it was returns true otherwise false.
-	 * 
-	 * @param mouseX
-	 * @param mouseY
-	 * @return boolean
-	 */
-	private boolean isMouseInside (int mouseX, int mouseY) {
-		return (mouseX >= getX() && mouseY >= getY() &&
-				mouseX <= getX() + getImage().getWidth(null) &&
-				mouseY <= getY() + getImage().getHeight(null));
-	}
-	
+
 	/**
 	 * 
 	 */

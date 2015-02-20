@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.Entity;
 import core.EventAdder;
 import database.GameDataManager;
 
@@ -26,11 +25,11 @@ public class ZPopup extends ZComponent
 	private ZText text;
 	private ZButton button;
 	
-	private final List<Entity> entities = new ArrayList<>();
+	private final List<ZEntity> entities = new ArrayList<>();
 	
-	public ZPopup (String msg, String button, EventAdder eventAdder, List<Entity> entities) {
+	public ZPopup (String msg, String button, EventAdder eventAdder, List<ZEntity> entities) {
 
-		for (Entity e : entities) {
+		for (ZEntity e : entities) {
 			this.entities.add(e);
 		}
 		
@@ -47,7 +46,7 @@ public class ZPopup extends ZComponent
 		entities.add (this.button);		
 	}
 	
-	public List<Entity> remove () {
+	public List<ZEntity> remove () {
 		background = null;
 		text = null;
 		entities.remove(button);

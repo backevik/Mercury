@@ -8,9 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import core.Entity;
-
-public class ZTextArea extends ZImage implements Entity {
+public class ZTextArea extends ZImage {
 
 	private int w;
 	private int h;
@@ -18,10 +16,11 @@ public class ZTextArea extends ZImage implements Entity {
 	private boolean textIsRendered;
 	
 	public ZTextArea(int x, int y, int w, int h) {
-		super("", x, y, w, h);
+		super (null, x, y);
 		this.w = w;
 		this.h = h;
 		text = "";
+		setImage(createImageFromString ());
 	}
 	
 	public void addTextWithoutLineFeed (String s) {
@@ -39,7 +38,7 @@ public class ZTextArea extends ZImage implements Entity {
 	@Override
 	public void render (Graphics g) {
 		if (textIsRendered == false) {
-			image = createImageFromString ();
+			setImage(createImageFromString ());
 			textIsRendered = true;
 		}
 		super.render(g);
@@ -88,7 +87,4 @@ public class ZTextArea extends ZImage implements Entity {
 		
 		//g.clip(new Rectangle(0, image.getHeight()-h, w, image.getHeight()));
 	}
-
-	@Override
-	public void onClick(int mouseX, int mouseY) {}
 }
