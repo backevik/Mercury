@@ -13,12 +13,11 @@ import character.Spell;
 
 public class Enemy extends Character
 {
-	private int level;
 	private Random rand;
 	
 	public Enemy (String name,int level) {
 		super(name);
-		this.level = level;
+		this.setLevel(level);
 		rand = new Random();
 	}
 	
@@ -43,9 +42,5 @@ public class Enemy extends Character
 			}
 		}
 		return whatToDo;
-	}
-	
-	public int getLevel(){
-		return level;
 	}
 }

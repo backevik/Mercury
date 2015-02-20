@@ -19,6 +19,7 @@ import player.Inventory;
 public abstract class Character
 {
 	private String name;
+	private int level;
 	
 	//private final CharacterStatus characterStatus = new CharacterStatus ();
 	
@@ -32,6 +33,7 @@ public abstract class Character
 	public Character (String name) {
 		// give the character a name
 		this.name = name;
+		level = 1;
 		
 		// initiate all attributes based on constants.Attributes
 		for (String s : Attributes.getNames()) {
@@ -40,7 +42,7 @@ public abstract class Character
 		
 		// initiate all attributes based on constants.Skills
 		for (String s : Skills.getNames()) {
-			skills.put(s, new Skill(0.0d));
+			skills.put(s, new Skill(5.0d));
 		}
 		
 		// initiate all attributes based on constants.Vitals
@@ -48,8 +50,8 @@ public abstract class Character
 			vitals.put(s, new Vital(50.0d));
 		}
 		
-		updateSkills ();
-		updateVitals ();
+		updateSkills (level);
+		updateVitals (level);
 	}
 	
 	/**
@@ -57,6 +59,16 @@ public abstract class Character
 	 */
 	public String getName () {
 		return name;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	public void setLevel(int level){
+		this.level = level;
+		updateSkills (level);
+		updateVitals (level);
 	}
 	
 	/**
@@ -106,17 +118,6 @@ public abstract class Character
 			vitals.get(s).reduceVital(value);
 		}		
 	}
-	
-	/**
-	 * Regenerate mana by five each call
-	 */
-	public void manaReg(){
-		if((vitals.get("Energy").getValue()+5)>vitals.get("Energy").getMax()){
-			
-		}else{
-			vitals.get("Energy").healVital(5);
-		}
-	}
 	/**
 	 * heal the value of vital by name s with number value
 	 * @param s - the name of the vital
@@ -158,15 +159,15 @@ public abstract class Character
 		return vitals;
 	}
 	
-	protected void updateSkills () {
+	protected void updateSkills (int level) {
 		for (Skill s : skills.values()) {
-			s.updateValue();
+			s.updateValue(level);
 		}
 	}
 	
-	protected void updateVitals () {
+	protected void updateVitals (int level) {
 		for (Vital v : vitals.values()) {
-			v.updateValue();
+			v.updateValue(level);
 		}
 	}
 }

@@ -29,10 +29,10 @@ public class Vital extends Skill
 		setValue(getValue()+value);
 	}
 	
-	@Override
-	public void updateValue () {
+	//@Override
+	//public void updateValue () {
 		/*double c = getValue()/max;
 		max = 5;
 		setValue(getValue() * c);*/
-	}
+	//}
 }

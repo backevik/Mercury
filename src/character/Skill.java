@@ -22,7 +22,7 @@ public class Skill
 		this.value = value;
 	}
 	
-	public void updateValue () {
-		value = 5;
+	public void updateValue (int level) {
+		value = 5+level;
 	}
 }
