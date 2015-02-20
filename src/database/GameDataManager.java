@@ -1,46 +1,35 @@
 package database;
 
 import java.awt.Image;
-import java.util.ArrayList;
 import player.Quest;
 import character.Item;
 import character.Spell;
+import database.ItemDatabase;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3
- * @since		2015-02-17
+ * @version		0.3.2
+ * @since		2015-02-20
  */
 
 public class GameDataManager 
 {
-	
 	private static GameDataManager instance = null;
-	private ArrayList<DataState> states;
-	private int currentState;
 	
 	private QuestDatabase quests;
 	private ItemDatabase items;
 	private SpellDatabase spells;
 	private ImageDatabase images;
 	
-	public static final int ITEMS_STATE = 0;
-	public static final int QUEST_STATE = 1;
-	public static final int SPELL_STATE = 2;
+	public static final int QUEST_STATE = 0;
+	public static final int SPELL_STATE = 1;
 	
 	private GameDataManager(){
-		states = new ArrayList<DataState>();
-		items = new ItemDatabase();
+		
 		quests = new QuestDatabase();
 		spells = new SpellDatabase();
-		
-		states.add(items);
-		states.add(quests);
-		states.add(spells);
-		setState(0);
-		
+		items = new ItemDatabase();
 		images = new ImageDatabase();
-		
 	}
 	
 	/**
@@ -55,54 +44,37 @@ public class GameDataManager
 	}
 	
 	/**
-	 * saving and loading
-	 * The currentState variable is in charge of what to save and load
+	 * Return quest from list
+	 * @param questName
+	 * @return Quest
 	 */
-	public void save() {
-		states.get(currentState).save();
+	public Quest getQuests(String questName) {
+		return quests.getQuests(questName);
 	}
-	
-	public void load() {
-		states.get(currentState).load();
-	}
-	
-	public void setState(int state) {
-		currentState = state;
-	}
-	
-	public int getCurrentState() {
-		return currentState;
-	}
-	
 	
 	/**
-	 * Add objects to data
+	 * Return item from list
+	 * @param itemName
+	 * @return Item
 	 */
-	public void addItem(Item item) {
-		items.addItem(item);
+	public Item getItems(String itemName) {
+		return items.getItems(itemName);
 	}
-	
-	public void addQuest(Quest quest) {
-		quests.addQuest(quest);
-	}
-	
 	
 	/**
-	 * Return lists of objects
+	 * Return spell from list
+	 * @param spellName 
+	 * @return Spell
 	 */
-	public java.util.List<Quest> getQuests() {
-		return quests.getQuests();
+	public Spell getSpells(String spellName) {
+		return spells.getSpells(spellName);
 	}
 	
-	public java.util.List<Item> getItems() {
-		return items.getItems();
-	}
-	
-	public java.util.List<Spell> getSpells() {
-		return spells.getSpells();
-	}
-	
-	
+	/**
+	 * Return the image based on the image name
+	 * @param imgName
+	 * @return Image
+	 */
 	public Image getImage(String imgName) {
 		return images.getImage(imgName);
 	}
