@@ -1,7 +1,8 @@
 package character;
 
 /**
- * @author      Mattias Benng�rd	<mbengan@gmail.com>
+ * @author      Mattias Benngård	<mbengan@gmail.com>
+ * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
  * @version     0.1
  * @since       2015-02-01
  */
