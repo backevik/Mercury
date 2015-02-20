@@ -1,4 +1,4 @@
-package gui;
+package zlibrary;
 
 import java.awt.Graphics;
 
@@ -29,12 +29,10 @@ public class ZTextField extends ZButton implements Drawable
 	
 
 	public ZTextField (String firstTextToBeDisplayed, int x, int y, int w, int h){
-		super (null, null, firstTextToBeDisplayed, x, y, w, h);
 	}
 	
 
 	public ZTextField (int x, int y, int w, int h){
-		super (null, null, "", x, y, w, h);
 	}
 	
 	
@@ -47,7 +45,7 @@ public class ZTextField extends ZButton implements Drawable
 	
 	/**
 	 * Returns the String currently displayed in the ZTextField
-	 * @return String inside textfield
+	 * @return String inside the text field
 	 */
 	public String getText () {
 		return displayedString;

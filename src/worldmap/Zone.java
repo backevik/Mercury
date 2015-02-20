@@ -4,6 +4,8 @@ import core.GlobalStateManager;
 
 import java.awt.Image;
 
+import zlibrary.ZButton;
+
 /**
 * @author	Daniel Edsinger <danieledsinger@hotmail.com>
 * @version	0.3.1

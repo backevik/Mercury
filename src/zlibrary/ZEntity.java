@@ -1,6 +1,4 @@
-package gui;
-
-import java.awt.Image;
+package zlibrary;
 
 import core.Drawable;
 import core.EventAdder;
@@ -17,31 +15,44 @@ import core.Entity;
  * 
  * Can be constructed with an Image or using a default appearance.
  */
-public class ZButton extends ZImage implements Entity, Drawable
+
+public abstract class ZEntity extends ZComponent implements Entity, Drawable
 {
 	private EventAdder eventAdder;
 	private String eventOnClick;
+	private boolean hover;
 	
-	public ZButton (EventAdder eventAdder, String eventOnClick, Image image, int x, int y) {
-		super(image, x, y);
+	protected void setEventAdder (EventAdder eventAdder) {
 		this.eventAdder = eventAdder;
+	}
+	
+	protected String getEventOnClick () {
+		return eventOnClick;
+	}
+	
+	protected void setEventOnClick (String eventOnClick) {
 		this.eventOnClick = eventOnClick;
 	}
 	
-	public ZButton (EventAdder eventAdder, String eventOnClick, String string, int x, int y, int w, int h) {
-		super(string, x, y, w, h);
-		this.eventAdder = eventAdder;
-		this.eventOnClick = eventOnClick;
+	protected void addEvent (String s) {
+		eventAdder.add(s);
+	}
+	
+	/**
+	 * Adds event if the object was clicked and has an active listener.
+	 */
+	public void onClick (int mouseX, int mouseY) {
+		if (isMouseInside (mouseX, mouseY)) {
+			eventAdder.add(eventOnClick);
+		}
 	}
 	
 	/**
 	 * Adds event if the object was clicked and has an active listener.
 	 */
 	@Override
-	public void onClick(int mouseX, int mouseY) {
-		if (isMouseInside (mouseX, mouseY)) {
-			eventAdder.add(eventOnClick);
-		}
+	public void onHover (int mouseX, int mouseY) {
+		hover = isMouseInside (mouseX, mouseY);		
 	}
 	
 	/**
@@ -53,8 +64,8 @@ public class ZButton extends ZImage implements Entity, Drawable
 	 * @return boolean
 	 */
 	private boolean isMouseInside (int mouseX, int mouseY) {
-		return (mouseX >= x && mouseY >= y &&
-				mouseX <= x+image.getWidth(null) &&
-				mouseY <= y+image.getHeight(null));
+		return (mouseX >= getX() && mouseY >= getY() &&
+				mouseX <= getX() + getImage().getWidth(null) &&
+				mouseY <= getY() + getImage().getHeight(null));
 	}
 }

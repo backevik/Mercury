@@ -1,4 +1,4 @@
-package gui;
+package zlibrary;
 
 import java.awt.Color;
 import java.awt.Font;

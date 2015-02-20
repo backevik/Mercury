@@ -18,13 +18,16 @@ import combat.Combat;
 import combat.Enemy;
 import player.Player;
 import player.Quest;
+import zlibrary.ZContainer;
+import zlibrary.ZPopup;
 import gui.CharacterCreationViewer;
 import gui.CombatViewer;
+import gui.CreditsViewer;
+import gui.LoadGameViewer;
 import gui.MainMenuViewer;
 import gui.QuestLogViewer;
 import gui.TownViewer;
 import gui.WorldMapViewer;
-import gui.ZContainer;
 
 /**
  * Game Class for project Mercury, holds main method.
@@ -73,11 +76,14 @@ public class Game implements MouseListener
 	private Combat combat;
 	private Enemy enemy;
 	
+	// popup window
+	private ZPopup popup;
+	
     // gui containers
 	private MainMenuViewer mainMenuViewer;
 	private CharacterCreationViewer characterCreationViewer;
-	//private LoadGameViewer loadGameViewer;
-	//private ShowCreditsViewer showCreditsViewer;
+	private LoadGameViewer loadGameViewer;
+	private CreditsViewer creditsViewer;
 	
 	private WorldMapViewer worldMapViewer;
 	private TownViewer townViewer;
@@ -154,7 +160,7 @@ public class Game implements MouseListener
             	eventHandler (currentEvent);
             }
             
-            //while loop for update() in entity interface. Has a catch up function if need be.
+            // while loop for update() in entity interface. Has a catch up function if need be.
             while(((currentTime - lastUpdateTime) > TARGET_TIME_BETWEEN_UPDATES) && (updateCount < MAX_UPDATES_BEFORE_RENDER)){
                 update ();
                 lastUpdateTime += TARGET_TIME_BETWEEN_UPDATES;
@@ -223,15 +229,39 @@ public class Game implements MouseListener
 	}
 	
 	private void removeContainer (ZContainer z) {
-		drawables.remove(z);
-		z.remove ();
+		if (z != null ) {
+			drawables.remove(z);
+			z.remove ();
+		}
 	}
+	
+	/**
+     * 
+     */
+    public void popupWindow () {
+    	popup = new ZPopup ("This is a test popup!", "ok", eventQueue.getEventAdder(), entities);
+    	drawables.add(popup);
+    }
+    
+    public void popupWindowOff () {
+    	for (Entity e : popup.remove ()) {
+    		entities.add(e);
+    	}
+    	drawables.remove(popup);
+    	popup = null;   	
+    }
     
 	/**
 	 * 
 	 */
 	public void sceneMainMenu () {
-    	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), null, 0, 0, entities);
+		removeContainer (characterCreationViewer);
+    	characterCreationViewer = null;
+    	removeContainer (loadGameViewer);
+    	loadGameViewer = null;
+    	removeContainer (creditsViewer);
+    	characterCreationViewer = null;
+    	mainMenuViewer = new MainMenuViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
     	drawables.add(mainMenuViewer);
     }
     
@@ -241,28 +271,28 @@ public class Game implements MouseListener
     public void sceneCharacterCreation () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, entities);
+    	characterCreationViewer = new CharacterCreationViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
     	drawables.add(characterCreationViewer);
     }
-    
+
     /**
 	 * 
 	 */
     public void sceneLoadGame () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	//characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
-    	//drawables.add(characterCreationViewer);
+    	//loadGameViewer = new CharacterCreationViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
+    	//drawables.add (loadGameViewer);
     }
     
     /**
 	 * 
 	 */
-    public void sceneShowCredits () {
+    public void sceneCredits () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	//characterCreationViewer = new CharacterCreationViewer(eventQueue.getEventAdder(), null, 0, 0, mouseObjects);
-    	//drawables.add(characterCreationViewer);
+    	//creditsViewer = new CharacterCreationViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
+    	//drawables.add (creditsViewer);
     }
     
     /**
@@ -270,6 +300,7 @@ public class Game implements MouseListener
      */
     public void createCharacter () {
     	removeContainer (characterCreationViewer);
+    	characterCreationViewer = null;
     	player = new Player("John Doe");
     	player.getQuestLog().addQuest(new Quest("First Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
     	player.getQuestLog().addQuest(new Quest("Second Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
@@ -335,7 +366,7 @@ public class Game implements MouseListener
      */
 	public void questLogViewerToggle () {
     	if (questLogViewer == null) {
-    		questLogViewer = new QuestLogViewer(eventQueue.getEventAdder(), GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, entities, player.getQuestLog());
+    		questLogViewer = new QuestLogViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getQuestLog());
     		drawables.add(questLogViewer);
     	} else {
     		removeContainer (questLogViewer);
@@ -378,7 +409,11 @@ public class Game implements MouseListener
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseEntered(MouseEvent me) {
+		for (Entity m : entities) {
+    		m.onHover(me.getX(), me.getY());
+    	}
+	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {}

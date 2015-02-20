@@ -2,6 +2,8 @@ package gui;
 
 import java.util.List;
 
+import zlibrary.ZContainer;
+
 import core.Drawable;
 import core.EventAdder;
 import core.GlobalStateManager;

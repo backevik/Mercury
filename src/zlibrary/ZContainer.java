@@ -1,4 +1,4 @@
-package gui;
+package zlibrary;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,10 +18,10 @@ import core.Entity;
  */
 public abstract class ZContainer extends ZImage implements Drawable
 {
-	protected List<ZImage> components = new ArrayList<>();
+	protected List<ZComponent> components = new ArrayList<>();
 	protected List<Entity> mouseObjects;
 	
-	public ZContainer (EventAdder eventAdder, Image image, int x, int y, List<Entity> mouseObjects) {
+	public ZContainer (Image image, int x, int y, EventAdder eventAdder, List<Entity> mouseObjects) {
 		super(image, x, y);
 		this.mouseObjects = mouseObjects;
 	}
@@ -30,7 +30,7 @@ public abstract class ZContainer extends ZImage implements Drawable
 	 * Called when removing this container from Game.removeContainer(ZContainer z)
 	 */
 	public void remove () {
-		for (ZImage z : components) {
+		for (ZComponent z : components) {
 			mouseObjects.remove(z);
 			z = null;
 		}
@@ -45,7 +45,7 @@ public abstract class ZContainer extends ZImage implements Drawable
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
-		for (ZImage i : components) {
+		for (ZComponent i : components) {
 			i.render(g);
 		}
 	}

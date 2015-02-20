@@ -3,7 +3,10 @@ package gui;
 import java.awt.Image;
 import java.util.List;
 
-import gui.ZContainer;
+import zlibrary.ZButton;
+import zlibrary.ZContainer;
+import zlibrary.ZText;
+
 import core.Drawable;
 import core.EventAdder;
 import core.Entity;
@@ -15,23 +18,23 @@ public class MainMenuViewer extends ZContainer implements Drawable {
 	private ZButton btnCredits;
 	private ZButton btnExitGame;
 	
-	public MainMenuViewer(EventAdder eventAdder, Image image, int x, int y, List<Entity> mouseObjects) {
-		super(eventAdder, image, x, y, mouseObjects);
+	public MainMenuViewer(Image image, int x, int y, EventAdder eventAdder, List<Entity> mouseObjects) {
+		super(image, x, y, eventAdder, mouseObjects);
 		
-		btnNewGame = new ZButton(eventAdder, "sceneCharacterCreation", "New Game", 300, 100, 180, 80);
+		btnNewGame = new ZButton("New Game", 310, 100, 180, 80, eventAdder, "sceneCharacterCreation");
 		components.add(btnNewGame);
 		mouseObjects.add(btnNewGame);
 		
-		btnLoadGame = new ZButton(eventAdder, "sceneLoadGame", "Load Game", 300, 200, 180, 80);
+		btnLoadGame = new ZButton("Load Game", 310, 200, 180, 80, eventAdder, "popupWindow");
 		components.add(btnLoadGame);
 		mouseObjects.add(btnLoadGame);
 		
-		btnCredits = new ZButton(eventAdder, "sceneShowCredits", "Credits", 300, 350, 180, 80);
+		btnCredits = new ZButton("Credits", 310, 350, 180, 80, eventAdder, "sceneCredits");
 		components.add(btnCredits);
 		mouseObjects.add(btnCredits);
 		
-		btnExitGame = new ZButton(eventAdder, "exitGame", "Exit Game", 300, 500, 180, 80);
+		btnExitGame = new ZButton("Exit Game", 310, 500, 180, 80, eventAdder, "exitGame");
 		components.add(btnExitGame);
-		mouseObjects.add(btnExitGame);		
+		mouseObjects.add(btnExitGame);
 	}
 }
