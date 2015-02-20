@@ -1,7 +1,8 @@
 package player;
 /**
- * @author      Mattias Benng�rd	<mbengan@gmail.com>
+ * @author      Mattias Benngård	<mbengan@gmail.com>
  * @author		Martin Claesson		<marclae@student.chalmers.se>
+ * @author	Andreas Bäckevik	<a.backevik@student.chalmers.se>
  * @version     0.4
  * @since       2015-02-09
  */
@@ -87,8 +88,8 @@ public class Playable extends Character
 			a.addValue(1);
 		}
 		
-		updateSkills ();
-		updateVitals ();
+		updateSkills (this.getLevel());
+		updateVitals (this.getLevel());
 		
 		if (checkForLevel () == true) {
 			doLevelUp ();
