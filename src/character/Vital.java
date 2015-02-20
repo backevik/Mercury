@@ -1,8 +1,8 @@
 package character;
 
 /**
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
+ * @author      Mattias BenngÃ¥rd	<mbengan@gmail.com>
+ * @author		Andreas BÃ¤ckevik	<backevik@student.chalmers.se>
  * @version     0.4
  * @since       2015-02-01
  */
@@ -29,10 +29,7 @@ public class Vital extends Skill
 		setValue(getValue()+value);
 	}
 	
-	//@Override
-	//public void updateValue () {
-		/*double c = getValue()/max;
-		max = 5;
-		setValue(getValue() * c);*/
-	//}
+	public void updateValue (int level) {
+		this.setValue(this.getValue()+(level*5));
+	}
 }
