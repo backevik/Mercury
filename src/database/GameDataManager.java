@@ -1,10 +1,12 @@
 package database;
 
 import java.awt.Image;
+
+import combat.Enemy;
+
 import player.Quest;
 import character.Item;
 import character.Spell;
-import database.ItemDatabase;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
@@ -20,6 +22,7 @@ public class GameDataManager
 	private ItemDatabase items;
 	private SpellDatabase spells;
 	private ImageDatabase images;
+	private EnemyDatabase enemies;
 	
 	public static final int QUEST_STATE = 0;
 	public static final int SPELL_STATE = 1;
@@ -30,6 +33,7 @@ public class GameDataManager
 		spells = new SpellDatabase();
 		items = new ItemDatabase();
 		images = new ImageDatabase();
+		enemies = new EnemyDatabase();
 	}
 	
 	/**
@@ -77,5 +81,10 @@ public class GameDataManager
 	 */
 	public Image getImage(String imgName) {
 		return images.getImage(imgName);
+	}
+	
+	
+	public Enemy getEnemy(String enemyName){
+		return enemies.getItems(enemyName);
 	}
 }
