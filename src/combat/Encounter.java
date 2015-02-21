@@ -3,10 +3,11 @@ package combat;
 import java.util.ArrayList;
 import java.util.List;
 
+import character.Spell;
 import database.GameDataManager;
 
 /**
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃ¤ckevik
  * @version     0.4
  * @since       2015-02-20
  */
@@ -19,9 +20,9 @@ public class Encounter {
 		this.event = event;
 		enemies = new ArrayList();
 		Enemy enemy = new Enemy("Big evil tomato",1); //temp tills vi har en enemy database
-    	for(int i=0;i<GameDataManager.getInstance().getSpells().size();i++){
-    		enemy.getSpellBook().addSpell(GameDataManager.getInstance().getSpells().get(i));
-    	}
+		enemy.getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
+		enemy.getSpellBook().addSpell(new Spell("heal","helar dig",10,"heal",20));
+    		enemy.getSpellBook().addSpell(GameDataManager.getInstance().getSpells(event));
 		enemies.add(enemy);
 	}
 	
@@ -33,4 +34,3 @@ public class Encounter {
 		return enemies;
 	}
 }
-
