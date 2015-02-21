@@ -62,6 +62,10 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		components.add(retreatbtn);
 		entities.add(retreatbtn);
 		
+		ZButton nextturnbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatNextTurn.jpg"), 677, 345, eventAdder, "nextTurn");
+		components.add(nextturnbtn);
+		entities.add(nextturnbtn);
+		
 		//GUI to add
 		/*
 		ZButton enemyhp = new ZButton(GameDataManager.getInstance().getImage("gui.jpg"), 0, 413, eventAdder, "NONE");
