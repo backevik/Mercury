@@ -1,5 +1,6 @@
 package combat;
-
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import core.EventAdder;
@@ -10,32 +11,125 @@ import character.Character;
 import character.Spell;
 
 /**
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃ¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
 
 public class Combat implements RealTime {
-	private boolean playerTurn;
+	private boolean turn;
 	private Random rand;
-	private Playable player;
-	private Enemy enemy;
+	private LinkedList<Character> turnList;
+	private Character currentChar;
 	@SuppressWarnings("unused")
 	private int clockTick;
 	private EventAdder eventAdder;
+	private List<Playable> players;
+	private Encounter encounter;
 	
-	public Combat(Playable players, Enemy enemies,EventAdder eventAdder){
-		// Dummy code for one player and one enemy
-		this.player = players;
-		this.enemy = enemies;
-		//initializing random factor;
+	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder){
 		rand = new Random();
-		// decide who starts, true for player, false for enemy.
-		playerTurn = firstTurn();
-		if (!playerTurn) {
-			enemyNextMove();
-		}
 		this.eventAdder = eventAdder;
+		this.players = players;
+		this.encounter = encounter;
+		turnList = new LinkedList<Character>();
+		initCombatList();
+		nextTurn();
+	}
+	
+	public void initCombatList(){
+		for(Playable player : players){
+			turnList.add(player);	
+		}
+		for(Enemy enemy : encounter.getEnemies()){
+			turnList.add(enemy);
+		}
+		listSort();
+		
+	}
+	
+	public void listSort(){
+		for(int i = 0; i < turnList.size(); i++){
+		    for(int j = i + 1; j < turnList.size(); j++){
+		        if(turnList.get(i).getValueOfSkill("Speed")<turnList.get(j).getValueOfSkill("Speed")) {
+		            Character temp = turnList.get(i);
+		            turnList.set(i, turnList.get(j));
+		            turnList.set(j, temp);
+		        }
+		    }
+		}
+	}
+	
+	public void nextTurn(){
+		removeFirstAddLast();
+		if(currentChar instanceof Enemy){
+			enemyTurn();
+			enemyNextMove();
+		}else if(currentChar instanceof Playable){
+			playerTurn();
+		}else{
+			System.out.println("Returning to world map...");
+		}
+	}
+	
+	private void removeFirstAddLast(){
+		currentChar=turnList.pollFirst();
+		turnList.addLast(currentChar);
+	}
+	
+	public void attack(Character src,Character dest){
+			if(src instanceof Playable){
+			dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
+			}
+			
+			dest.reduceVital("Health", src.getValueOfSkill("Attack"));
+			System.out.println(src.getName()+" hit "+dest.getName()+" for "+src.getValueOfSkill("Attack")+" damage");
+			turn=false;
+			deathCheck(dest,src.getValueOfSkill("Attack"));
+			
+			System.out.println(src.getValueOfSkill("Attack"));
+			System.out.println(dest.getValueOfVital("Health"));
+
+	}
+	
+	public void spell(Character src,Character dest,String spellName){
+		if(src instanceof Playable){
+		dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
+		}
+		
+		for(Spell spell : src.getSpellBook().getSpells()){
+			if(spell.getName().equals(spellName) && spell.getType().equals("heal") && energyCheck(spell)){
+				src.reduceVital("Energy", spell.getEnergyCost());
+				System.out.println(src.getName()+" healed "+dest.getName()+" for "+src.healVital("Health", spell.getspellPower())+" health");
+				turn=false;
+			} else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell)){
+				dest.reduceVital("Health", spell.getspellPower());
+				src.reduceVital("Energy", spell.getEnergyCost());
+				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
+				turn=false;
+				deathCheck(dest,spell.getspellPower());
+				System.out.println(spell.getspellPower());
+				
+			}
+		}
+		System.out.println(dest.getValueOfVital("Health"));
+	}
+	
+	public void spellCheck(Character src,Character dest,String spellName){
+		if(currentChar instanceof Playable && turn==true){
+			spell(src,dest,spellName);
+			turn = false;
+		}else if(currentChar instanceof Enemy && turn==false){
+			spell(src,dest,spellName);
+		}
+	}
+	
+	public void attackCheck(Character src,Character dest){
+		if(currentChar instanceof Playable && turn==true){
+			attack(src,dest);
+		}else if(currentChar instanceof Enemy && turn==false){
+			attack(src,dest);
+		}
 	}
 	
 	/**
@@ -55,172 +149,42 @@ public class Combat implements RealTime {
 	/**
 	 * Set turn to enemy;
 	 */
-	private void enemyTurn(){
-		playerTurn=false;
-		//enemy.manaReg();
-	}
-	
-	/**
-	 * Enemy melee attack
-	 */
-	public void enemyAttack(){
-		if(playerTurn==false){
-			if((player.getValueOfVital("Health")-enemy.getValueOfSkill("Attack"))<=0){
-				playerDeath();
-			}else{
-				player.reduceVital("Health", enemy.getValueOfSkill("Attack"));
-				System.out.println("Enemy attacked for: "+enemy.getValueOfSkill("Attack")); //Supposed to write to log here
-				//while(clockTick<30);
-				System.out.println(player.getName()+" turn!");
-				playerTurn();
-			}
-		}
-	}
-	
-	/**
-	 * Enemy spellcast
-	 * @param name - name of the spell we want to cast
-	 */
-	public void enemySpell(String name){ //Look at playerSpell for comments
-		for(Spell spell : enemy.getSpellBook().getSpells()){
-			if(spell.getName().equals(name)){
-				if((enemy.getValueOfVital("Energy")-spell.getEnergyCost())>=0){
-					if(spell.getType().equals("heal")){
-						System.out.println(enemy.getName()+" casted spell "+name+" that healed: "+enemy.healVital("Health", spell.getspellPower())+" on "+enemy.getName()); // Supposed to write to log here
-					}else{
-						if((player.getValueOfVital("Health")-spell.getspellPower())<=0){
-							playerDeath();
-						}else{
-							player.reduceVital("Health", spell.getspellPower());		
-							System.out.println(enemy.getName()+" casted spell "+name+" that damaged: "+spell.getspellPower()+" on "+player.getName()); //Write to log
-						}
-					}
-					enemy.reduceVital("Energy", spell.getEnergyCost());
-					enemyTurn();
-					//while(clockTick<30);
-					System.out.println(player.getName()+" turn!"); //Supposed to write to log here
-				}else{
-					enemyAttack();
-				}
-			}else{
-				System.out.println("FATAL ERROR! SPELL NOT FOUND");
-			}
-		}
+	private void enemyTurn(){	
+		turn=false;
+		System.out.println(currentChar.getName()+"'s turn!");
 	}
 	/**
 	 * Set turn to player;
 	 */
 	private void playerTurn(){
-		playerTurn=true;
-		//player.manaReg();
+		turn=true;
+		System.out.println(currentChar.getName()+"'s turn!");
 	}
-	
-	/**
-	 * Player melee attack
-	 */
-	public void playerAttack(){
-		if(playerTurn==true){
-			if((enemy.getValueOfVital("Health")-player.getValueOfSkill("Attack"))<=0){
-				enemyDeath();
+
+	public void deathCheck(Character c,double damage){
+		if((c.getValueOfVital("Health")-damage)<0 && c instanceof Playable){
+			GlobalStateManager.getInstance().updateCurrentState("InCombat_dead");
+			System.out.println(c.getName()+" died! The fight is lost");
+			currentChar = null;
+			eventAdder.add("sceneTown");
+		}else if((c.getValueOfVital("Health")-damage)<0 && c instanceof Enemy){
+			GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getWorldState("Location"), "clear");
+			players.get(0).addExp(c.getLevel()*5);
+			if(c.getLevel()*5>players.get(0).getExpTnl()){
+				System.out.println("Congratulations "+players.get(0).getName()+"! You reached level "+players.get(0).getLevel());
 			}else{
-				enemy.reduceVital("Health", player.getValueOfSkill("Attack"));
-				System.out.println("Player attacked for: "+player.getValueOfSkill("Attack")); //Supposed to write to log here
-		
-				System.out.println("Enemy turn!"); //Supposed to write to log here
-				//resetUpdateCount();
-				enemyTurn();
-				enemyNextMove();	
-				//while(clockTick<30);
+				System.out.println("Congratulations "+players.get(0).getName()+"! You gained "+c.getLevel()*5+" experience!");
 			}
+			eventAdder.add("sceneWorldMap");
 		}
 	}
 	
-	/**
-	 * Player spellcast
-	 * @param name - name of spell we want to cast
-	 */
-	public void playerSpell(String name){
-		if(playerTurn==true){
-			for(Spell spell : player.getSpellBook().getSpells()){
-				if(spell.getName().equals(name)){ //Check for correct spell
-					if((player.getValueOfVital("Energy")-spell.getEnergyCost())>=0){ //Check if char has Energy for spell
-						if(spell.getType().equals("heal")){ //Check if spell is a heal
-							System.out.println(player.getName()+" casted spell "+name+" that healed: "+player.healVital("Health", spell.getspellPower())+" on "+player.getName()); // Supposed to write to log here
-							player.reduceVital("Energy", spell.getEnergyCost());
-							enemyTurn();
-							System.out.println("Enemy turn!"); //Supposed to write to log here
-							enemyNextMove();
-						}else{
-							if((enemy.getValueOfVital("Health")-spell.getspellPower())<=0){ //check if attacked person dies or not
-								enemyDeath();
-								break;
-							}else if((enemy.getValueOfVital("Health")-spell.getspellPower())>0){
-								enemy.reduceVital("Health", spell.getspellPower());
-								player.reduceVital("Energy", spell.getEnergyCost());
-								System.out.println(player.getName()+" casted spell "+name+" that damaged: "+spell.getspellPower()+" on "+enemy.getName()); //Write to log
-								player.reduceVital("Energy", spell.getEnergyCost());
-								enemyTurn();
-								System.out.println("Enemy turn!"); //Supposed to write to log here
-								enemyNextMove();
-							}
-						}
-					}else{
-						System.out.println("Not enough Energy!"); //Supposed to write to log here
-					}
-				}
-			}
-			resetUpdateCount();
-			//while(clockTick<30);
-		}
-	}
-	
-	/**
-	 * Method for handling player death
-	 */
-	public void playerDeath(){
-		player.reduceVital("Health",player.getValueOfVital("Health"));
-		System.out.println(player.getName()+" has died! The fight is lost.");
-		
-		player.healVital("Health", player.getMaxOfVital("Health"));
-		player.healVital("Energy", player.getMaxOfVital("Energy"));				
-		
-		enemy.healVital("Health", enemy.getMaxOfVital("Health"));
-		enemy.healVital("Energy", enemy.getMaxOfVital("Energy"));
-		
-		GlobalStateManager.getInstance().updateCurrentState("InCombat_dead");
-		eventAdder.add("sceneTown");
-		//Return to town
-	}
-	
-	/**
-	 * Method for handling enemy death
-	 */
-	public void enemyDeath(){
-		enemy.reduceVital("Health",enemy.getValueOfVital("Health"));
-		System.out.println(enemy.getName()+" has died! The fight is won."); //Supposed to write to log here
-		int levelCheck=player.getLevel();
-		player.addExp(5*enemy.getLevel());
-		if(levelCheck<player.getLevel()){
-			System.out.println("Congratulations "+player.getName()+"! You leveled to "+player.getLevel());
+	private boolean energyCheck(Spell spell){
+		if((currentChar.getValueOfVital("Energy")-spell.getEnergyCost())<=0){
+			System.out.println("Not enough energy.");
+			return false;
 		}else{
-			System.out.println(player.getName()+" got "+5*enemy.getLevel()+" xp!");
-		}
-		
-		GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getWorldState("Location"), "clear");
-		eventAdder.add("sceneWorldMap");
-		//Return to world map
-	}
-	
-	/**
-	 * Player using an item
-	 * @param itemName - Name of the item we want to use
-	 */
-	public void playerItem(String itemName){								
-		for(int i=0;i<player.getInventory().getItems().size();i++){
-			if(player.getInventory().getItems().get(i).getItem().getName().equals(itemName)){ //Gör om med en extra loop när jag har tillgång till datasbas med items.
-				player.getInventory().getItems().get(i).getItem().reduceCharges();
-				System.out.println(player.healVital("health", 40)); //Fixar effekt i item senare.
-			}
+			return true;
 		}
 	}
 	
@@ -229,20 +193,15 @@ public class Combat implements RealTime {
 	 * @param character - player or enemy we want to calculate chance for
 	 * @return the chance of successful retreat
 	 */
-	public double retreatChance(Character character){
-		if(character instanceof Playable){
-			return ((40*player.getValueOfSkill("Speed"))/enemy.getValueOfSkill("Speed"))+10;
-		}else{
-			return ((20*enemy.getValueOfSkill("Speed"))/player.getValueOfSkill("Speed"));
-		}
-		
+	public double retreatChance(){
+			return ((40*currentChar.getValueOfSkill("Speed"))/currentChar.getValueOfSkill("Speed"))+10;		
 	}
 	
 	/**
 	 * Player trying to retreat from combat
 	 */
-	public void playerRetreat(){
-		if(retreatChance(player)>=nextInt()){
+	public void retreat(){
+		if(retreatChance()>=nextInt()){
 			System.out.println("Successfull escape!");
 			eventAdder.add("sceneWorldMap");
 		}else{
@@ -251,34 +210,28 @@ public class Combat implements RealTime {
 	}
 	
 	/**
-	 * Calculates an rnd value between 0-100
-	 * @return a value 0-100
-	 */
-	private int nextInt(){
-		return rand.nextInt(100) + 1;
-	}
-	
-	/**
-	 * Decides who get to attack first
-	 * @return
-	 */
-	private boolean firstTurn(){
-		return(player.getValueOfSkill("Speed")>=enemy.getValueOfSkill("Speed"));
-	}
-	
-	/**
 	 * Uses enemy AI for calculating enemy next move
 	 */
 	private void enemyNextMove(){
-			if(enemy.AI()=="attack"){
-				enemyAttack();
-			}else if(enemy.AI()=="spell"){
-				enemySpell("fireball");
-			}else if(enemy.AI()=="heal"){
-				enemySpell("heal");
-			}else{
-				enemyAttack();	
+		if(currentChar.getValueOfVital("Health")<(currentChar.getMaxOfVital("Health")/3)){
+			for(Spell spell : currentChar.getSpellBook().getSpells()){
+				if(spell.getName().equals("heal")){
+					spell(currentChar,currentChar,"heal");
+					nextTurn();
+				}
 			}
+		}else{
+			if(rand.nextInt(2)+1==1){
+				attack(currentChar,players.get(0));
+				nextTurn();
+			}else{
+				spell(currentChar,players.get(0),"fireball");
+				nextTurn();
+			}
+		}
+	}
+	private int nextInt(){
+		return rand.nextInt(100)+1;
 	}
 
 }
