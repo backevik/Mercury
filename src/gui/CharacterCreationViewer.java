@@ -14,6 +14,8 @@ import core.EventAdder;
 
 public class CharacterCreationViewer extends ZContainer implements ZDrawable {
 
+	private ZText header;
+	
 	private ZText textName;
 	private ZTextField textFieldName;
 	
@@ -32,28 +34,36 @@ public class CharacterCreationViewer extends ZContainer implements ZDrawable {
 	public CharacterCreationViewer(Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
 		super(image, x, y, eventAdder, entities);
 		
-		textName = new ZText ("Character Name ", 20, 50, 16);
+		textName = new ZText ("Character Creation", 20, 30, 20);
 		components.add(textName);
+		
+		textName = new ZText ("Character Name", 20, 70, 16);
+		components.add(textName);
+		/*Temp*/ components.add(new ZText ("John Doe", 170, 70, 16));
 		/*textFieldUserName = new ZTextField("Default", x,  y,  200, 20);
 		components.add(textFieldUserName);
 		entities.add(textFieldUserName);*/
 		
-		textGender = new ZText ("Gender", 20, 90, 16);
+		textGender = new ZText ("Gender", 20, 110, 16);
 		components.add(textGender);
+		/*Temp*/ components.add(new ZText ("No Genders Implemented", 170, 110, 16));
 		
-		textRace = new ZText ("Race", 20, 130, 16);
+		textRace = new ZText ("Race", 20, 150, 16);
 		components.add(textRace);
+		/*Temp*/ components.add(new ZText ("No Races Implemented", 170, 150, 16));
 		
-		textClass = new ZText ("Class", 20, 170, 16);
+		textClass = new ZText ("Class", 20, 190, 16);
 		components.add(textClass);
+		/*Temp*/ components.add(new ZText ("No Classes Implemented", 170, 190, 16));
 		
-		textAttribute = new ZText ("Attributes", 20, 210, 16);
+		textAttribute = new ZText ("Attributes", 20, 230, 16);
 		components.add(textAttribute);
 		
 		for (int i = 0; i < constants.Attributes.getNames().size(); i++) {
-			ZText tmpAttribute = new ZText (constants.Attributes.getNames().get(i), 20, 230+i*18, 14);
+			ZText tmpAttribute = new ZText (constants.Attributes.getNames().get(i), 20, 250+i*18, 14);
 			textAttributes.add(tmpAttribute);
 			components.add(tmpAttribute);
+			/*Temp*/ components.add(new ZText ("5", 170, 250+i*18, 14));
 		}		
 		
 		btnDone = new ZButton("Back", 20, 520, 120, 60, eventAdder, "sceneMainMenu");

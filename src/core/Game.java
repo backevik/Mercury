@@ -265,6 +265,20 @@ public class Game implements MouseListener
 	}
 	
 	/**
+	 * 
+	 */
+	public void saveGame () {
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public void loadGame () {
+		
+	}
+	
+	/**
      * 
      */
     public void popupWindow () {
@@ -422,6 +436,9 @@ public class Game implements MouseListener
     		questLogViewer = new QuestLogViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getQuestLog());
     		drawables.add(questLogViewer);
     	} else {
+    		for (ZEntity e : questLogViewer.getEntities ()) {
+        		entities.add(e);
+        	}
     		removeContainer (questLogViewer);
     		questLogViewer = null;
     	}
@@ -430,8 +447,8 @@ public class Game implements MouseListener
 	/**
 	 * TEMP
 	 */
-	public void attack(){
-		combat.attackCheck(player.getPC(),encounter.getEnemies().get(0));
+	public void attack (){
+		combat.attackCheck(player.getPC(), encounter.getEnemies().get(0));
 	}
 	public void spell(){
 		player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));

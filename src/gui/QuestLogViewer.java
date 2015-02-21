@@ -1,10 +1,12 @@
 package gui;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
 
 import player.QuestLog;
 import zlibrary.ZButton;
+import zlibrary.ZComponent;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import zlibrary.ZImage;
@@ -31,11 +33,19 @@ public class QuestLogViewer extends ZContainer
 	private final static int TITLE_HEIGHT = 30;
 	private final static int QUEST_DISTANCE = PADDING*2 + QUEST_ICON_SIZE + GameDataManager.getInstance().getImage("bgQuestViewerSeparator.jpg").getHeight(null);
 	
+	private final List<ZEntity> entities = new ArrayList<>();
+	
 	@SuppressWarnings("unused")
 	private QuestLog questLog;
 	
 	public QuestLogViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, QuestLog questLog) {
 		super(image, x, y, eventAdder, entities);
+		
+		for (ZEntity e : entities) {
+			this.entities.add(e);
+		}
+		
+		entities.clear();
 
 		ZText title = new ZText ("Quest Log", x+PADDING, y+PADDING, 20);
 		components.add(title);
@@ -56,5 +66,9 @@ public class QuestLogViewer extends ZContainer
     			components.add(questBorder);
     		}
     	}
+	}
+	
+	public List<ZEntity> getEntities () {
+		return entities;
 	}
 }
