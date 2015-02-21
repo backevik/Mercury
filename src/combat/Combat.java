@@ -11,7 +11,7 @@ import character.Character;
 import character.Spell;
 
 /**
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃ¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
@@ -86,10 +86,6 @@ public class Combat implements RealTime {
 			System.out.println(src.getName()+" hit "+dest.getName()+" for "+src.getValueOfSkill("Attack")+" damage");
 			turn=false;
 			deathCheck(dest,src.getValueOfSkill("Attack"));
-			
-			System.out.println(src.getValueOfSkill("Attack"));
-			System.out.println(dest.getValueOfVital("Health"));
-
 	}
 	
 	public void spell(Character src,Character dest,String spellName){
@@ -102,17 +98,17 @@ public class Combat implements RealTime {
 				src.reduceVital("Energy", spell.getEnergyCost());
 				System.out.println(src.getName()+" healed "+dest.getName()+" for "+src.healVital("Health", spell.getspellPower())+" health");
 				turn=false;
-			} else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell)){
+				break;
+			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell)){
 				dest.reduceVital("Health", spell.getspellPower());
 				src.reduceVital("Energy", spell.getEnergyCost());
 				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
 				turn=false;
 				deathCheck(dest,spell.getspellPower());
-				System.out.println(spell.getspellPower());
+				break;
 				
 			}
 		}
-		System.out.println(dest.getValueOfVital("Health"));
 	}
 	
 	public void spellCheck(Character src,Character dest,String spellName){
