@@ -6,13 +6,12 @@ import player.Quest;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3.2
- * @since		2015-02-20
+ * @version		0.3.3
+ * @since		2015-02-21
  */
 
 public class QuestDatabase
 {
-
 	private final HashMap<String, Quest> quests = new HashMap<>();
 	
 	public QuestDatabase(){
@@ -26,6 +25,4 @@ public class QuestDatabase
 	public Quest getQuests(String questName) {
 		return quests.get(questName);
 	}
-
-
 }

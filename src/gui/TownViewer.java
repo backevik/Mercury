@@ -20,7 +20,7 @@ public class TownViewer extends ZContainer {
     private final static int windowBottom = 565;
     private final static int btnWith = 122;
     private final static int btnHeight = 82;
-
+    
     private ZButton btnVendor;
     private ZButton btnLeaveTown;
     private ZButton btnBuy;
@@ -31,19 +31,19 @@ public class TownViewer extends ZContainer {
      * Constructor creates all components and adds them to drawable and clickable lists
      */
     public TownViewer( List<ZEntity> entities, EventAdder eventAdder){
-        super(eventAdder, GameDataManager.getInstance().getImage("bgDefault.jpg"),0,0,entities);
+        super(GameDataManager.getInstance().getImage("bgDefault.jpg"),0,0,eventAdder, entities);
        
-        btnVendor = new ZButton(eventAdder, "enterVendor", "Vendor", 0, 0, btnWith, btnHeight);
+        btnVendor = new ZButton("Vendor", 0, 0, btnWith, btnHeight, eventAdder, "enterVendor");
         components.add(btnVendor);
         entities.add(btnVendor); 
         
-        btnLeaveTown = new ZButton(eventAdder, "sceneWorldMap", "Leave Town", 0, btnHeight, btnWith, btnHeight);
+        btnLeaveTown = new ZButton( "Leave Town", 0, btnHeight, btnWith, btnHeight, eventAdder, "sceneWorldMap");
         components.add(btnLeaveTown);
         entities.add(btnLeaveTown);
         
-        btnBuy = new ZButton(eventAdder, "enterTownVendorBuy", "Buy", 0, windowBottom-btnHeight, btnWith, (btnHeight/2));
+        btnBuy = new ZButton("Buy", 0, windowBottom-btnHeight, btnWith, (btnHeight/2), eventAdder, "enterTownVendorBuy");
         
-        btnLeaveVendor = new ZButton(eventAdder, "leaveVendor", "Leave Vendor", 0, windowBottom-(btnHeight/2), btnWith, btnHeight/2);
+        btnLeaveVendor = new ZButton( "Leave Vendor", 0, windowBottom-(btnHeight/2), btnWith, btnHeight/2, eventAdder, "leaveVendor");
         
         GlobalStateManager.getInstance().updateCurrentState("town");    
     }

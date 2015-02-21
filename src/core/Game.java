@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import combat.Combat;
 import combat.Enemy;
 import player.Player;
 import player.Quest;
+import worldmap.WorldMap;
 import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
@@ -34,9 +36,9 @@ import gui.WorldMapViewer;
 /**
  * Game Class for project Mercury, holds main method.
  * 
- * @author	Anton Andrén & Mattias Benngård & Martin Claesson
- * @version	0.35 pre-alpha
- * @since	2015-02-16
+ * @author	Anton Andrén & Mattias Benngård & Martin Claesson & Daniel Edsinger
+ * @version	0.38a pre-alpha
+ * @since	2015-02-21
  * 
  * Main Class for the mercury project.
  * 
@@ -219,15 +221,32 @@ public class Game implements MouseListener
      */
 	private void eventHandler (String s) {
 		System.out.println("Event: " + s);
-		try {
-			this.getClass().getMethod(s).invoke(this);
-		} catch (NoSuchMethodException nsme) {
-			nsme.printStackTrace();			
-		} catch (IllegalAccessException iae) {
-			iae.printStackTrace();
-		} catch (InvocationTargetException ite) {
-			ite.printStackTrace();
+		String[] g = s.split(",");
+		
+		switch (g.length){
+			case 1:
+				try {
+					this.getClass().getMethod(s).invoke(this);
+				} catch (NoSuchMethodException nsme) {
+					nsme.printStackTrace();			
+				} catch (IllegalAccessException iae) {
+					iae.printStackTrace();
+				} catch (InvocationTargetException ite) {
+					ite.printStackTrace();
+				}
+				break;
+			
+			case 2:	//With string parameter
+				try {
+					this.getClass().getMethod(g[0], String.class).invoke(this, g[1]);
+			} catch (IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException
+					| SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 	}
 	
 	private void removeContainer (ZContainer z) {
@@ -265,6 +284,7 @@ public class Game implements MouseListener
     	characterCreationViewer = null;
     	mainMenuViewer = new MainMenuViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
     	drawables.add(mainMenuViewer);
+    	GlobalStateManager.getInstance().updateWorldState("Location", "townTown");
     }
     
     /**
@@ -332,7 +352,27 @@ public class Game implements MouseListener
 		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities);
 		drawables.add(worldMapViewer);
 	}
-	    
+    
+    /**
+     * Select zone from map. If you are currently on selected area, enter it.
+     * @param area
+     */
+    public void selectArea(String area){
+    	
+		if(GlobalStateManager.getInstance().getWorldState("Location").equals(area))
+		{
+			System.out.println("You entered: " + area);
+			if(GlobalStateManager.getInstance().getWorldState("Location").startsWith("combat")) {
+				sceneCombat();
+			}else if(GlobalStateManager.getInstance().getWorldState("Location").startsWith("town")){
+				sceneTown();
+			}
+		}else{
+			WorldMap world = GameDataManager.getInstance().getWorldMap();
+			world.selectArea(area);
+		}
+	}
+	
     /**
      * 
      */

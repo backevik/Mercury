@@ -2,7 +2,6 @@ package gui;
 
 import java.util.List;
 
-import core.Drawable;
 import core.EventAdder;
 import core.GlobalStateManager;
 import player.Playable;
@@ -11,16 +10,15 @@ import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
 import combat.Enemy;
-import core.Entity;
 import database.GameDataManager;
 
 /**
  * Combat is a subclass of JFrame for re-rendering the current JFrame
  * to this GUI if combat occurs.
  *
- * @author Andreas Bäckevik
- * @version 0.1
- * @since 2015-01-30
+ * @author Andreas Bäckevik	& Daniel Edisnger
+ * @version 0.3.1
+ * @since 2015-02-21
  */
 
 public class CombatViewer extends ZContainer implements ZDrawable
@@ -41,36 +39,39 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	 * The constructor of Combat creates all the necessary components and adding relevant player spells.
 	 * It also sets actionListeners to work with the game-logic.
 	 */
-	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Enemy enemies) {
-		super(eventAdder,GameDataManager.getInstance().getImage("bgDefault.jpg"), 0, 0, entities);
+	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players,  Enemy enemies) {
+		super(GameDataManager.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);
 		this.player = players;
 		this.enemy = enemies;
 		
 		GlobalStateManager.getInstance().updateCurrentState("InCombat");
 		
-		ZButton atkbtn = new ZButton(eventAdder, "attack", "Attack", 0, 413, 122, 81);
+		ZButton atkbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatAttack.jpg"), 0, 440, eventAdder, "attack");
 		components.add(atkbtn);
 		entities.add(atkbtn);
 		
-		ZButton spellbtn = new ZButton(eventAdder, "spell","Spell", 120, 413, 122, 81);
+		ZButton spellbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatSpell.jpg"), 0, 520, eventAdder, "spell");
 		components.add(spellbtn);
 		entities.add(spellbtn);
 		
-		ZButton itembtn = new ZButton(eventAdder, "combat, playerItem, String", "Items", 0, 491, 122, 81);
+		ZButton itembtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatItem.jpg"), 120, 440, eventAdder, "combat, playerItem, String");
 		components.add(itembtn);
 		entities.add(itembtn);
 		
-		ZButton retreatbtn = new ZButton(eventAdder, "sceneWorldMap", "Retreat", 120, 491, 122, 81);
+		ZButton retreatbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "sceneWorldMap");
 		components.add(retreatbtn);
 		entities.add(retreatbtn);
 		
-		ZButton enemyhp = new ZButton(eventAdder, "NONE", ""+enemy.getValueOfVital("Health"), 240, 0,292, 93);
+		//GUI to add
+		/*
+		ZButton enemyhp = new ZButton(GameDataManager.getInstance().getImage("gui.jpg"), 0, 413, eventAdder, "NONE");
 		components.add(enemyhp);
-		ZButton playerhp = new ZButton(eventAdder, "NONE",""+player.getValueOfVital("Health"),240, 492, 292, 80);
+		ZButton playerhp = new ZButton(GameDataManager.getInstance().getImage("gui.jpg"), 0, 413, eventAdder, "NONE");
 		components.add(playerhp);
-		ZButton playermana = new ZButton(eventAdder, "NONE",""+player.getValueOfVital("Energy"),240, 471, 292, 23);
+		ZButton playermana = new ZButton(GameDataManager.getInstance().getImage("gui.jpg"), 0, 413, eventAdder, "NONE");
 		components.add(playermana);
-		ZButton enemymana = new ZButton(eventAdder, "NONE",""+enemy.getValueOfVital("Energy"),240, 100, 292, 33);
+		ZButton enemymana = new ZButton(GameDataManager.getInstance().getImage("gui.jpg"), 0, 413, eventAdder, "NONE");
 		components.add(enemymana);
+		*/
 	}
 }

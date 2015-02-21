@@ -86,13 +86,13 @@ public class Combat implements RealTime {
 			if(spell.getName().equals(name)){
 				if((enemy.getValueOfVital("Energy")-spell.getEnergyCost())>=0){
 					if(spell.getType().equals("heal")){
-						System.out.println(enemy.getName()+" casted spell "+name+" that healed: "+enemy.healVital("Health", spell.getEffect())+" on "+enemy.getName()); // Supposed to write to log here
+						System.out.println(enemy.getName()+" casted spell "+name+" that healed: "+enemy.healVital("Health", spell.getspellPower())+" on "+enemy.getName()); // Supposed to write to log here
 					}else{
-						if((player.getValueOfVital("Health")-spell.getEffect())<=0){
+						if((player.getValueOfVital("Health")-spell.getspellPower())<=0){
 							playerDeath();
 						}else{
-							player.reduceVital("Health", spell.getEffect());		
-							System.out.println(enemy.getName()+" casted spell "+name+" that damaged: "+spell.getEffect()+" on "+player.getName()); //Write to log
+							player.reduceVital("Health", spell.getspellPower());		
+							System.out.println(enemy.getName()+" casted spell "+name+" that damaged: "+spell.getspellPower()+" on "+player.getName()); //Write to log
 						}
 					}
 					enemy.reduceVital("Energy", spell.getEnergyCost());
@@ -145,19 +145,19 @@ public class Combat implements RealTime {
 				if(spell.getName().equals(name)){ //Check for correct spell
 					if((player.getValueOfVital("Energy")-spell.getEnergyCost())>=0){ //Check if char has Energy for spell
 						if(spell.getType().equals("heal")){ //Check if spell is a heal
-							System.out.println(player.getName()+" casted spell "+name+" that healed: "+player.healVital("Health", spell.getEffect())+" on "+player.getName()); // Supposed to write to log here
+							System.out.println(player.getName()+" casted spell "+name+" that healed: "+player.healVital("Health", spell.getspellPower())+" on "+player.getName()); // Supposed to write to log here
 							player.reduceVital("Energy", spell.getEnergyCost());
 							enemyTurn();
 							System.out.println("Enemy turn!"); //Supposed to write to log here
 							enemyNextMove();
 						}else{
-							if((enemy.getValueOfVital("Health")-spell.getEffect())<=0){ //check if attacked person dies or not
+							if((enemy.getValueOfVital("Health")-spell.getspellPower())<=0){ //check if attacked person dies or not
 								enemyDeath();
 								break;
-							}else if((enemy.getValueOfVital("Health")-spell.getEffect())>0){
-								enemy.reduceVital("Health", spell.getEffect());
+							}else if((enemy.getValueOfVital("Health")-spell.getspellPower())>0){
+								enemy.reduceVital("Health", spell.getspellPower());
 								player.reduceVital("Energy", spell.getEnergyCost());
-								System.out.println(player.getName()+" casted spell "+name+" that damaged: "+spell.getEffect()+" on "+enemy.getName()); //Write to log
+								System.out.println(player.getName()+" casted spell "+name+" that damaged: "+spell.getspellPower()+" on "+enemy.getName()); //Write to log
 								player.reduceVital("Energy", spell.getEnergyCost());
 								enemyTurn();
 								System.out.println("Enemy turn!"); //Supposed to write to log here

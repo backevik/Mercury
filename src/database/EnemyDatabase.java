@@ -7,7 +7,7 @@ import combat.Enemy;
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
  * @version		0.3.2
- * @since		2015-02-20
+ * @since		2015-02-21
  */
 
 public class EnemyDatabase
@@ -16,13 +16,14 @@ public class EnemyDatabase
 	
 	public EnemyDatabase(){
 		//Add enemies to list
+		
 	}
 
 	/**
 	 * return item from list base from name of item
 	 * @return
 	 */
-	public Enemy getItems(String enemyName) {
+	public Enemy getEnemy(String enemyName) {
 		return items.get(enemyName);
 	}
 }

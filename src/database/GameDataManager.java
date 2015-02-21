@@ -3,15 +3,15 @@ package database;
 import java.awt.Image;
 
 import combat.Enemy;
-
 import player.Quest;
+import worldmap.WorldMap;
 import character.Item;
 import character.Spell;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
  * @version		0.3.2
- * @since		2015-02-20
+ * @since		2015-02-21
  */
 
 public class GameDataManager 
@@ -23,6 +23,7 @@ public class GameDataManager
 	private SpellDatabase spells;
 	private ImageDatabase images;
 	private EnemyDatabase enemies;
+	private WorldMap world;
 	
 	public static final int QUEST_STATE = 0;
 	public static final int SPELL_STATE = 1;
@@ -34,6 +35,7 @@ public class GameDataManager
 		items = new ItemDatabase();
 		images = new ImageDatabase();
 		enemies = new EnemyDatabase();
+		world = new WorldMap();
 	}
 	
 	/**
@@ -75,6 +77,15 @@ public class GameDataManager
 	}
 	
 	/**
+	 * Return enemy from list
+	 * @param enemyName
+	 * @return
+	 */
+	public Enemy getEnemy(String enemyName) {
+		return enemies.getEnemy(enemyName);
+	}
+	
+	/**
 	 * Return the image based on the image name
 	 * @param imgName
 	 * @return Image
@@ -83,8 +94,8 @@ public class GameDataManager
 		return images.getImage(imgName);
 	}
 	
-	
-	public Enemy getEnemy(String enemyName){
-		return enemies.getItems(enemyName);
+	public WorldMap getWorldMap() {
+		return world;
 	}
+	
 }
