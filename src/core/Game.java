@@ -236,15 +236,18 @@ public class Game implements MouseListener
 				}
 				break;
 			
-			case 2:	//With string parameter
+			case 2:	//Method with string parameter
 				try {
-					this.getClass().getMethod(g[0], String.class).invoke(this, g[1]);
+					this.getClass().getMethod(g[0], String.class).invoke(this, g[1]); //ex: methodName = g[0]  stringArg = g[1],  methodName(stringArg);
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException
 					| SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			default:
+				break;
 		}
 		
 	}
