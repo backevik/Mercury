@@ -1,21 +1,17 @@
 package vendor;
 
 import java.util.HashMap;
-import java.util.Set;
 
-import character.Item;
+import items.Item;
 import database.GameDataManager;
-import database.ItemDatabase;
-import player.Inventory;
-import player.Playable;
 import player.Player;
+
 /**
- * 
  * @author Martin Claesson
  * @version 0.4
  * @since 2015-02-21
- *
  */
+
 public class Vendor 
 {
 	private Player player;

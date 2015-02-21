@@ -1,6 +1,6 @@
 package player;
 
-import character.Item;
+import items.Item;
 
 /**
  * @author      Mattias Benngård	<mbengan@gmail.com>

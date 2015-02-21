@@ -9,7 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,15 +57,15 @@ public class Game implements MouseListener
 	private boolean isRunning = true;
     
     //Rate for updates/s and expected time per update.
-    private static final double GAME_UPDATE_RATE			= 30.0;
-    private static final double TARGET_TIME_BETWEEN_UPDATES = 1000_000_000.0 / GAME_UPDATE_RATE;
+	public static final double GAME_UPDATE_RATE			= 30.0;
+	public static final double TARGET_TIME_BETWEEN_UPDATES = 1000_000_000.0 / GAME_UPDATE_RATE;
     
     //Allow update to play catch up for MAX times.
-    private static final int MAX_UPDATES_BEFORE_RENDER 		= 7;
+	public static final int MAX_UPDATES_BEFORE_RENDER 		= 7;
     
     //Rate for renders/s and expected time per render
-    private static final double TARGET_GAME_RENDER_RATE 	= 24.0;
-    private static final double TARGET_TIME_BETWEEN_RENDERS = 1000_000_000.0 / TARGET_GAME_RENDER_RATE;
+	public static final double TARGET_GAME_RENDER_RATE 	= 24.0;
+	public static final double TARGET_TIME_BETWEEN_RENDERS = 1000_000_000.0 / TARGET_GAME_RENDER_RATE;
     
     // interface lists
     private final List<ZDrawable> drawables = new ArrayList<>();

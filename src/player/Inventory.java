@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import character.Item;
+import items.Item;
 
 /**
  * @author      Mattias Benngård	<mbengan@gmail.com>

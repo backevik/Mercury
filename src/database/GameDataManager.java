@@ -5,7 +5,7 @@ import java.awt.Image;
 import combat.Enemy;
 import player.Quest;
 import worldmap.WorldMap;
-import character.Item;
+import items.Item;
 import character.Spell;
 
 /**

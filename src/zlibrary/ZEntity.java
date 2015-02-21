@@ -18,6 +18,7 @@ public abstract class ZEntity extends ZComponent implements ZDrawable
 {
 	private EventAdder eventAdder;
 	private String eventOnClick;
+	@SuppressWarnings("unused")
 	private boolean hover;
 	
 	protected void setEventAdder (EventAdder eventAdder) {

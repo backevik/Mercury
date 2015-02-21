@@ -1,4 +1,4 @@
-package character;
+package items;
 
 import java.io.Serializable;
 
@@ -17,14 +17,13 @@ public abstract class Item implements Serializable
 	private String description;
 	private int maxStackSize;
 	private int sellPrice;
-	private int charges;
 		
-	public Item (String name, String description, int maxStackSize, int sellPrice, int charges) {
+	public Item (String name, String description, int maxStackSize,
+			int sellPrice) {
 		this.name = name;
 		this.description = description;
 		this.maxStackSize = maxStackSize;
 		this.sellPrice = sellPrice;
-		this.charges = charges;
 	}
 	
 	public String getName () {
@@ -42,14 +41,6 @@ public abstract class Item implements Serializable
 	public int getSellPrice () {
 		return sellPrice;
 	}
-	
-	public int getCharges () {
-		return charges;
-	}
-	
-	public void reduceCharges(){ //Move this later
-		charges --;
-	}
 
-	public abstract void use();
+	public abstract String use();
 }
