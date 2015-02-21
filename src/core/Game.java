@@ -438,6 +438,9 @@ public class Game implements MouseListener
 		player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
 		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),"fireball");
 	}
+	public void nextTurn(){
+		combat.nextTurn();
+	}
 	
 	/**
 	 * 
