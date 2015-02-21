@@ -22,7 +22,7 @@ public class Encounter {
 		Enemy enemy = new Enemy("Big evil tomato",1); //temp tills vi har en enemy database
 		enemy.getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
 		enemy.getSpellBook().addSpell(new Spell("heal","helar dig",10,"heal",20));
-    		enemy.getSpellBook().addSpell(GameDataManager.getInstance().getSpells(event));
+    	
 		enemies.add(enemy);
 	}
 	
