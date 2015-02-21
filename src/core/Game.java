@@ -16,7 +16,9 @@ import java.util.List;
 import database.GameDataManager;
 import character.Spell;
 import combat.Combat;
+import combat.Encounter;
 import combat.Enemy;
+import player.Playable;
 import player.Player;
 import player.Quest;
 import worldmap.WorldMap;
@@ -36,7 +38,7 @@ import gui.WorldMapViewer;
 /**
  * Game Class for project Mercury, holds main method.
  * 
- * @author	Anton Andrén & Mattias Benngård & Martin Claesson & Daniel Edsinger
+ * @author	Anton AndrÃ©n & Mattias BenngÃ¥rd & Martin Claesson & Daniel Edsinger
  * @version	0.38a pre-alpha
  * @since	2015-02-21
  * 
@@ -95,6 +97,10 @@ public class Game implements MouseListener
 	private CombatViewer combatViewer;
 	
 	private QuestLogViewer questLogViewer;
+	
+	private List<Playable> players;
+	
+	private Encounter encounter;
 	    
     /**
      * public Game
@@ -331,6 +337,7 @@ public class Game implements MouseListener
     	player.getQuestLog().addQuest(new Quest("Second Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
     	player.getQuestLog().addQuest(new Quest("Third Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
     	GlobalStateManager.getInstance().updateWorldState("CharacterExists", "true");
+    	
     	eventQueue.getEventAdder().add("sceneWorldMap");
     }
     
@@ -398,10 +405,12 @@ public class Game implements MouseListener
     public void sceneCombat(){
     	removeContainer(worldMapViewer);
     	worldMapViewer = null;
-    	//if(zoneName.equals("a2")){
-    		enemy = new Enemy("Bengan",2);
-    	//}
-    	combat = new Combat(player.getPC(), enemy, eventQueue.getEventAdder());
+    	players = new ArrayList<>();
+    	players.add(player.getPC());
+    	encounter = new Encounter("Victory");
+    	player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
+    	player.getPC().getSpellBook().addSpell(new Spell("heal","helar dig",10,"heal",20));
+    	combat = new Combat(players, encounter, eventQueue.getEventAdder());
     	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),enemy);
     	drawables.add(combatViewer);
     }
@@ -423,11 +432,11 @@ public class Game implements MouseListener
 	 * TEMP
 	 */
 	public void attack(){
-		combat.playerAttack();
+		combat.attackCheck(player.getPC(),encounter.getEnemies().get(0));
 	}
 	public void spell(){
 		player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
-		combat.playerSpell("fireball");
+		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),"fireball");
 	}
 	
 	/**
