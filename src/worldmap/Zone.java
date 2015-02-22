@@ -2,21 +2,24 @@ package worldmap;
 
 import java.util.HashMap;
 
+import constants.Directions;
+
 /**
 * @author	Daniel Edsinger <danieledsinger@hotmail.com>
-* @version	0.3.2
+* @version	0.5				<2015-02-22>
 * @since	2015-02-21
 */
+
 public class Zone
 {
 	private String zoneName;
 	private HashMap<String, Zone> routes = new HashMap<>();
 	
-	public Zone(String name){
+	public Zone (String name) {
 		this.zoneName = name;
 	}
 	
-	public String getName(){
+	public String getName () {
 		return zoneName;
 	}
 	
@@ -26,15 +29,13 @@ public class Zone
 	 * @param direction
 	 * @param other
 	 */
-	public void connect( String direction, Zone other)
-	{
-		Directions directions = Directions.getInstance();
-        if (! routes.containsKey(direction) ) 
-        {
+	public void connect (String direction, Zone other) {
+        if (! routes.containsKey(direction) ) {
             // Connect forwards
             routes.put(direction,other);
+            
             // Connect backwards
-            other.connect(directions.opposite(direction),this);
+            other.connect(Directions.opposite(direction),this);
         }
 	}
 	
@@ -45,14 +46,8 @@ public class Zone
 	 * @return	true if the buttons are connected
 	 * 			false otherwise
 	 */
-	public boolean isConnected(Zone other)
-	{
-		if(routes.containsValue(other))
-		{
-			return true;
-		}else{
-			return false;
-		}
+	public boolean isConnected (Zone other) {
+		return routes.containsValue(other);
 	}
 	
 	/**
@@ -61,8 +56,7 @@ public class Zone
 	 * @return	Zone if zones are connected in the chosen direction
 	 * 			false if no zone connected
 	 */
-	public Zone getNextZone(String direction)
-	{
+	public Zone getNextZone (String direction) {
 		return routes.get(direction);
 	}
 }
