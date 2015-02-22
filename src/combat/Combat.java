@@ -11,13 +11,14 @@ import character.Character;
 import character.Spell;
 
 /**
- * @author      Andreas BÃƒÂ¤ckevik
+ * @author      Andreas BÃƒÆ’Ã‚Â¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
 
 public class Combat implements RealTime {
 	private boolean turn;
+	private boolean energy = true;
 	private Random rand;
 	private LinkedList<Character> turnList;
 	private Character currentChar;
@@ -92,16 +93,24 @@ public class Combat implements RealTime {
 		}
 		
 		for(Spell spell : src.getSpellBook().getSpells()){
-			if(spell.getName().equals(spellName) && spell.getType().equals("heal") && energyCheck(spell)){
+			if(spell.getName().equals(spellName) && spell.getType().equals("heal") && energyCheck(spell.getName())){
 				src.reduceVital("Energy", spell.getEnergyCost());
 				System.out.println(src.getName()+" healed "+dest.getName()+" for "+src.healVital("Health", spell.getspellPower())+" health");
 				break;
-			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell)){
+			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell.getName())){
 				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
 				deathCheck(dest,spell.getspellPower());
 				dest.reduceVital("Health", spell.getspellPower());
 				src.reduceVital("Energy", spell.getEnergyCost());
 				break;
+			}else{
+				if(currentChar instanceof Enemy){
+					attack(currentChar,players.get(0));
+					break;
+				}else{
+					energy = false;
+					break;
+				}
 			}
 		}
 	}
@@ -109,7 +118,11 @@ public class Combat implements RealTime {
 	public void spellCheck(Character src,Character dest,String spellName){
 		if(currentChar instanceof Playable && turn==true){
 			spell(src,dest,spellName);
-			turn = false;
+			if(energy==true){
+				turn = false;
+			}else{
+				System.out.println("Not enough energy.");
+			}
 		}else if(currentChar instanceof Enemy && turn==false){
 			spell(src,dest,spellName);
 		}
@@ -171,13 +184,15 @@ public class Combat implements RealTime {
 		}
 	}
 	
-	private boolean energyCheck(Spell spell){
-		if((currentChar.getValueOfVital("Energy")-spell.getEnergyCost())<=0){
-			System.out.println("Not enough energy.");
-			return false;
-		}else{
-			return true;
+	private boolean energyCheck(String spellName){
+		for(Spell spell : currentChar.getSpellBook().getSpells()){
+			if(spell.getName().equals(spellName) && (currentChar.getValueOfVital("Energy")-spell.getEnergyCost())<0){
+				return false;
+			}else{
+				return true;
+			}
 		}
+		return false;
 	}
 	
 	/**
@@ -207,17 +222,17 @@ public class Combat implements RealTime {
 	private void enemyNextMove(){
 		if(currentChar.getValueOfVital("Health")<(currentChar.getMaxOfVital("Health")/3)){
 			for(Spell spell : currentChar.getSpellBook().getSpells()){
-				if(spell.getName().equals("heal")){
+				if(spell.getName().equals("heal") && energyCheck(spell.getName())){
 					spell(currentChar,currentChar,"heal");
 					nextTurn();
 				}
 			}
 		}else{
-			if(rand.nextInt(2)+1==1){
-				attack(currentChar,players.get(0));
+			if(rand.nextInt(2)+1==1 && energyCheck("fireball")){
+				spell(currentChar,players.get(0),"fireball");
 				nextTurn();
 			}else{
-				spell(currentChar,players.get(0),"fireball");
+				attack(currentChar,players.get(0));
 				nextTurn();
 			}
 		}
