@@ -6,7 +6,6 @@ import java.util.List;
 
 import player.QuestLog;
 import zlibrary.ZButton;
-import zlibrary.ZComponent;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import zlibrary.ZImage;
@@ -50,7 +49,7 @@ public class QuestLogViewer extends ZContainer
 		ZText title = new ZText ("Quest Log", x+PADDING, y+PADDING, 20);
 		components.add(title);
 		
-		ZButton backToGame = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerQuit.jpg"), x+576,y+7, eventAdder, "questLogViewerToggle");
+		ZButton backToGame = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerQuit.jpg"), x+576,y+7, eventAdder, "questLogToggle");
     	components.add(backToGame);
     	entities.add(backToGame);
 		

@@ -26,6 +26,7 @@ import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
 import zlibrary.ZPopup;
 import gui.CharacterCreationViewer;
+import gui.CharacterStatisticsViewer;
 import gui.CombatViewer;
 import gui.CreditsViewer;
 import gui.LoadGameViewer;
@@ -95,6 +96,7 @@ public class Game implements MouseListener
 	
 	private CombatViewer combatViewer;
 	
+	private CharacterStatisticsViewer characterStatisticsViewer;
 	private QuestLogViewer questLogViewer;
 	
 	private List<Playable> players;
@@ -226,35 +228,29 @@ public class Game implements MouseListener
      */
 	private void eventHandler (String s) {
 		System.out.println("Event: " + s);
-		String[] g = s.split(",");
+		String[] a = s.split(",");
 		
-		switch (g.length){
+		switch (a.length){
 			case 1:
 				try {
 					this.getClass().getMethod(s).invoke(this);
-				} catch (NoSuchMethodException nsme) {
-					nsme.printStackTrace();			
-				} catch (IllegalAccessException iae) {
-					iae.printStackTrace();
-				} catch (InvocationTargetException ite) {
-					ite.printStackTrace();
+				} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+					e.printStackTrace();
 				}
 				break;
 			
 			case 2:	//Method with string parameter
 				try {
-					this.getClass().getMethod(g[0], String.class).invoke(this, g[1]); //ex: methodName = g[0]  stringArg = g[1],  methodName(stringArg);
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException
-					| SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+					this.getClass().getMethod(a[0], String.class).invoke(this, a[1]); //ex: methodName = a[0]  stringArg = a[1],  methodName(stringArg);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					e.printStackTrace();
+				}
 			
 			default:
 				break;
-		}
-		
+		}		
 	}
 	
 	private void removeContainer (ZContainer z) {
@@ -279,13 +275,12 @@ public class Game implements MouseListener
 	}
 	
 	/**
-     * 
+     * Method for popup window, removes all active events when turned on. Returns them when turned off.
      */
     public void popupWindow () {
     	popup = new ZPopup ("This is a test popup!", "ok", eventQueue.getEventAdder(), entities);
     	drawables.add(popup);
-    }
-    
+    }    
     public void popupWindowOff () {
     	for (ZEntity e : popup.remove ()) {
     		entities.add(e);
@@ -295,7 +290,7 @@ public class Game implements MouseListener
     }
     
 	/**
-	 * 
+	 * Title Scene
 	 */
 	public void sceneMainMenu () {
 		removeContainer (characterCreationViewer);
@@ -310,7 +305,7 @@ public class Game implements MouseListener
     }
     
     /**
-	 * 
+	 * Create Character Scene
 	 */
     public void sceneCharacterCreation () {
     	removeContainer (mainMenuViewer);
@@ -320,7 +315,7 @@ public class Game implements MouseListener
     }
 
     /**
-	 * 
+	 * Load Game Scene
 	 */
     public void sceneLoadGame () {
     	removeContainer (mainMenuViewer);
@@ -330,7 +325,7 @@ public class Game implements MouseListener
     }
     
     /**
-	 * 
+	 * Credits Scene
 	 */
     public void sceneCredits () {
     	removeContainer (mainMenuViewer);
@@ -340,7 +335,7 @@ public class Game implements MouseListener
     }
     
     /**
-     * 
+     * Creates the player, adds the first quest.
      */
     public void createCharacter () {
     	removeContainer (characterCreationViewer);
@@ -358,7 +353,7 @@ public class Game implements MouseListener
 	 * Render world map when returning from combat
 	 */
     public void sceneWorldMap (){
-    	switch(GlobalStateManager.getInstance().getCurrentState()){
+    	switch (GlobalStateManager.getInstance().getCurrentState()){
 			case "InCombat":	
 				removeContainer(combatViewer);
 				combatViewer = null;
@@ -380,17 +375,15 @@ public class Game implements MouseListener
      * Select zone from map. If you are currently on selected area, enter it.
      * @param area
      */
-    public void selectArea(String area){
-    	
-		if(GlobalStateManager.getInstance().getWorldState("Location").equals(area))
-		{
+    public void selectArea(String area) {    	
+		if (GlobalStateManager.getInstance().getWorldState("Location").equals(area)) {
 			System.out.println("You entered: " + area);
-			if(GlobalStateManager.getInstance().getWorldState("Location").startsWith("combat")) {
+			if (GlobalStateManager.getInstance().getWorldState("Location").startsWith("combat")) {
 				sceneCombat();
-			}else if(GlobalStateManager.getInstance().getWorldState("Location").startsWith("town")){
+			} else if (GlobalStateManager.getInstance().getWorldState("Location").startsWith("town")){
 				sceneTown();
 			}
-		}else{
+		} else {
 			WorldMap world = GameDataManager.getInstance().getWorldMap();
 			world.selectArea(area);
 		}
@@ -399,7 +392,7 @@ public class Game implements MouseListener
     /**
      * 
      */
-    public void sceneTown(){
+    public void sceneTown() {
     	switch(GlobalStateManager.getInstance().getCurrentState()){
     		case "WorldMap":
     			removeContainer(worldMapViewer);
@@ -429,9 +422,25 @@ public class Game implements MouseListener
     }
     
     /**
-     * 
+     * Toggles Character Statistics page on and off
      */
-	public void questLogViewerToggle () {
+    public void characterStatisticsToggle () {
+    	if (characterStatisticsViewer == null) {
+    		characterStatisticsViewer = new CharacterStatisticsViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities);
+    		drawables.add(characterStatisticsViewer);
+    	} else {
+    		for (ZEntity e : characterStatisticsViewer.getEntities ()) {
+        		entities.add(e);
+        	}
+    		removeContainer (characterStatisticsViewer);
+    		characterStatisticsViewer = null;
+    	}
+    }
+    
+    /**
+     * Toggles Quest Log page on and off
+     */
+	public void questLogToggle () {
     	if (questLogViewer == null) {
     		questLogViewer = new QuestLogViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getQuestLog());
     		drawables.add(questLogViewer);
@@ -457,15 +466,9 @@ public class Game implements MouseListener
 	public void nextTurn(){
 		combat.nextTurn();
 	}
-	
-	/**
-	 * 
-	 */
-	public void leaveTown () {
-	}
     
     /**
-	 *
+	 * Exits Game
 	 */
 	public void exitGame () {
     	System.exit(0);

@@ -1,14 +1,15 @@
 package gui;
 
+import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
 
+import zlibrary.ZAnimation;
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
-
 import core.EventAdder;
 import core.GlobalStateManager;
-
 import database.GameDataManager;
 
 /**
@@ -41,5 +42,13 @@ public class WorldMapViewer extends ZContainer {
 		components.add(btnGrass);
 		entities.add(btnGrass);
 
+		
+		
+		
+		List<Image> kek = new ArrayList<>();
+		kek.add(GameDataManager.getInstance().getImage("btnZone.jpg"));
+		kek.add(GameDataManager.getInstance().getImage("btnZoneOn.jpg"));
+		ZAnimation bur = new ZAnimation(kek, 300, 300, 0);
+		components.add(bur);
 	}
 }

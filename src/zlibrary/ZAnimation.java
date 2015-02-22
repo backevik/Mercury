@@ -20,7 +20,7 @@ public class ZAnimation extends ZImage implements RealTime
 	}
 
 	@Override
-	public void update() {
+	public void update () {
 		updatesLeftToIncrementIndex--;
 		
 		if (updatesLeftToIncrementIndex <= 0) {
