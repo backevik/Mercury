@@ -11,7 +11,7 @@ import character.Character;
 import character.Spell;
 
 /**
- * @author      Andreas BÃ¤ckevik
+ * @author      Andreas BÃƒÂ¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
@@ -81,11 +81,9 @@ public class Combat implements RealTime {
 			if(src instanceof Playable){
 			dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
 			}
-			
-			dest.reduceVital("Health", src.getValueOfSkill("Attack"));
 			System.out.println(src.getName()+" hit "+dest.getName()+" for "+src.getValueOfSkill("Attack")+" damage");
-			turn=false;
 			deathCheck(dest,src.getValueOfSkill("Attack"));
+			dest.reduceVital("Health", src.getValueOfSkill("Attack"));
 	}
 	
 	public void spell(Character src,Character dest,String spellName){
@@ -97,16 +95,13 @@ public class Combat implements RealTime {
 			if(spell.getName().equals(spellName) && spell.getType().equals("heal") && energyCheck(spell)){
 				src.reduceVital("Energy", spell.getEnergyCost());
 				System.out.println(src.getName()+" healed "+dest.getName()+" for "+src.healVital("Health", spell.getspellPower())+" health");
-				turn=false;
 				break;
 			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell)){
+				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
+				deathCheck(dest,spell.getspellPower());
 				dest.reduceVital("Health", spell.getspellPower());
 				src.reduceVital("Energy", spell.getEnergyCost());
-				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
-				turn=false;
-				deathCheck(dest,spell.getspellPower());
 				break;
-				
 			}
 		}
 	}
@@ -123,6 +118,7 @@ public class Combat implements RealTime {
 	public void attackCheck(Character src,Character dest){
 		if(currentChar instanceof Playable && turn==true){
 			attack(src,dest);
+			turn = false;
 		}else if(currentChar instanceof Enemy && turn==false){
 			attack(src,dest);
 		}
@@ -158,12 +154,12 @@ public class Combat implements RealTime {
 	}
 
 	public void deathCheck(Character c,double damage){
-		if((c.getValueOfVital("Health")-damage)<0 && c instanceof Playable){
+		if((c.getValueOfVital("Health")-damage)<=0 && c instanceof Playable){
 			GlobalStateManager.getInstance().updateCurrentState("InCombat_dead");
 			System.out.println(c.getName()+" died! The fight is lost");
 			currentChar = null;
 			eventAdder.add("sceneTown");
-		}else if((c.getValueOfVital("Health")-damage)<0 && c instanceof Enemy){
+		}else if((c.getValueOfVital("Health")-damage)<=0 && c instanceof Enemy){
 			GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getWorldState("Location"), "clear");
 			players.get(0).addExp(c.getLevel()*5);
 			if(c.getLevel()*5>players.get(0).getExpTnl()){
