@@ -22,7 +22,7 @@ public abstract class ZComponent implements ZDrawable
 		return image;
 	}
 	
-	public void setImage (Image image) {
+	protected void setImage (Image image) {
 		this.image = image;
 	}
 	
@@ -30,7 +30,7 @@ public abstract class ZComponent implements ZDrawable
 		return x;
 	}
 	
-	public void setX (int x) {
+	protected void setX (int x) {
 		this.x = x;
 	}
 	
@@ -38,7 +38,7 @@ public abstract class ZComponent implements ZDrawable
 		return y;
 	}
 	
-	public void setY (int y) {
+	protected void setY (int y) {
 		this.y = y;
 	}
 

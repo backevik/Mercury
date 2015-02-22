@@ -2,20 +2,14 @@ package gui;
 
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
-import worldmap.WorldMap;
-import worldmap.Zone;
 import zlibrary.ZAnimation;
 import zlibrary.ZButton;
-import zlibrary.ZComponent;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import core.EventAdder;
 import core.GlobalStateManager;
-import core.RealTime;
 import database.GameDataManager;
 
 /**
@@ -24,26 +18,18 @@ import database.GameDataManager;
  * @since		2015-02-21
  */
 
-public class WorldMapViewer extends ZContainer implements RealTime {
+public class WorldMapViewer extends ZContainer {
 
-	private WorldMap worldMap;
-	
 	private ZButton btnTown;
 	private ZButton btnForest;
 	private ZButton btnGrass;
 	
-	public WorldMapViewer(EventAdder eventAdder, List<ZEntity> entities, WorldMap worldMap) {
+	public WorldMapViewer(EventAdder eventAdder,List<ZEntity> entities) {
 		super(GameDataManager.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
-		
-		this.worldMap = worldMap;
 		
 		GlobalStateManager.getInstance().updateCurrentState("WorldMap");
 		
-		for (Entry<String, Zone> e: worldMap.getZones().entrySet()) {
-			
-		}
-		
-		// Create all buttons
+		//Create all buttons
 		btnTown = new ZButton(GameDataManager.getInstance().getImage("btnTown.jpg"), 16, 352, eventAdder, "selectArea,townTown");
 		components.add(btnTown);
 		entities.add(btnTown);
@@ -55,16 +41,14 @@ public class WorldMapViewer extends ZContainer implements RealTime {
 		btnGrass = new ZButton(GameDataManager.getInstance().getImage("btnZone.jpg"), 184, 104, eventAdder, "selectArea,combatGrass");
 		components.add(btnGrass);
 		entities.add(btnGrass);
-	}
 
-	@Override
-	public void update() {
-		for (ZComponent z : components) {
-			if (true) {
-				z.setImage(GameDataManager.getInstance().getImage("btnZoneOn.jpg"));
-			} else {
-				z.setImage(GameDataManager.getInstance().getImage("btnZone.jpg"));
-			}
-		}		
+		
+		
+		
+		List<Image> kek = new ArrayList<>();
+		kek.add(GameDataManager.getInstance().getImage("btnZone.jpg"));
+		kek.add(GameDataManager.getInstance().getImage("btnZoneOn.jpg"));
+		ZAnimation bur = new ZAnimation(kek, 300, 300, 0);
+		components.add(bur);
 	}
 }

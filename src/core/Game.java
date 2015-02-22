@@ -81,7 +81,6 @@ public class Game implements MouseListener
 	private Player player;
 	private Combat combat;
 	private Enemy enemy;
-	private WorldMap worldMap;
 	
 	// popup window
 	private ZPopup popup;
@@ -368,9 +367,8 @@ public class Game implements MouseListener
 				characterCreationViewer = null;
 				break;
 		}
-		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities, worldMap);
+		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities);
 		drawables.add(worldMapViewer);
-		realTimes.add(worldMapViewer);
 	}
     
     /**
@@ -386,8 +384,8 @@ public class Game implements MouseListener
 				sceneTown();
 			}
 		} else {
-			worldMap = new WorldMap ();
-			worldMap.selectArea(area);
+			WorldMap world = GameDataManager.getInstance().getWorldMap();
+			world.selectArea(area);
 		}
 	}
 	
@@ -398,12 +396,9 @@ public class Game implements MouseListener
     	switch(GlobalStateManager.getInstance().getCurrentState()){
     		case "WorldMap":
     			removeContainer(worldMapViewer);
-    			realTimes.remove(worldMapViewer);
-    			worldMapViewer = null;
     			break;
     		case "inCombat_dead":
     			removeContainer(combatViewer);
-    			combatViewer = null;
     			break;
     	}
     	townViewer = new TownViewer (entities,eventQueue.getEventAdder());
@@ -415,7 +410,6 @@ public class Game implements MouseListener
      */
     public void sceneCombat(){
     	removeContainer(worldMapViewer);
-    	realTimes.remove(worldMapViewer);
     	worldMapViewer = null;
     	players = new ArrayList<>();
     	players.add(player.getPC());

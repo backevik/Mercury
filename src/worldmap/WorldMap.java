@@ -1,6 +1,5 @@
 package worldmap;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 import core.GlobalStateManager;
@@ -13,18 +12,18 @@ import core.GlobalStateManager;
 
 public class WorldMap
 {
-	private final HashMap<String, Zone> zones = new HashMap<>();
+	private final HashMap<String,Zone> zones = new HashMap<>();
 	
-	public WorldMap () {
+	public WorldMap() {
 		
 		//Create all zones to travel between
-		Zone town = new Zone ("townTown");
+		Zone town = new Zone("townTown");
 		zones.put("townTown", town);
 		
-		Zone forest = new Zone ("combatForest");
+		Zone forest = new Zone("combatForest");
 		zones.put("combatForest", forest);
 		
-		Zone grass = new Zone ("combatGrass");
+		Zone grass = new Zone("combatGrass");
 		zones.put("combatGrass", grass);
 		
 		/**
@@ -36,17 +35,11 @@ public class WorldMap
 	}
 	
 	/**
-	 * 
-	 */
-	public HashMap<String, Zone> getZones () {
-		return (HashMap<String, Zone>) Collections.unmodifiableMap(zones);
-	}
-	
-	/**
 	 * Travel to area. If connected, do so. If not, it's not reachable.
 	 * @param area
 	 */
-	public void selectArea(String area) {		
+	public void selectArea(String area){
+		
 		if( zones.get(GlobalStateManager.getInstance().getWorldState("Location")).isConnected(zones.get(area))) {
 			System.out.println("Change globalWorldState from: " + GlobalStateManager.getInstance().getWorldState("Location") + " To: "+ area);
 			GlobalStateManager.getInstance().updateWorldState("Location", area);
