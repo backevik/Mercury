@@ -1,10 +1,14 @@
 package gui;
-import java.awt.Graphics;
+import items.Item;
+
 import java.util.List;
 
+import vendor.Vendor;
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
+import zlibrary.ZImage;
+import zlibrary.ZText;
 import core.EventAdder;
 import core.GlobalStateManager;
 import database.GameDataManager;
@@ -12,7 +16,7 @@ import database.GameDataManager;
  * Town is a subclass to JFrame
  *
  * @author Martin Claesson
- * @version 0.1, 2015-02-13
+ * @version 0.3, 2015-02-13
  *
  */
 
@@ -20,19 +24,27 @@ public class TownViewer extends ZContainer {
     private final static int windowBottom = 565;
     private final static int btnWith = 122;
     private final static int btnHeight = 82;
+	private final static int PADDING = 10;
+	private final static int ITEM_ICON_SIZE = GameDataManager.getInstance().getImage("bgQuestViewerIcon.jpg").getHeight(null);
+	private final static int TITLE_HEIGHT = 30;
+	private final static int ITEM_DISTANCE = PADDING*2 + ITEM_ICON_SIZE + GameDataManager.getInstance().getImage("bgQuestViewerSeparator.jpg").getHeight(null);
     
-    private ZButton btnVendor;
+	private ZButton btnVendor;
     private ZButton btnLeaveTown;
     private ZButton btnBuy;
     private ZButton btnLeaveVendor;
-    private List<ZEntity> entities;
+    private Vendor 	vendor;// can be removed if reflection can use objects
+    private EventAdder eventAdder; // can be removed if reflection can use objects
     
     /**
      * Constructor creates all components and adds them to drawable and clickable lists
      */
-    public TownViewer( List<ZEntity> entities, EventAdder eventAdder){
+    public TownViewer( List<ZEntity> entities, EventAdder eventAdder){//Vendor vendor needs to be added 
         super(GameDataManager.getInstance().getImage("bgDefault.jpg"),0,0,eventAdder, entities);
-       
+        
+        //this.vendor = vendor;// can be removed if reflection can use objects
+        this.eventAdder = eventAdder;// can be removed if reflection can use objects
+
         btnVendor = new ZButton("Vendor", 0, 0, btnWith, btnHeight, eventAdder, "enterVendor");
         components.add(btnVendor);
         entities.add(btnVendor); 
@@ -41,7 +53,7 @@ public class TownViewer extends ZContainer {
         components.add(btnLeaveTown);
         entities.add(btnLeaveTown);
         
-        btnBuy = new ZButton("Buy", 0, windowBottom-btnHeight, btnWith, (btnHeight/2), eventAdder, "enterTownVendorBuy");
+        btnBuy = new ZButton("Buy", 0, windowBottom-btnHeight, btnWith, (btnHeight/2), eventAdder, "townViewer,enterTownVendorBuy");
         
         btnLeaveVendor = new ZButton( "Leave Vendor", 0, windowBottom-(btnHeight/2), btnWith, btnHeight/2, eventAdder, "leaveVendor");
         
@@ -52,32 +64,31 @@ public class TownViewer extends ZContainer {
      * Removes town GUI and opens Worldmap GUI sets game state to worldmap sholud be moved to game
      */
     public void leaveTown() {
-    	//removeContainer(TownRef);
-    	//worldmap = new Worldmap(arg);
-    	//drawables.add(worldmap);
+    	remove();
     	GlobalStateManager.getInstance().updateCurrentState("WorldMap");
     }
     /**
      * sets the game state to inside town
      */
     public void leaveVendor(){
-    	GlobalStateManager.getInstance().updateCurrentState("town");
+    	remove();
+    	components.add(btnVendor);
+    	components.add(btnLeaveTown);
     	entities.add(btnVendor);
     	entities.add(btnLeaveTown);
-    	entities.remove(btnBuy);
-    	entities.remove(btnLeaveVendor);
-    	//remove text area
+    	GlobalStateManager.getInstance().updateCurrentState("town");
     }
     
     /**
-     * Sets the game state to inside vendor
+     * Sets the game state to inside vendor 
      */
     public void enterVendor(){
+    	remove();
+    	components.add(btnBuy);
+    	components.add(btnLeaveVendor);
     	entities.add(btnBuy);
     	entities.add(btnLeaveVendor);
-    	entities.remove(btnVendor);
-    	entities.remove(btnLeaveTown);
-    	//add text area
+    	//add text area when component is done
     	GlobalStateManager.getInstance().updateCurrentState("townVendor");
     }
     
@@ -85,37 +96,30 @@ public class TownViewer extends ZContainer {
      * sets the game state to inside TownVendorBuy
      */
     public void enterTownVendorBuy(){
-    	if(GlobalStateManager.getInstance().getCurrentState().equals("townVendorBuy")){
-    		entities.add(btnLeaveVendor);
-    		GlobalStateManager.getInstance().updateCurrentState("townVendor");
-    		//remove buttons for items
-    	}else{
-        	GlobalStateManager.getInstance().updateCurrentState("townVendorBuy");
-        	entities.remove(btnLeaveVendor);
-        	//add buttons for items
+    	ZText title = new ZText ("Vendor", PADDING, PADDING, 20);
+		components.add(title);
+		
+		ZButton backToTownVendor = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerQuit.jpg"), 476, 7, eventAdder, "townViewer,enterVendor");//not sure of how reflection works
+    	components.add(backToTownVendor);
+    	entities.add(backToTownVendor);
+		int i =0;
+		String itemName;// used in btnItem
+    	for (Item item : vendor.getItems().keySet()) {
+    		itemName = item.getName();//to send the item name to buyItem method in reflection
+    		ZButton btnItem = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerIcon.jpg"), PADDING, PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, eventAdder,"vendor,buyItem,itemName");
+    		components.add(btnItem);
     		
+    		ZText itemNameText = new ZText (item.getName(), PADDING*2 + ITEM_ICON_SIZE, PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, 16);
+    		components.add(itemNameText);
+    		
+    		ZText questDescription = new ZText (item.getDescription(), PADDING*2+ ITEM_ICON_SIZE, PADDING + TITLE_HEIGHT+20 + i*ITEM_DISTANCE, 12);
+    		components.add(questDescription);
+    		if (i != vendor.getItems().size()){
+    			ZImage itemBorder = new ZImage (GameDataManager.getInstance().getImage("bgQuestViewerSeparator.jpg"), 0, PADDING*2 + TITLE_HEIGHT +ITEM_ICON_SIZE +i*ITEM_DISTANCE);
+    			components.add(itemBorder);
+    		}
+    		i++;
     	}
-    }
-    
-    /**
-     * render
-     */
-    @Override
-    public void render(Graphics g) {
-        if(GlobalStateManager.getInstance().getCurrentState().equals("townVendorBuy")){
-            super.render(g);
-	        btnBuy.render(g);
-	        btnLeaveVendor.render(g);
-	        //add text area and popup menu
-        }
-        else if(GlobalStateManager.getInstance().getCurrentState().equals("townVendor")){
-	        super.render(g);
-	        btnBuy.render(g);
-	        btnLeaveVendor.render(g);
-	        //add text area
-        }
-        else{
-        	super.render(g);
-        }
+    	GlobalStateManager.getInstance().updateCurrentState("townVendorBuy");
     }
 } 

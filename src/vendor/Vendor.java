@@ -8,7 +8,7 @@ import player.Player;
 
 /**
  * @author Martin Claesson
- * @version 0.4
+ * @version 0.4.1
  * @since 2015-02-21
  */
 
@@ -17,6 +17,7 @@ public class Vendor
 	private Player player;
 	private HashMap<Item, Integer> items = new HashMap<>();
 	private final int 	maxHpPotions= 50;
+	
 	public Vendor(Player player) {
 		this.player = player;
 		items.put(GameDataManager.getInstance().getItems("hpPotion"),maxHpPotions);
@@ -41,13 +42,16 @@ public class Vendor
 			return false;
 		}
 	}
+	
+	public HashMap<Item, Integer> getItems(){
+		return items;
+	}
 	/**
 	 * 
 	 * @param Name of item
 	 * @return the value of the key 
 	 */
-	
-	private Item getItem(String key){
+	public Item getItem(String key){
 		for(Item item : items.keySet()){
 			if(item.getName().equals(key)){
 				return item;
