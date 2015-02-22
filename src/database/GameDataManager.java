@@ -92,10 +92,5 @@ public class GameDataManager
 	 */
 	public Image getImage(String imgName) {
 		return images.getImage(imgName);
-	}
-	
-	public WorldMap getWorldMap() {
-		return world;
-	}
-	
+	}	
 }
