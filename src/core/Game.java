@@ -472,6 +472,13 @@ public class Game implements MouseListener
 	public void nextTurn(){
 		combat.nextTurn();
 	}
+	public void item(){
+		player.getPC().getInventory().addItem(new ItemPotion("health potion", "heals you", 10, 10, 0, 10),1);
+		combat.itemCheck("health potion");
+	}
+	public void retreat(){
+		combat.retreat();
+	}
     
     /**
 	 * Exits Game
