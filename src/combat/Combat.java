@@ -1,18 +1,5 @@
-package combat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
-import core.EventAdder;
-import core.GlobalStateManager;
-import core.RealTime;
-import player.ItemSlot;
-import player.Playable;
-import character.Character;
-import character.Spell;
-
 /**
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
@@ -62,14 +49,18 @@ public class Combat implements RealTime {
 	}
 	
 	public void nextTurn(){
-		removeFirstAddLast();
-		if(currentChar instanceof Enemy){
-			enemyTurn();
-			enemyNextMove();
-		}else if(currentChar.getValueOfVital("Health")>0){
-			playerTurn();
+		if(currentChar instanceof Playable && turn==true){
+			eventAdder.add("popupWindow, You forgot to make your move!");
+			}else{
+				removeFirstAddLast();
+				if(currentChar instanceof Enemy){
+					enemyTurn();
+					enemyNextMove();
+				}else if(currentChar.getValueOfVital("Health")>0){
+					playerTurn();
+				}
+			}
 		}
-	}
 	
 	private void removeFirstAddLast(){
 		currentChar=turnList.pollFirst();
@@ -229,6 +220,12 @@ public class Combat implements RealTime {
 			eventAdder.add("sceneWorldMap");
 		}else{
 			System.out.println("You failed to run!"); //Supposed to write to log here
+		}
+	}
+	
+	public void retreatCheck(){
+		if(turn==true){
+			retreat();
 		}
 	}
 	
