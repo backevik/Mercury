@@ -16,7 +16,7 @@ import database.GameDataManager;
  * Combat is a subclass of JFrame for re-rendering the current JFrame
  * to this GUI if combat occurs.
  *
- * @author Andreas Bäckevik	& Daniel Edisnger
+ * @author Andreas BÃ¤ckevik	& Daniel Edisnger
  * @version 0.3.1
  * @since 2015-02-21
  */
@@ -58,7 +58,7 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		components.add(itembtn);
 		entities.add(itembtn);
 		
-		ZButton retreatbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "sceneWorldMap");
+		ZButton retreatbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "retreat");
 		components.add(retreatbtn);
 		entities.add(retreatbtn);
 		
