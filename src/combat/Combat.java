@@ -11,7 +11,7 @@ import character.Character;
 import character.Spell;
 
 /**
- * @author      Andreas BÃƒÆ’Ã‚Â¤ckevik
+ * @author      Andreas BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ckevik
  * @version     0.39
  * @since       2015-02-09
  */
@@ -66,10 +66,8 @@ public class Combat implements RealTime {
 		if(currentChar instanceof Enemy){
 			enemyTurn();
 			enemyNextMove();
-		}else if(currentChar instanceof Playable){
+		}else if(currentChar.getValueOfVital("Health")>0){
 			playerTurn();
-		}else{
-			System.out.println("Returning to world map...");
 		}
 	}
 	
