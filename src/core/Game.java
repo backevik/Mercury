@@ -477,7 +477,7 @@ public class Game implements MouseListener
 		combat.itemCheck("health potion");
 	}
 	public void retreat(){
-		combat.retreat();
+		combat.retreatCheck();
 	}
     
     /**
