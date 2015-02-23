@@ -6,6 +6,7 @@ import java.util.Random;
 import core.EventAdder;
 import core.GlobalStateManager;
 import core.RealTime;
+import player.ItemSlot;
 import player.Playable;
 import character.Character;
 import character.Spell;
@@ -110,6 +111,24 @@ public class Combat implements RealTime {
 					break;
 				}
 			}
+		}
+	}
+	
+	public void useItem(String itemName){
+		for(ItemSlot itemslot : currentChar.getInventory().getItems()){
+			if(itemslot.getItem().getName().equals(itemName)){
+				String item = itemslot.getItem().use();
+				String[] a = item.split("#");
+				currentChar.healVital(a[0], Integer.parseInt(a[1]));
+				System.out.println(currentChar.getName()+" used item "+itemslot.getItem().getName()+" that healed "+currentChar.getName()+" for "+a[1]+" health");
+				break;
+			}
+		}
+	}
+	
+	public void itemCheck(String itemName){
+		if(currentChar instanceof Playable && turn==true){
+			useItem(itemName);
 		}
 	}
 	
