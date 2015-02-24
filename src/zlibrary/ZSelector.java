@@ -5,10 +5,14 @@ import java.util.List;
 
 public abstract class ZSelector extends ZEntity
 {
-	private List<?> elements = new ArrayList<>();
+	private List<ZButton> elements = new ArrayList<>();
 
 	private int currentElementToDisplay;
 	private int maximumElementsToDisplay;
+	
+	public ZSelector (int x, int y) {
+		
+	}
 	
 	public void scrollUp () {
 		if (currentElementToDisplay > 0) {

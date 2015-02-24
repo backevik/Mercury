@@ -6,21 +6,25 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-public class ZTextArea extends ZImage {
-
+public class ZTextArea extends ZComponent 
+{
 	private int w;
 	private int h;
+	private int fontSize;
 	private String text;
 	private boolean textIsRendered;
 	
-	public ZTextArea(int x, int y, int w, int h) {
-		super (null, x, y);
+	// TO-DO ADD CONSTRUCTOR FOR PICTURE AND CHANGE DRAWIMAGEFROMSTRING ACCORDINGLY
+	public ZTextArea(int x, int y, int w, int h, int fontSize) {
 		this.w = w;
 		this.h = h;
+		setX(x);
+		setY(y);
+		this.fontSize = fontSize;
 		text = "";
-		setImage(createImageFromString ());
 	}
 	
 	public void addTextWithoutLineFeed (String s) {
@@ -45,46 +49,90 @@ public class ZTextArea extends ZImage {
 	}
 	
 	private Image createImageFromString () {
-		Font font = new Font("Courier New", Font.PLAIN, 12);
-		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = image.createGraphics();
-		g.setFont(font);
-		FontMetrics fontMetric = g.getFontMetrics();
+	     BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+	     Graphics2D g = image.createGraphics();
+	     g.setFont(new Font("Verdana", Font.PLAIN, fontSize));
+	     g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		 g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+		 g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		 g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		 g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		 g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		 g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		 FontMetrics fm = g.getFontMetrics();
+		
+		 // Wanted \n should be kept and used as intended.
+		 text = text.replace("/\n/g", " \n ");
+		 // Eliminate multiple spaces
+		 text = text.trim().replaceAll(" +", " ");
+		 //System.out.println(s);
+		 // Split the strings into words for matching if space is available.
+		 String[] words = text.split(" ");
+		 
+		 // Sort how the string should be rendered out.
+		 // TO-DO check if a word is wider than the entire render space...
+		 // TO-DO Check if stringWidth returns what we want. we always have pixels over on each row.
+		 String stringToBeRendered = words[0] + " ";
+		 int spaceWidth = fm.stringWidth(" ");
+		 int currentLineWidth = fm.stringWidth(words[0]) + spaceWidth;
+		 int lineIndex = 1;
+		 
+		 for(int i = 1; i < words.length; ++i){
+			 //if the word is an intended line break
+			 if (words[i].equals("\n")){
+				 stringToBeRendered += "\n";
+				 currentLineWidth = 0;
+				 lineIndex++;
+			 }else {
+				 //if the word is a normal word
+				 if((currentLineWidth + fm.stringWidth(words[i])) < w){
+					 stringToBeRendered += words[i] + " ";
+					 currentLineWidth += (spaceWidth + fm.stringWidth(words[i]));
+				 } else {
+					 stringToBeRendered += "\n" + words[i]+ " ";
+					 currentLineWidth = fm.stringWidth(words[i]) + spaceWidth;
+					 lineIndex++;
+				 }
+			 }
+		 }
+	 
+		 g.dispose();
+		 
+	     image = new BufferedImage(w , lineIndex * fontSize , BufferedImage.TYPE_INT_ARGB);
+		 g = image.createGraphics();
+		 g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		 g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+		 g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		 g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		 g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		 g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		 g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		 g.setFont(g.getFont());
+		 fm = g.getFontMetrics();
+	
+		 int currentLineHeight = 0;
+		 g.setColor(Color.black);
+		 for (String std : stringToBeRendered.split("\n")) {
+			 g.drawString(std, 0, currentLineHeight += fontSize);
+			 }
+		 
+		 //CLIP IMAGE ACCORDINGLY BY COPYING WHAT IS WANTED FROM THE PREVIOUS INTO A NEW ONE		 
+	     BufferedImage renderImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	     Graphics2D g2r = renderImage.createGraphics();
+	     System.out.println("test1");
+	     if(image.getHeight() > h){
+		     System.out.println("test2");
+	    	 g2r.drawImage(image, 0, 0, w, h, 0, (int)(image.getHeight() - h), w, (int)image.getHeight(), null, null);
+	     } else {
+		     System.out.println("test3");
+	    	 g2r.drawImage(image, 0, 0, w, h, 0, 0, w, (int)image.getHeight(), null, null);
+	     }
 
-		String[] words = text.split(" ");
-		
-		int currentWidth = fontMetric.stringWidth(words[0]);
-		String stringToBeRendered = words[0];
-		
-		for (int i = 1; i < words.length; ++i) {
-			words[i] = words[i].trim();
-			
-			/**
-			 * TO-BE-DONE:: Too Long to be rendered? MegaLongWordThatNeedsToEndWithThreeDotsInOtherWordsBeClipped...
-			 */
-			int a = (int)fontMetric.stringWidth(" " + words[i]);
-			if (currentWidth + a <= w) {
-				stringToBeRendered += " " + words[i];
-				currentWidth += a;
-			} else {
-				stringToBeRendered += "\n" + words[i];
-				System.out.println(currentWidth);
-				currentWidth = 0;				
-			}
-		}
-		
-		System.out.println(stringToBeRendered);
-		g.setColor(Color.GRAY);
-		g.fillRect(1, 1, w-2, h-2);		
-		g.setColor(Color.BLACK);
-		int y = 0;
-		for (String s : stringToBeRendered.split("\n")) {
-			g.drawString(s, 0, y += fontMetric.getHeight());
-		}			
-		g.dispose ();
-		
-		return image;
-		
-		//g.clip(new Rectangle(0, image.getHeight()-h, w, image.getHeight()));
+	     g2r.dispose();
+	     g.dispose();
+	
+		 return renderImage;
 	}
 }

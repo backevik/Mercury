@@ -1,3 +1,17 @@
+package combat;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+import character.Character;
+import character.Spell;
+import player.ItemSlot;
+import player.Playable;
+import core.EventAdder;
+import core.GlobalStateManager;
+import core.RealTime;
+
 /**
  * @author      Andreas BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ckevik
  * @version     0.39
@@ -7,7 +21,7 @@ public class Combat implements RealTime {
 	private boolean turn;
 	private boolean energy = true;
 	private Random rand;
-	private LinkedList<Character> turnList;
+	private final LinkedList<Character> turnList = new LinkedList<Character>();;
 	private Character currentChar;
 	@SuppressWarnings("unused")
 	private int clockTick;
@@ -20,13 +34,12 @@ public class Combat implements RealTime {
 		this.eventAdder = eventAdder;
 		this.players = players;
 		this.encounter = encounter;
-		turnList = new LinkedList<Character>();
 		initCombatList();
 		nextTurn();
 	}
 	
 	public void initCombatList(){
-		for(Playable player : players){
+		for (Playable player : players){
 			turnList.add(player);	
 		}
 		for(Enemy enemy : encounter.getEnemies()){

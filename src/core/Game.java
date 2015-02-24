@@ -1,5 +1,7 @@
 package core;
 
+import items.ItemPotion;
+
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;

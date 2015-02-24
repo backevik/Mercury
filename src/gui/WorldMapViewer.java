@@ -1,16 +1,11 @@
 package gui;
 
-import java.awt.Image;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
 import worldmap.WorldMap;
 import worldmap.Zone;
-import zlibrary.ZAnimation;
-import zlibrary.ZButton;
-import zlibrary.ZComponent;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import core.EventAdder;
@@ -24,46 +19,40 @@ import database.GameDataManager;
  * @since		2015-02-21
  */
 
-public class WorldMapViewer extends ZContainer implements RealTime {
-
-	private WorldMap worldMap;
-	
-	private ZButton btnTown;
-	private ZButton btnForest;
-	private ZButton btnGrass;
+public class WorldMapViewer extends ZContainer implements RealTime
+{	
+	private List<ZoneButton> zones = new ArrayList<>();
 	
 	public WorldMapViewer(EventAdder eventAdder, List<ZEntity> entities, WorldMap worldMap) {
 		super(GameDataManager.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
-		
-		this.worldMap = worldMap;
-		
-		GlobalStateManager.getInstance().updateCurrentState("WorldMap");
-		
-		for (Entry<String, Zone> e: worldMap.getZones().entrySet()) {
-			
-		}
-		
+
 		// Create all buttons
-		btnTown = new ZButton(GameDataManager.getInstance().getImage("btnTown.jpg"), 16, 352, eventAdder, "selectArea,townTown");
-		components.add(btnTown);
-		entities.add(btnTown);
-		
-		btnForest = new ZButton(GameDataManager.getInstance().getImage("btnZone.jpg"), 104, 128, eventAdder, "selectArea,combatForest");
-		components.add(btnForest);
-		entities.add(btnForest);
-		
-		btnGrass = new ZButton(GameDataManager.getInstance().getImage("btnZone.jpg"), 184, 104, eventAdder, "selectArea,combatGrass");
-		components.add(btnGrass);
-		entities.add(btnGrass);
+		for (Entry<String, Zone> z : worldMap.getZones().entrySet()) {
+			ZoneButton tmpZoneButton = new ZoneButton (
+					GameDataManager.getInstance().getImage("btn"+z.getValue().getType()+".jpg"),
+					z.getValue().getX(),
+					z.getValue().getY(),
+					eventAdder,
+					"selectArea,"+z.getValue().getName(),
+					z.getValue().getName(),
+					z.getValue().getType());
+			add(tmpZoneButton);
+		}
+	}
+	
+	private void add (ZoneButton z) {
+		zones.add(z);
+		components.add(z);
+		entities.add(z);
 	}
 
 	@Override
-	public void update() {
-		for (ZComponent z : components) {
-			if (true) {
-				z.setImage(GameDataManager.getInstance().getImage("btnZoneOn.jpg"));
+	public void update () {
+		for (ZoneButton z : zones) {
+			if (GlobalStateManager.getInstance().getWorldState("Location").equals(z.getName())) {
+				z.setImage(GameDataManager.getInstance().getImage("btn"+z.getType()+"On.jpg"));
 			} else {
-				z.setImage(GameDataManager.getInstance().getImage("btnZone.jpg"));
+				z.setImage(GameDataManager.getInstance().getImage("btn"+z.getType()+".jpg"));
 			}
 		}		
 	}

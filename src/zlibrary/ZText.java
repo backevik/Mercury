@@ -79,6 +79,91 @@ public class ZText extends ZEntity
 	}
 	
 	private Image createImageFromStringWrapped (String s, int w, int h, int fs, String d) {
-		return createImageFromString(s, fs);
+		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = image.createGraphics();
+		g.setFont(new Font("Verdana", Font.PLAIN, fs));
+		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		FontMetrics fm = g.getFontMetrics();
+				
+		// Wanted \n should be kept and used as intended.
+		s = s.replace("/\n/g", " \n ");
+		// Eliminate multiple spaces
+		s = s.trim().replaceAll(" +", " ");
+		// Split the strings into words for matching if space is available.
+		String[] words = s.split(" ");
+		
+		// Sort how the string should be rendered out.
+		// TO-DO check if a word is wider than the entire render space...
+		// TO-DO Check if stringWidth returns what we want. we always have pixels over on each row.
+		String stringToBeRendered = words[0] + " ";
+		int spaceWidth = fm.stringWidth(" ");
+		int currentLineWidth = fm.stringWidth(words[0]) + spaceWidth;
+		int currentLineIndex = 1;
+		int maxLineIndex = h / fs;
+		
+		for(int i = 1; i < words.length; ++i) {
+			//if the word is an intended line break
+			if (words[i].equals("\n")){
+				if(currentLineIndex < maxLineIndex) {
+					stringToBeRendered += "\n";
+					currentLineIndex++;
+					currentLineWidth = 0;
+				} else {
+					stringToBeRendered += d;
+					break;
+				}
+			} else {
+		//if the word is a normal word and it isn't the last line to be rendered.
+		if(currentLineIndex < maxLineIndex){
+			if((currentLineWidth + fm.stringWidth(words[i])) < w){
+				stringToBeRendered += words[i] + " ";
+				currentLineWidth += (spaceWidth + fm.stringWidth(words[i]));
+			} else {
+				stringToBeRendered += "\n" + words[i]+ " ";
+				currentLineIndex++;
+				currentLineWidth = fm.stringWidth(words[i]) + spaceWidth;
+				}
+			} else { 
+				//if its the last line, make sure the delimiter has room.
+				if((currentLineWidth + fm.stringWidth(words[i]) + fm.stringWidth(d)) < w){
+					stringToBeRendered += words[i] + " ";
+					currentLineWidth += (spaceWidth + fm.stringWidth(words[i]));
+					} else {
+						stringToBeRendered += d;
+						break;
+					}
+				}
+			}
+		}
+ 
+		g.dispose();
+		 
+		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		g = image.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+		g.setFont(g.getFont());
+		fm = g.getFontMetrics();
+		
+		int currentLineHeight = 0;
+		g.setColor(Color.black);
+		for (String std : stringToBeRendered.split("\n")) {
+			 g.drawString(std, 0, currentLineHeight += fs);
+		}                      
+	
+		return image;
 	}
 }
