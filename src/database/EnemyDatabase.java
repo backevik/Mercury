@@ -12,9 +12,10 @@ import combat.Enemy;
 
 public class EnemyDatabase
 {
-	private final HashMap<String, Enemy> items = new HashMap<>();
+	private final HashMap<String, Enemy> enemies = new HashMap<>();
 	
 	public EnemyDatabase(){
+		//enemies.put("Big evil bengan", new Enemy("Big evil bengan",2,GameDataManager.getInstance().getSpells("fireball"),GameDataManager.getInstance().getSpells("heal")));
 		//Add enemies to list
 		
 	}
@@ -24,6 +25,7 @@ public class EnemyDatabase
 	 * @return
 	 */
 	public Enemy getEnemy(String enemyName) {
-		return items.get(enemyName);
+		return enemies.get(enemyName);
 	}
 }
+
