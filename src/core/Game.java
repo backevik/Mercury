@@ -83,7 +83,7 @@ public class Game implements MouseListener
 	private Player player;
 	private Combat combat;
 	private Enemy enemy;
-	private WorldMap worldMap;
+	private final WorldMap worldMap = new WorldMap ();
 	
 	// popup window
 	private ZPopup popup;
@@ -263,6 +263,12 @@ public class Game implements MouseListener
 		}
 	}
 	
+	private void removeWorldMap () {
+	    removeContainer(worldMapViewer);
+		realTimes.remove(worldMapViewer);
+		worldMapViewer = null;
+    }
+	
 	/**
 	 * 
 	 */
@@ -292,7 +298,7 @@ public class Game implements MouseListener
     	popup = null;   	
     }
     
-	/**
+    /**
 	 * Title Scene
 	 */
 	public void sceneMainMenu () {
@@ -304,7 +310,6 @@ public class Game implements MouseListener
     	characterCreationViewer = null;
     	mainMenuViewer = new MainMenuViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
     	drawables.add(mainMenuViewer);
-    	GlobalStateManager.getInstance().updateWorldState("Location", "townTown");
     }
     
     /**
@@ -347,27 +352,30 @@ public class Game implements MouseListener
     	player.getQuestLog().addQuest(new Quest("First Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
     	player.getQuestLog().addQuest(new Quest("Second Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
     	player.getQuestLog().addQuest(new Quest("Third Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
+    	
     	GlobalStateManager.getInstance().updateWorldState("CharacterExists", "true");
+    	GlobalStateManager.getInstance().updateWorldState("Location", "WORLD_MAP");
     	
     	eventQueue.getEventAdder().add("sceneWorldMap");
     }
     
-	/**
+    /**
 	 * Render world map when returning from combat
 	 */
-    public void sceneWorldMap (){
-    	switch (GlobalStateManager.getInstance().getCurrentState()){
-			case "InCombat":	
+    public void sceneWorldMap () {
+    	switch (GlobalStateManager.getInstance().getCurrentState()) {
+			case "COMBAT":	
 				removeContainer(combatViewer);
 				combatViewer = null;
 				break;
-			case "town":		
+			case "TOWN":		
 				removeContainer(townViewer);
 				townViewer = null;
 				break;
-			default:			
+			case "WORLD_MAP":
 				removeContainer(characterCreationViewer);
 				characterCreationViewer = null;
+			default:			
 				break;
 		}
 		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities, worldMap);
@@ -388,8 +396,9 @@ public class Game implements MouseListener
 				sceneTown();
 			}
 		} else {
-			worldMap = new WorldMap ();
-			worldMap.selectArea(area);
+			if (!worldMap.selectArea(area)) {
+				eventQueue.getEventAdder().add("popupWindow,Unreachable area!");
+			}
 		}
 	}
 	
@@ -399,9 +408,7 @@ public class Game implements MouseListener
     public void sceneTown() {
     	switch(GlobalStateManager.getInstance().getCurrentState()){
     		case "WorldMap":
-    			removeContainer(worldMapViewer);
-    			realTimes.remove(worldMapViewer);
-    			worldMapViewer = null;
+    			removeWorldMap ();
     			break;
     		case "inCombat_dead":
     			removeContainer(combatViewer);
@@ -416,8 +423,7 @@ public class Game implements MouseListener
      * 
      */
     public void sceneCombat(){
-    	removeContainer(worldMapViewer);
-    	realTimes.remove(worldMapViewer);
+    	removeWorldMap ();
     	worldMapViewer = null;
     	players = new ArrayList<>();
     	players.add(player.getPC());
@@ -431,10 +437,12 @@ public class Game implements MouseListener
     
     /**
      * Toggles Character Statistics page on and off
+     * 
+     * Also turns off Quest Log page if on
      */
     public void characterStatisticsToggle () {
     	if (characterStatisticsViewer == null) {
-    		characterStatisticsViewer = new CharacterStatisticsViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities);
+    		characterStatisticsViewer = new CharacterStatisticsViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getPC());
     		drawables.add(characterStatisticsViewer);
     	} else {
     		for (ZEntity e : characterStatisticsViewer.getEntities ()) {
@@ -447,6 +455,8 @@ public class Game implements MouseListener
     
     /**
      * Toggles Quest Log page on and off
+     * 
+     * Also turns off Character Statistics page if on
      */
 	public void questLogToggle () {
     	if (questLogViewer == null) {

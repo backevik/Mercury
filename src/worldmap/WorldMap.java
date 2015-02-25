@@ -31,6 +31,8 @@ public class WorldMap
 	 * @return
 	 */
 	public HashMap<String, Zone> getZones () {
+		
+		
 		return (HashMap<String, Zone>)zones;
 	}
 	

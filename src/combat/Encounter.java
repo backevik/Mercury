@@ -3,8 +3,6 @@ package combat;
 import java.util.ArrayList;
 import java.util.List;
 
-import character.Spell;
-
 /**
  * @author      Andreas BÃƒÂ¤ckevik
  * @version     0.4
