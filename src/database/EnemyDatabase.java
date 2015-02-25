@@ -16,7 +16,7 @@ public class EnemyDatabase
 	private static EnemyDatabase instance = null;
 	
 	private EnemyDatabase(){
-		enemies.put("Big evil bengan", new Enemy("Big evil bengan",2,SpellDatabase.getInstance().getSpells("fireball"),SpellDatabase.getInstance().getSpells("heal")));
+		enemies.put("Big evil bengan", new Enemy("Big evil bengan",2,ImageDatabase.getInstance().getImage("enemy.jpg"),SpellDatabase.getInstance().getSpells("fireball"),SpellDatabase.getInstance().getSpells("heal")));
 		//Add enemies to list
 		
 	}
