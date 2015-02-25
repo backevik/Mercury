@@ -17,8 +17,9 @@ import javax.imageio.ImageIO;
 public class ImageDatabase
 {
 	private final HashMap<String, Image> images = new HashMap<String, Image>();
+	private static ImageDatabase instance = null;
 	
-	public ImageDatabase(){
+	private ImageDatabase(){
 		
 		File baseDirectory = new File("img/");	//base dir
 		File[] f = baseDirectory.listFiles();	//List of files and maps in base dir
@@ -66,6 +67,17 @@ public class ImageDatabase
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * Singleton initializing
+	 */
+	public static ImageDatabase getInstance() {
+		if(instance == null) {
+			instance = new ImageDatabase();
+		}
+		return instance;
+			
 	}
 	
 	/**

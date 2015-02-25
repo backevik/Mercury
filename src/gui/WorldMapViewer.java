@@ -11,7 +11,7 @@ import zlibrary.ZEntity;
 import core.EventAdder;
 import core.GlobalStateManager;
 import core.RealTime;
-import database.GameDataManager;
+import database.ImageDatabase;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
@@ -24,12 +24,12 @@ public class WorldMapViewer extends ZContainer implements RealTime
 	private List<ZoneButton> zones = new ArrayList<>();
 	
 	public WorldMapViewer(EventAdder eventAdder, List<ZEntity> entities, WorldMap worldMap) {
-		super(GameDataManager.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
+		super(ImageDatabase.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
 
 		// Create all buttons
 		for (Entry<String, Zone> z : worldMap.getZones().entrySet()) {
 			ZoneButton tmpZoneButton = new ZoneButton (
-					GameDataManager.getInstance().getImage("btn"+z.getValue().getType()+".jpg"),
+					ImageDatabase.getInstance().getImage("btn"+z.getValue().getType()+".jpg"),
 					z.getValue().getX(),
 					z.getValue().getY(),
 					eventAdder,
@@ -50,9 +50,9 @@ public class WorldMapViewer extends ZContainer implements RealTime
 	public void update () {
 		for (ZoneButton z : zones) {
 			if (GlobalStateManager.getInstance().getWorldState("Location").equals(z.getName())) {
-				z.setImage(GameDataManager.getInstance().getImage("btn"+z.getType()+"On.jpg"));
+				z.setImage(ImageDatabase.getInstance().getImage("btn"+z.getType()+"On.jpg"));
 			} else {
-				z.setImage(GameDataManager.getInstance().getImage("btn"+z.getType()+".jpg"));
+				z.setImage(ImageDatabase.getInstance().getImage("btn"+z.getType()+".jpg"));
 			}
 		}		
 	}

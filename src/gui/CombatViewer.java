@@ -10,7 +10,7 @@ import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
 import combat.Enemy;
-import database.GameDataManager;
+import database.ImageDatabase;
 
 /**
  * Combat is a subclass of JFrame for re-rendering the current JFrame
@@ -40,29 +40,29 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	 * It also sets actionListeners to work with the game-logic.
 	 */
 	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players,  Enemy enemies) {
-		super(GameDataManager.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);
+		super(ImageDatabase.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);
 		this.player = players;
 		this.enemy = enemies;
 		
 		GlobalStateManager.getInstance().updateCurrentState("InCombat");
 		
-		ZButton atkbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatAttack.jpg"), 0, 440, eventAdder, "attack");
+		ZButton atkbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatAttack.jpg"), 0, 440, eventAdder, "attack");
 		components.add(atkbtn);
 		entities.add(atkbtn);
 		
-		ZButton spellbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatSpell.jpg"), 0, 520, eventAdder, "spell");
+		ZButton spellbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatSpell.jpg"), 0, 520, eventAdder, "spell");
 		components.add(spellbtn);
 		entities.add(spellbtn);
 		
-		ZButton itembtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatItem.jpg"), 120, 440, eventAdder, "combat, playerItem, String");
+		ZButton itembtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatItem.jpg"), 120, 440, eventAdder, "combat, playerItem, String");
 		components.add(itembtn);
 		entities.add(itembtn);
 		
-		ZButton retreatbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "retreat");
+		ZButton retreatbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "retreat");
 		components.add(retreatbtn);
 		entities.add(retreatbtn);
 		
-		ZButton nextturnbtn = new ZButton(GameDataManager.getInstance().getImage("btnCombatNextTurn.jpg"), 677, 345, eventAdder, "nextTurn");
+		ZButton nextturnbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatNextTurn.jpg"), 677, 345, eventAdder, "nextTurn");
 		components.add(nextturnbtn);
 		entities.add(nextturnbtn);
 		

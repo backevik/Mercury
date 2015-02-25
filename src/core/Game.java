@@ -14,7 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.GameDataManager;
+import database.EnemyDatabase;
+import database.ImageDatabase;
+import database.SpellDatabase;
 import character.Spell;
 import combat.Combat;
 import combat.Encounter;
@@ -312,7 +314,7 @@ public class Game implements MouseListener
     		entities.add(e);
     	}
     	drawables.remove(popup);
-    	popup = null;   	
+    	popup = null;
     }
     
     /**
@@ -378,7 +380,7 @@ public class Game implements MouseListener
 	 */
     public void sceneWorldMap () {
     	switch (GlobalStateManager.getInstance().getCurrentState()) {
-			case "COMBAT":	
+			case "COMBAT":
 				removeContainer(combatViewer);
 				combatViewer = null;
 				break;
@@ -440,12 +442,12 @@ public class Game implements MouseListener
     	removeWorldMap ();
     	worldMapViewer = null;
     	players = new ArrayList<>();
-    	player.getPC().getSpellBook().addSpell(GameDataManager.getInstance().getSpells("fireball"));
-    	player.getPC().getSpellBook().addSpell(GameDataManager.getInstance().getSpells("heal"));
+    	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("fireball"));
+    	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("heal"));
     	players.add(player.getPC());
-    	encounter = new Encounter("Victory", new Enemy("di",2,new Spell("fireball","descc",10,"damage",20)));
+    	encounter = new Encounter("Victory", EnemyDatabase.getInstance().getEnemy("Big evil bengan"));
     	combat = new Combat(players, encounter, eventQueue.getEventAdder());
-    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),new Enemy("di",2,new Spell("fireball","descc",10,"damage",20)));
+    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),EnemyDatabase.getInstance().getEnemy("Big evil bengan"));
     	drawables.add(combatViewer);
     }
     
@@ -456,7 +458,7 @@ public class Game implements MouseListener
      */
     public void characterStatisticsToggle () {
     	if (characterStatisticsViewer == null) {
-    		characterStatisticsViewer = new CharacterStatisticsViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getPC());
+    		characterStatisticsViewer = new CharacterStatisticsViewer(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getPC());
     		drawables.add(characterStatisticsViewer);
     	} else {
     		for (ZEntity e : characterStatisticsViewer.getEntities ()) {
@@ -474,7 +476,7 @@ public class Game implements MouseListener
      */
 	public void questLogToggle () {
     	if (questLogViewer == null) {
-    		questLogViewer = new QuestLogViewer(GameDataManager.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getQuestLog());
+    		questLogViewer = new QuestLogViewer(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"), 100, 75, eventQueue.getEventAdder(), entities, player.getQuestLog());
     		drawables.add(questLogViewer);
     	} else {
     		for (ZEntity e : questLogViewer.getEntities ()) {

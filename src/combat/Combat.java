@@ -188,18 +188,21 @@ public class Combat implements RealTime {
 
 	public void deathCheck(Character c,double damage){
 		if((c.getValueOfVital("Health")-damage)<=0 && c instanceof Playable){
-			GlobalStateManager.getInstance().updateCurrentState("InCombat_dead");
 			System.out.println(c.getName()+" died! The fight is lost");
 			currentChar = null;
+			GlobalStateManager.getInstance().updateCurrentState("InCombat_dead");
+			c.healVital("Health", c.getMaxOfVital("Health"));
+			c.healVital("Energy", c.getMaxOfVital("Energy"));
 			eventAdder.add("sceneTown");
 		}else if((c.getValueOfVital("Health")-damage)<=0 && c instanceof Enemy){
-			GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getWorldState("Location"), "clear");
 			players.get(0).addExp(c.getLevel()*5);
+			System.out.println(c.getName()+" was killed!");
 			if(c.getLevel()*5>players.get(0).getExpTnl()){
 				System.out.println("Congratulations "+players.get(0).getName()+"! You reached level "+players.get(0).getLevel());
 			}else{
 				System.out.println("Congratulations "+players.get(0).getName()+"! You gained "+c.getLevel()*5+" experience!");
 			}
+			GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getCurrentState(), "CLEAR");
 			eventAdder.add("sceneWorldMap");
 		}
 	}

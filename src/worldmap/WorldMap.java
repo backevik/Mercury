@@ -7,8 +7,7 @@ import core.GlobalStateManager;
 
 /**
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @author 		Mattias Benngård	<mbengan@gmail.com>
- * @version		0.3.2				<2015-02-25>
+ * @version		0.3.2
  * @since		2015-02-21
  */
 
@@ -31,7 +30,9 @@ public class WorldMap
 	 * Return an unmodfifiableMap of zones
 	 * @return
 	 */
-	public HashMap<String, Zone> getZones () {		
+	public HashMap<String, Zone> getZones () {
+		
+		
 		return (HashMap<String, Zone>)zones;
 	}
 	

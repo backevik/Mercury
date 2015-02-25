@@ -2,8 +2,9 @@ package vendor;
 
 import java.util.HashMap;
 
+
 import items.Item;
-import database.GameDataManager;
+import database.ItemDatabase;
 import player.Player;
 
 /**
@@ -16,11 +17,13 @@ public class Vendor
 {
 	private Player player;
 	private HashMap<Item, Integer> items = new HashMap<>();
-	private final int 	maxHpPotions= 50;
+	private final static int 	MAX_HP_POTIONS= 50;
+	private final static int 	MAX_ENERGY_POTIONS= 50;
 	
 	public Vendor(Player player) {
 		this.player = player;
-		items.put(GameDataManager.getInstance().getItems("hpPotion"),maxHpPotions);
+		items.put(ItemDatabase.getInstance().getItems("HealingPotion1"),MAX_HP_POTIONS);
+		items.put(ItemDatabase.getInstance().getItems("EnergyPotion1"), MAX_ENERGY_POTIONS);
 		// add more item to vendor
 	};
 	

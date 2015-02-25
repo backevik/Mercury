@@ -14,11 +14,23 @@ public class SpellDatabase
 {
 	
 	private final HashMap<String, Spell> spells = new HashMap<>();
+	private static SpellDatabase instance = null;
 	
-	public SpellDatabase(){
+	private SpellDatabase(){
 		spells.put("fireball", new Spell("fireball","eld av boll",10,"damage",20));
 		spells.put("heal", new Spell("heal","helar dig",10,"heal",20));
 		//Add spells to game
+	}
+	
+	/**
+	 * Singleton initializing
+	 */
+	public static SpellDatabase getInstance() {
+		if(instance == null) {
+			instance = new SpellDatabase();
+		}
+		return instance;
+			
 	}
 	
 	/**

@@ -13,11 +13,23 @@ import combat.Enemy;
 public class EnemyDatabase
 {
 	private final HashMap<String, Enemy> enemies = new HashMap<>();
+	private static EnemyDatabase instance = null;
 	
-	public EnemyDatabase(){
-		//enemies.put("Big evil bengan", new Enemy("Big evil bengan",2,GameDataManager.getInstance().getSpells("fireball"),GameDataManager.getInstance().getSpells("heal")));
+	private EnemyDatabase(){
+		enemies.put("Big evil bengan", new Enemy("Big evil bengan",2,SpellDatabase.getInstance().getSpells("fireball"),SpellDatabase.getInstance().getSpells("heal")));
 		//Add enemies to list
 		
+	}
+	
+	/**
+	 * Singleton initializing
+	 */
+	public static EnemyDatabase getInstance() {
+		if(instance == null) {
+			instance = new EnemyDatabase();
+		}
+		return instance;
+			
 	}
 
 	/**

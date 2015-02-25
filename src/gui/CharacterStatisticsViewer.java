@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import zlibrary.ZText;
 import core.EventAdder;
-import database.GameDataManager;
+import database.ImageDatabase;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
@@ -33,7 +34,6 @@ public class CharacterStatisticsViewer extends ZContainer
 	private final static int VITAL_OFFSET = PADDING+TITLE_HEIGHT+LINE_HEIGHT*10;
 	
 	private final List<ZEntity> entities = new ArrayList<>();
-	@SuppressWarnings("unused")
 	private Playable pc;
 	
 	public CharacterStatisticsViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, Playable pc) {
@@ -50,7 +50,7 @@ public class CharacterStatisticsViewer extends ZContainer
 		ZText title = new ZText ("Character Statistics", x+PADDING, y+PADDING, 20);
 		components.add(title);
 		
-		ZButton backToGame = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerQuit.jpg"), x+576,y+7, eventAdder, "characterStatisticsToggle");
+		ZButton backToGame = new ZButton (ImageDatabase.getInstance().getImage("bgQuestViewerQuit.jpg"), x+576,y+7, eventAdder, "characterStatisticsToggle");
     	components.add(backToGame);
     	entities.add(backToGame);
     	    	
