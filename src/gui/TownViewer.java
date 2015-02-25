@@ -3,6 +3,7 @@ import items.Item;
 
 import java.util.List;
 
+import player.Player;
 import vendor.Vendor;
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
@@ -23,7 +24,7 @@ import database.ImageDatabase;
 public class TownViewer extends ZContainer {
     private final static int WINDOW_BOTTOM = 597;
     private final static int BTN_WITH = 122;
-    private final static int BTN_HEIGHT = 82;
+    private final static int BTN_HEIGHT = 57;
 	private final static int PADDING = 10;
 	private final static int ITEM_ICON_SIZE = ImageDatabase.getInstance().getImage("bgQuestViewerIcon.jpg").getHeight(null);
 	private final static int ITEM_BG_SIZE = ImageDatabase.getInstance().getImage("bgQuestViewer.jpg").getWidth(null);
@@ -35,8 +36,10 @@ public class TownViewer extends ZContainer {
     private ZButton btnBuy;
     private ZButton btnLeaveVendor;
     private ZText	txtVendor;
-    private Vendor 	vendor;// can be removed if reflection can use objects
-    private EventAdder eventAdder; // can be removed if reflection can use objects
+    private ZText	currency;
+    private ZImage	bgText;
+    ZImage bgCurrency;
+    private EventAdder eventAdder; 
     private List<ZEntity> entities;
     
     /**
@@ -44,10 +47,8 @@ public class TownViewer extends ZContainer {
      */
     public TownViewer( List<ZEntity> entities, EventAdder eventAdder){
         super(ImageDatabase.getInstance().getImage("bgDefault.jpg"),0,0,eventAdder, entities);
-        //player = new Player("pc");
-        //vendor = new Vendor(player);
         
-        this.eventAdder = eventAdder;// can be removed if reflection can use objects
+        this.eventAdder = eventAdder;
         this.entities = entities;
         
         btnVendor = new ZButton("Vendor", 3, 32, BTN_WITH, BTN_HEIGHT, eventAdder, "enterVendor");
@@ -58,33 +59,25 @@ public class TownViewer extends ZContainer {
         components.add(btnLeaveTown);
         entities.add(btnLeaveTown);
         
-        txtVendor = new ZText("Welcome! What can I do for you?", BTN_WITH+3, WINDOW_BOTTOM-BTN_HEIGHT, 16);
-        //components.add(txtVendor);
+        txtVendor = new ZText("Welcome to Vendor! What can I do for you?", BTN_WITH+9, WINDOW_BOTTOM-BTN_HEIGHT*2+10, 16);
+       
+        bgText = new ZImage(ImageDatabase.getInstance().getImage("textruta.jpg"), 3+BTN_WITH, WINDOW_BOTTOM-2*BTN_HEIGHT);
         
-        btnBuy = new ZButton("Buy", 3, WINDOW_BOTTOM-BTN_HEIGHT, BTN_WITH, (BTN_HEIGHT/2), eventAdder, "townViewer,enterTownVendorBuy");
+        btnBuy = new ZButton("Buy", 3, WINDOW_BOTTOM-2*BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "enterVendorBuy");
         
-        btnLeaveVendor = new ZButton( "Leave Vendor", 3, WINDOW_BOTTOM-(BTN_HEIGHT/2), BTN_WITH, BTN_HEIGHT/2, eventAdder, "leaveVendor");
+        btnLeaveVendor = new ZButton( "Exit Vendor", 3, WINDOW_BOTTOM-BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "leaveVendor");
+        
+        bgCurrency = new ZImage(ImageDatabase.getInstance().getImage("coin.jpg"), 674, 32);
         
         GlobalStateManager.getInstance().updateCurrentState("TOWN");  
-        //enterVendor();
     }
     
-    /**
-     * Removes town GUI and opens Worldmap GUI sets game state to worldmap sholud be moved to game
-     */
-    public void leaveTown() {
-    	remove();
-    	//components.removeAll(components);
-    	//entities.remove(btnVendor);
-    	//entities.remove(btnLeaveTown);//should be done in remove method in zcontaioner
-    	GlobalStateManager.getInstance().updateCurrentState("WORLD_MAP");
-    }
     /**
      * sets the game state to inside town
      */
     public void leaveVendor(){
     	remove();
-    	//components.removeAll(components);
+    	components.removeAll(components);
     	components.add(btnVendor);
     	components.add(btnLeaveTown);
     	entities.add(btnVendor);
@@ -96,22 +89,24 @@ public class TownViewer extends ZContainer {
      * Sets the game state to inside vendor 
      */
     public void enterVendor(){
-    	//remove();
-    	//components.removeAll(components);
+    	remove();
+    	components.removeAll(components);
     	components.add(btnBuy);
     	components.add(btnLeaveVendor);
+    	components.add(bgText);
     	components.add(txtVendor);
+    	components.add(bgCurrency);
+    	components.add(currency);
     	entities.add(btnBuy);
     	entities.add(btnLeaveVendor);
-    	//add text area when component is done
+
     	GlobalStateManager.getInstance().updateCurrentState("TOWN_VENDOR");
     }
     
     /**
      * sets the game state to inside TownVendorBuy
      */
-    public void enterTownVendorBuy(){
-		//components.add(txtVendor);
+    public void enterTownVendorBuy(Vendor vendor){
 		ZImage bg = new ZImage(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"),3,32);
 		components.add(bg);
     	
@@ -133,8 +128,12 @@ public class TownViewer extends ZContainer {
     		ZText itemNameText = new ZText (item.getName(), 3+PADDING*2 + ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, 16);
     		components.add(itemNameText);
     		
-    		ZText questDescription = new ZText (item.getDescription(), 3+PADDING*2+ ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT+20 + i*ITEM_DISTANCE, 12);
-    		components.add(questDescription);
+    		ZText itemDescription = new ZText (item.getDescription(), 3+PADDING*2+ ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT+20 + i*ITEM_DISTANCE, 12);
+    		components.add(itemDescription);
+    		
+    		ZText itemPrice = new ZText("Price: "+Integer.toString(item.getSellPrice()),3+PADDING*2+ ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT+36 + i*ITEM_DISTANCE, 12);
+    		components.add(itemPrice);
+    		
     		if (i != vendor.getItems().size()){
     			ZImage itemBorder = new ZImage (ImageDatabase.getInstance().getImage("bgQuestViewerSeparator.jpg"), 3, 32+PADDING*2 + TITLE_HEIGHT +ITEM_ICON_SIZE +i*ITEM_DISTANCE);
     			components.add(itemBorder);
@@ -143,5 +142,11 @@ public class TownViewer extends ZContainer {
     	}
     	GlobalStateManager.getInstance().updateCurrentState("TOWN_VENDOR_BUY");
     	
+    }
+    /**
+     * updates the currency in GUI
+     */
+    public void updateCurrency(Player player){
+    	currency = new ZText(Double.toString(player.getPC().getCurrency()),742,50,14);
     }
 } 

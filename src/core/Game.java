@@ -37,6 +37,7 @@ import gui.MainMenuViewer;
 import gui.QuestLogViewer;
 import gui.TownViewer;
 import gui.WorldMapViewer;
+import vendor.Vendor;
 
 /**
  * Game Class for project Mercury, holds main method. Instantiates itself.
@@ -102,6 +103,7 @@ public class Game implements MouseListener
 	private Player player;
 	private Combat combat;
 	private Enemy enemy;
+	private Vendor vendor;
 	private final WorldMap worldMap = new WorldMap ();
 	
 	// popup window
@@ -517,7 +519,41 @@ public class Game implements MouseListener
 	public void addTextToLog(String s){
 		combatViewer.addText(s);
 	}
-    
+	/**
+	 * 
+	 * @param s name of item to buy
+	 */
+	public void buyItem(String s){
+		ZPopup buyInfo;
+		if(vendor.buyItem(s)){
+			buyInfo = new ZPopup("You bought one "+ s, "ok",eventQueue.getEventAdder(), entities);
+			townViewer.updateCurrency(player);
+		}
+		else{
+			buyInfo = new ZPopup("You don't have enough money for a "+s, "ok",eventQueue.getEventAdder(), entities);
+		}
+		drawables.add(buyInfo);
+	}
+	/**
+	 * method for entering vendor GUI
+	 */
+	public void enterVendor(){
+		townViewer.updateCurrency(player);
+		townViewer.enterVendor();
+	}
+	/**
+	 * method for leaving vendor GUI
+	 */
+	public void leaveVendor(){
+		townViewer.leaveVendor();
+	}
+	/**
+	 * method for showing items in vendor
+	 */
+	public void enterVendorBuy(){
+		vendor = new Vendor(player);
+		townViewer.enterTownVendorBuy(vendor);
+	}
     /**
 	 * Exits Game
 	 */
