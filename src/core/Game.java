@@ -303,8 +303,8 @@ public class Game implements MouseListener
 	/**
      * Method for popup window, removes all active events when turned on. Returns them when turned off.
      */
-    public void popupWindow () {
-    	popup = new ZPopup ("This is a test popup!", "ok", eventQueue.getEventAdder(), entities);
+    public void popupWindow (String s) {
+    	popup = new ZPopup (s, "ok", eventQueue.getEventAdder(), entities);
     	drawables.add(popup);
     }    
     public void popupWindowOff () {
@@ -440,12 +440,12 @@ public class Game implements MouseListener
     	removeWorldMap ();
     	worldMapViewer = null;
     	players = new ArrayList<>();
-    	players.add(player.getPC());
-    	encounter = new Encounter("Victory");
     	player.getPC().getSpellBook().addSpell(GameDataManager.getInstance().getSpells("fireball"));
     	player.getPC().getSpellBook().addSpell(GameDataManager.getInstance().getSpells("heal"));
+    	players.add(player.getPC());
+    	encounter = new Encounter("Victory", new Enemy("di",2,new Spell("fireball","descc",10,"damage",20)));
     	combat = new Combat(players, encounter, eventQueue.getEventAdder());
-    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),enemy);
+    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),new Enemy("di",2,new Spell("fireball","descc",10,"damage",20)));
     	drawables.add(combatViewer);
     }
     
