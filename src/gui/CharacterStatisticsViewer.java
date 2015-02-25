@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Image;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +33,7 @@ public class CharacterStatisticsViewer extends ZContainer
 	private final static int VITAL_OFFSET = PADDING+TITLE_HEIGHT+LINE_HEIGHT*10;
 	
 	private final List<ZEntity> entities = new ArrayList<>();
+	@SuppressWarnings("unused")
 	private Playable pc;
 	
 	public CharacterStatisticsViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, Playable pc) {

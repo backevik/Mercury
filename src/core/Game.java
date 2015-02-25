@@ -1,7 +1,5 @@
 package core;
 
-import items.ItemPotion;
-
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
@@ -16,11 +14,10 @@ import java.util.List;
 
 import database.EnemyDatabase;
 import database.ImageDatabase;
+import database.ItemDatabase;
 import database.SpellDatabase;
-import character.Spell;
 import combat.Combat;
 import combat.Encounter;
-import combat.Enemy;
 import player.Playable;
 import player.Player;
 import worldmap.WorldMap;
@@ -80,14 +77,14 @@ public class Game implements MouseListener
 	private boolean isRunning = true;
     
     //Rate for updates/s and expected time per update.
-	public static final double GAME_UPDATE_RATE			= 30.0;
+	public static final double GAME_UPDATE_RATE				= 30.0;
 	public static final double TARGET_TIME_BETWEEN_UPDATES = 1000_000_000.0 / GAME_UPDATE_RATE;
     
     //Allow update to play catch up for MAX times.
 	public static final int MAX_UPDATES_BEFORE_RENDER 		= 7;
     
     //Rate for renders/s and expected time per render
-	public static final double TARGET_GAME_RENDER_RATE 	= 24.0;
+	public static final double TARGET_GAME_RENDER_RATE 		= 24.0;
 	public static final double TARGET_TIME_BETWEEN_RENDERS = 1000_000_000.0 / TARGET_GAME_RENDER_RATE;
     
     // interface lists
@@ -102,7 +99,6 @@ public class Game implements MouseListener
 	// player
 	private Player player;
 	private Combat combat;
-	private Enemy enemy;
 	private Vendor vendor;
 	private final WorldMap worldMap = new WorldMap ();
 	

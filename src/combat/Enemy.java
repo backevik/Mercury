@@ -1,11 +1,9 @@
 package combat;
+
 import java.awt.Image;
 
-
-import zlibrary.ZImage;
 import character.Character;
 import character.Spell;
-import database.ImageDatabase;
 
 /**
  * @author      Andreas BÃƒÂ¤ckevik
