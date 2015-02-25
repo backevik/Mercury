@@ -232,6 +232,7 @@ public class Combat implements RealTime {
 			System.out.println("Successfull escape!");
 			eventAdder.add("sceneWorldMap");
 		}else{
+			turn = false;
 			System.out.println("You failed to run!"); //Supposed to write to log here
 		}
 	}
