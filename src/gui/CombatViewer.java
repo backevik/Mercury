@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import core.EventAdder;
 import core.GlobalStateManager;
 import player.ItemSlot;
 import player.Playable;
+import zlibrary.ZAnimation;
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
@@ -21,7 +23,7 @@ import database.ImageDatabase;
  * Combat is a subclass of JFrame for re-rendering the current JFrame
  * to this GUI if combat occurs.
  *
- * @author Andreas BÃ¤ckevik	& Daniel Edisnger
+ * @author Andreas BÃƒÂ¤ckevik	& Daniel Edisnger
  * @version 0.3.1
  * @since 2015-02-21
  */
@@ -41,6 +43,8 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	private EventAdder eventAdder;
 	private List<ZButton> spellButtons;
 	private List<ZButton> itemButtons;
+	private List<Image> hpBar;
+	private List<Image> manaBar;
 	private ZTextArea combatlog = new ZTextArea(560,294,240,300,10);
 	
 	/*
@@ -53,6 +57,8 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		this.eventAdder = eventAdder;
 		spellButtons = new ArrayList<>();
 		itemButtons = new ArrayList<>();
+		hpBar = new ArrayList<>();
+		manaBar = new ArrayList<>();
 		
 		ZImage enemyIcon = new ZImage(enemy.getImage(), 300, 250);
 		components.add(enemyIcon);
@@ -80,6 +86,24 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		entities.add(nextturnbtn);
 		
 		components.add(combatlog);
+		
+		for(int i=37;i>0;i--){
+			hpBar.add(ImageDatabase.getInstance().getImage("guiCombatHealthbar"+i+".png"));
+			manaBar.add(ImageDatabase.getInstance().getImage("guiCombatManabar"+i+".png"));
+		}
+		
+		ZAnimation playerMana = new ZAnimation(manaBar,240,482,0);
+		components.add(playerMana);
+		
+		ZAnimation playerHP = new ZAnimation(hpBar,240,522,0);
+		components.add(playerHP);
+		
+		ZAnimation enemyHP = new ZAnimation(hpBar,240,65,0);
+		components.add(enemyHP);
+		
+		ZAnimation enemyMana = new ZAnimation(manaBar,240,25,0);
+		components.add(enemyMana);
+		
 		//GUI to add
 		/*
 		ZButton enemyhp = new ZButton(GameDataManager.getInstance().getImage("gui.jpg"), 0, 413, eventAdder, "NONE");
