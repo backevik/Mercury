@@ -38,10 +38,14 @@ import gui.TownViewer;
 import gui.WorldMapViewer;
 
 /**
- * Game Class for project Mercury, holds main method.
+ * Game Class for project Mercury, holds main method. Instantiates itself.
  * 
- * @author	Anton AndrÃ©n & Mattias BenngÃ¥rd & Martin Claesson & Daniel Edsinger
- * @version	0.38a pre-alpha
+ * @author	Anton Andrén		<@>
+ * @author	Mattias Benngård	<mbengan@gmail.com>
+ * @author 	Andreas Bäckevik	<@>
+ * @author	Martin Claesson		<@>
+ * @author 	Daniel Edsinger		<@>
+ * @version	0.8					<2015-05-25>
  * @since	2015-02-21
  * 
  * Main Class for the mercury project.
@@ -49,6 +53,16 @@ import gui.WorldMapViewer;
  * public static void main (String[])
  * Instantiates Game and runs the gameLoop initiation
  * 
+ * private  void render ()					to render all ZDrawable
+ * private  void update ()					to update all ZRealTime
+ * private void eventHandler (String s)		to use reflection invocation
+ * 
+ * To-Do:
+ * - Save
+ * - Load
+ * - Credits
+ * - Load Game
+ * - Retreat Bug? Where you retreat and the opponent doesn't attack. Intended? As in spam retreat and succeed eventually without any consequence. 
  */
 public class Game implements MouseListener
 {
