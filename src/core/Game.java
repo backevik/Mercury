@@ -39,9 +39,9 @@ import gui.WorldMapViewer;
 /**
  * Game Class for project Mercury, holds main method. Instantiates itself.
  * 
- * @author	Anton Andrén		<@>
- * @author	Mattias Benngård	<mbengan@gmail.com>
- * @author 	Andreas Bäckevik	<@>
+ * @author	Anton AndrÃ©n		<@>
+ * @author	Mattias BenngÃ¥rd	<mbengan@gmail.com>
+ * @author 	Andreas BÃ¤ckevik	<@>
  * @author	Martin Claesson		<@>
  * @author 	Daniel Edsinger		<@>
  * @version	0.8					<2015-05-25>
@@ -442,8 +442,8 @@ public class Game implements MouseListener
     	players = new ArrayList<>();
     	players.add(player.getPC());
     	encounter = new Encounter("Victory");
-    	player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
-    	player.getPC().getSpellBook().addSpell(new Spell("heal","helar dig",10,"heal",20));
+    	player.getPC().getSpellBook().addSpell(GameDataManager.getInstance().getSpells("fireball"));
+    	player.getPC().getSpellBook().addSpell(GameDataManager.getInstance().getSpells("heal"));
     	combat = new Combat(players, encounter, eventQueue.getEventAdder());
     	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),enemy);
     	drawables.add(combatViewer);
@@ -492,7 +492,6 @@ public class Game implements MouseListener
 		combat.attackCheck(player.getPC(), encounter.getEnemies().get(0));
 	}
 	public void spell(){
-		player.getPC().getSpellBook().addSpell(new Spell("fireball","eld av boll",10,"damage",20));
 		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),"fireball");
 	}
 	public void nextTurn(){
