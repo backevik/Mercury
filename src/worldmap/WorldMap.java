@@ -17,8 +17,8 @@ public class WorldMap
 	
 	public WorldMap () {
 		// create zones
-		zones.put("townTown", new Zone ("townTown", "Town", 16, 352));
-		zones.put("combatForest", new Zone ("combatForest", "Zone", 104, 128));
+		zones.put("townTown", new Zone ("townTown", "Town", 8, 344));
+		zones.put("combatForest", new Zone ("combatForest", "Zone", 88, 112));
 		zones.put("combatGrass", new Zone ("combatGrass", "Zone", 184, 104));
 		
 		// connect zones

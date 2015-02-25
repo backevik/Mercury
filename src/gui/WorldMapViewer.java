@@ -29,7 +29,7 @@ public class WorldMapViewer extends ZContainer implements RealTime
 		// Create all buttons
 		for (Entry<String, Zone> z : worldMap.getZones().entrySet()) {
 			ZoneButton tmpZoneButton = new ZoneButton (
-					ImageDatabase.getInstance().getImage("btn"+z.getValue().getType()+".jpg"),
+					ImageDatabase.getInstance().getImage("btn"+z.getValue().getType()+".png"),
 					z.getValue().getX(),
 					z.getValue().getY(),
 					eventAdder,
@@ -50,9 +50,9 @@ public class WorldMapViewer extends ZContainer implements RealTime
 	public void update () {
 		for (ZoneButton z : zones) {
 			if (GlobalStateManager.getInstance().getWorldState("Location").equals(z.getName())) {
-				z.setImage(ImageDatabase.getInstance().getImage("btn"+z.getType()+"On.jpg"));
+				z.setImage(ImageDatabase.getInstance().getImage("btn"+z.getType()+"On.png"));
 			} else {
-				z.setImage(ImageDatabase.getInstance().getImage("btn"+z.getType()+".jpg"));
+				z.setImage(ImageDatabase.getInstance().getImage("btn"+z.getType()+".png"));
 			}
 		}		
 	}

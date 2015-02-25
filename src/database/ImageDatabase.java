@@ -27,7 +27,7 @@ public class ImageDatabase
 		if(baseDirectory.isDirectory()) {
 			for(File file : f) {	//Checks through all maps and images within base dir
 				
-				if(file != null && file.getName().toLowerCase().endsWith(".jpg") && file.isFile()){
+				if(file != null && ( file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".png") ) && file.isFile()){
 					try {
 						images.put( file.getName(), ImageIO.read( new File(file.getCanonicalPath())) );	//add file in base dir
 					}
@@ -56,7 +56,7 @@ public class ImageDatabase
 					if( !file.isFile() ) {
 						addFilesFromMap(file);
 						
-					}else if(file != null && file.getName().toLowerCase().endsWith(".jpg") && file.isFile()) {
+					}else if(file != null && ( file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".png") ) && file.isFile()) {
 						images.put( file.getName(), ImageIO.read( new File(file.getCanonicalPath())) );	//Add files from map
 					}
 				}
