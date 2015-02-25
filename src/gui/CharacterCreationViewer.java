@@ -43,7 +43,7 @@ public class CharacterCreationViewer extends ZContainer implements ZDrawable
 		components.add(btnBack);
 		entities.add(btnBack);
 		
-		ZButton btnDone = new ZButton("Done", 660, 520, 120, 60, eventAdder, "createCharacter");
+		ZButton btnDone = new ZButton("Done", 660, 520, 120, 60, eventAdder, "createCharacter,John Doe");
 		components.add(btnDone);
 		entities.add(btnDone);
 	}

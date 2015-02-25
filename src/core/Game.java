@@ -21,7 +21,6 @@ import combat.Encounter;
 import combat.Enemy;
 import player.Playable;
 import player.Player;
-import player.Quest;
 import worldmap.WorldMap;
 import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
@@ -50,20 +49,24 @@ import gui.WorldMapViewer;
  * 
  * Main Class for the mercury project.
  * 
- * public static void main (String[])
- * Instantiates Game and runs the gameLoop initiation
+ * public static void main (String[])		Instantiates Game and runs the gameLoop initiation
+ * private Game ()							a
+ * 
+ * private void startGameLoop ()			a
+ * private void gameLoop ()					a
  * 
  * private  void render ()					to render all ZDrawable
  * private  void update ()					to update all ZRealTime
  * private void eventHandler (String s)		to use reflection invocation
  * 
  * To-Do:
- * - Save
- * - Load
- * - Credits
- * - Load Game
- * - Retreat Bug? Where you retreat and the opponent doesn't attack. Intended? As in spam retreat and succeed eventually without any consequence. 
+ *	- Save
+ *	- Load
+ *	- Credits
+ *	- Load Game
+ *	- Retreat Bug? Where you retreat and the opponent doesn't attack. Intended? As in spam retreat and succeed eventually without any consequence. 
  */
+
 public class Game implements MouseListener
 {
 	public static final int FRAME_X							= 800;
@@ -359,13 +362,10 @@ public class Game implements MouseListener
     /**
      * Creates the player, adds the first quest.
      */
-    public void createCharacter () {
+    public void createCharacter (String playerName) {
     	removeContainer (characterCreationViewer);
     	characterCreationViewer = null;
-    	player = new Player("John Doe");
-    	player.getQuestLog().addQuest(new Quest("First Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
-    	player.getQuestLog().addQuest(new Quest("Second Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
-    	player.getQuestLog().addQuest(new Quest("Third Quest", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
+    	player = new Player(playerName);
     	
     	GlobalStateManager.getInstance().updateWorldState("CharacterExists", "true");
     	GlobalStateManager.getInstance().updateWorldState("Location", "WORLD_MAP");

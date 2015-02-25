@@ -55,7 +55,7 @@ public class GameDataManager
 	 * @return Quest
 	 */
 	public Quest getQuests(String questName) {
-		return quests.getQuests(questName);
+		return quests.getQuest (questName);
 	}
 	
 	/**

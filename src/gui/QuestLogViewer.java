@@ -16,13 +16,18 @@ import database.GameDataManager;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @version	0.8
  * @since	2015-02-17
  * 
  * Class for displaying the quest log to the player.
  * 
  * public questLogViewer (EventAdder, Image, int, int, List<MouseObject>, QuestLog)
  * Creates the GUI elements for the questLogViewer depending on how many quest the player currently has.
+ * 
+ * To-Do:
+ *	- Add Support for Displaying only Active or Completed
+ *  - Different Icon based on Quest State
+ *  - Scroll through quests, if more than room for.
  */
 
 public class QuestLogViewer extends ZContainer
@@ -46,24 +51,23 @@ public class QuestLogViewer extends ZContainer
 		
 		entities.clear();
 
-		ZText title = new ZText ("Quest Log", x+PADDING, y+PADDING, 20);
-		components.add(title);
+		components.add(new ZText ("Quest Log", x+PADDING, y+PADDING, 20));
 		
 		ZButton backToGame = new ZButton (GameDataManager.getInstance().getImage("bgQuestViewerQuit.jpg"), x+576,y+7, eventAdder, "questLogToggle");
     	components.add(backToGame);
     	entities.add(backToGame);
 		
     	for (int i = 0; i != questLog.getQuests().size(); ++i) {
-    		ZImage questIcon = new ZImage (GameDataManager.getInstance().getImage("bgQuestViewerIcon.jpg"), x+PADDING, y+PADDING + TITLE_HEIGHT + i*QUEST_DISTANCE);
-    		components.add(questIcon);
-    		ZText questName = new ZText (questLog.getQuests().get(i).getName(), x+PADDING + QUEST_ICON_SIZE+PADDING, y+PADDING + TITLE_HEIGHT + i*QUEST_DISTANCE, 16);
-    		components.add(questName);
-    		ZText questDescription = new ZText (questLog.getQuests().get(i).getDescription(), x+PADDING + QUEST_ICON_SIZE+PADDING, y+PADDING + TITLE_HEIGHT+20 + i*QUEST_DISTANCE, 12);
-    		components.add(questDescription);
+    		components.add(new ZImage (GameDataManager.getInstance().getImage("bgQuestViewerIcon.jpg"), x+PADDING, y+PADDING + TITLE_HEIGHT + i*QUEST_DISTANCE));
+    		components.add(new ZText (questLog.getQuests().get(i).getName(), x+PADDING + QUEST_ICON_SIZE+PADDING, y+PADDING + TITLE_HEIGHT + i*QUEST_DISTANCE, 16));
+    		components.add(new ZText (questLog.getQuests().get(i).getDescription(), x+PADDING + QUEST_ICON_SIZE+PADDING, y+PADDING + TITLE_HEIGHT+20 + i*QUEST_DISTANCE, 12));
     		if (i != questLog.getQuests().size()) {
-    			ZImage questBorder = new ZImage (GameDataManager.getInstance().getImage("bgQuestViewerSeparator.jpg"), x, y+PADDING + TITLE_HEIGHT + PADDING+QUEST_ICON_SIZE +i*QUEST_DISTANCE);
-    			components.add(questBorder);
+    			components.add(new ZImage (GameDataManager.getInstance().getImage("bgQuestViewerSeparator.jpg"), x, y+PADDING + TITLE_HEIGHT + PADDING+QUEST_ICON_SIZE +i*QUEST_DISTANCE));
     		}
+    	}
+    	
+    	if (questLog.getQuests().size() == 0) {
+    		components.add(new ZText ("You have no active quests.", x+PADDING, y+PADDING + TITLE_HEIGHT, 16));
     	}
 	}
 	
