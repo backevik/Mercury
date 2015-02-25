@@ -496,17 +496,19 @@ public class Game implements MouseListener
 	}
 	public void spell(String spell){
 		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),spell);
+		combatViewer.clickedSpell();
 	}
 	public void nextTurn(){
 		combat.nextTurn();
 	}
 	public void item(String item){
 		combat.itemCheck(item);
+		combatViewer.clickedItem();
 	}
 	public void retreat(){
 		combat.retreatCheck();
 	}
-		public void spellMenu(){
+	public void spellMenu(){
 		combatViewer.spellMenu();
 	}
 	public void itemMenu(){
