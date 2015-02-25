@@ -13,7 +13,7 @@ import core.GlobalStateManager;
 import core.RealTime;
 
 /**
- * @author      Andreas BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ckevik
+ * @author      Andreas Bäckevik
  * @version     0.39
  * @since       2015-02-09
  */
@@ -97,7 +97,7 @@ public class Combat implements RealTime {
 		for(Spell spell : src.getSpellBook().getSpells()){
 			if(spell.getName().equals(spellName) && spell.getType().equals("heal") && energyCheck(spell.getName())){
 				src.reduceVital("Energy", spell.getEnergyCost());
-				System.out.println(src.getName()+" restored "+dest.getName()+" health for "+src.healVital("Health", spell.getspellPower()));
+				System.out.println(src.getName()+" restored "+src.getName()+" health for "+src.healVital("Health", spell.getspellPower()));
 				break;
 			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell.getName())){
 				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
@@ -105,14 +105,9 @@ public class Combat implements RealTime {
 				dest.reduceVital("Health", spell.getspellPower());
 				src.reduceVital("Energy", spell.getEnergyCost());
 				break;
-			}else{
-				if(currentChar instanceof Enemy){
-					attack(currentChar,players.get(0));
-					break;
-				}else{
-					energy = false;
-					break;
-				}
+			}else if(currentChar instanceof Enemy){
+				attack(currentChar,players.get(0));
+				break;
 			}
 		}
 	}
@@ -124,6 +119,7 @@ public class Combat implements RealTime {
 				String[] a = item.split("#");
 				currentChar.healVital(a[0], Integer.parseInt(a[1]));
 				System.out.println(currentChar.getName()+" used "+itemslot.getItem().getName()+" that restored "+a[1]+" "+a[0]);
+				turn = false;
 				break;
 			}
 		}
@@ -176,6 +172,7 @@ public class Combat implements RealTime {
 	 */
 	private void enemyTurn(){	
 		turn=false;
+		eventAdder.add("addTextToLog,"+currentChar.getName()+"'s turn!");
 		System.out.println(currentChar.getName()+"'s turn!");
 	}
 	/**
@@ -183,6 +180,7 @@ public class Combat implements RealTime {
 	 */
 	private void playerTurn(){
 		turn=true;
+		eventAdder.add("addTextToLog,"+currentChar.getName()+"'s turn!");
 		System.out.println(currentChar.getName()+"'s turn!");
 	}
 
