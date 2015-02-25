@@ -444,6 +444,7 @@ public class Game implements MouseListener
     	players = new ArrayList<>();
     	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("fireball"));
     	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("heal"));
+    	player.getPC().getInventory().addItem(ItemDatabase.getInstance().getItems("HealingPotion1"), 1);
     	players.add(player.getPC());
     	encounter = new Encounter("Victory", EnemyDatabase.getInstance().getEnemy("Big evil bengan"));
     	combat = new Combat(players, encounter, eventQueue.getEventAdder());
@@ -493,18 +494,26 @@ public class Game implements MouseListener
 	public void attack (){
 		combat.attackCheck(player.getPC(), encounter.getEnemies().get(0));
 	}
-	public void spell(){
-		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),"fireball");
+	public void spell(String spell){
+		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),spell);
 	}
 	public void nextTurn(){
 		combat.nextTurn();
 	}
-	public void item(){
-		player.getPC().getInventory().addItem(new ItemPotion("health potion", "heals you", 10, 10, 0, 10),1);
-		combat.itemCheck("health potion");
+	public void item(String item){
+		combat.itemCheck(item);
 	}
 	public void retreat(){
 		combat.retreatCheck();
+	}
+		public void spellMenu(){
+		combatViewer.spellMenu();
+	}
+	public void itemMenu(){
+		combatViewer.itemMenu();
+	}
+	public void addTextToLog(String s){
+		combatViewer.addText(s);
 	}
     
     /**
