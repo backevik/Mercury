@@ -3,6 +3,7 @@ package core;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import player.Player;
 
@@ -13,7 +14,27 @@ public class GlobalStateManager implements Serializable
 	private final Map<String, String> worldState = new HashMap<>();
 	private String currentState = "";
 	
-	private GlobalStateManager () {}	
+	// used for profile handling in save files.
+	private String key;
+	
+	private GlobalStateManager () {
+		Random r = new Random (System.currentTimeMillis());
+		Long number = r.nextLong();
+		
+		// key is not unique for this profile
+		if (false) {
+			for (int i = 0; i < 10000; ++i) {
+				number++;
+			}
+		}
+		
+		// if key still is false
+		if (false) {
+			System.exit(0);
+		}
+		
+		key = Long.toString(number);
+	}	
 	
 	public void updateWorldState (String state, String value) {
 		worldState.put(state, value);
@@ -35,7 +56,10 @@ public class GlobalStateManager implements Serializable
 	 * 
 	 * @return
 	 */
-	public int save (Game game, Player player) {		
+	public int save (Player player, String filename) {
+				
+		String directory = player.getPC().getName() + key;
+		
 		return saveThisToFile ();
 	}
 	
