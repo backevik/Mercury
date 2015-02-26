@@ -22,7 +22,7 @@ public class MainMenuViewer extends ZContainer {
 		components.add(btnNewGame);
 		entities.add(btnNewGame);
 		
-		btnLoadGame = new ZButton("Load Game", 310, 200, 180, 80, eventAdder, "popupWindow");
+		btnLoadGame = new ZButton("Load Game", 310, 200, 180, 80, eventAdder, "sceneLoadGame");
 		components.add(btnLoadGame);
 		entities.add(btnLoadGame);
 		

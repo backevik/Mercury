@@ -335,7 +335,7 @@ public class Game implements MouseListener
     public void sceneCharacterCreation () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	characterCreationViewer = new CharacterCreationViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
+    	characterCreationViewer = new CharacterCreationViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
     	drawables.add(characterCreationViewer);
     }
 
@@ -345,8 +345,8 @@ public class Game implements MouseListener
     public void sceneLoadGame () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	//loadGameViewer = new CharacterCreationViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
-    	//drawables.add (loadGameViewer);
+    	loadGameViewer = new LoadGameViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+    	drawables.add (loadGameViewer);
     }
     
     /**
