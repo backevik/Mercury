@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * 
@@ -17,45 +18,40 @@ import java.util.Collections;
  * @version 0.8 alpha
  * @since 2015-02-26
  */
-public class Server {
+
+public class Server
+{
+	private static final int port 			= 9990;
+	private ServerSocket serverSocket;
+    private final List<String> entries		= new ArrayList<>();
     
-    private ServerSocket serverSocket;
-    private int port;
-    private ArrayList<String> list;
-    
-    public Server(int port) {
-        this.port = port;
-        list = new ArrayList<>();
-        try {
-			readFromFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    /**
+     * Instantiates serverSocket
+     * @throws IOException
+     */
+    public Server () throws IOException {
+    	serverSocket = new ServerSocket(port);    	
     }
+
     /**
      * Starts the server and waits for appropriate connection
      * @throws IOException
      */
-    public void start() throws IOException {
-        System.out.println("Starting the socket server at port:" + port);
-        serverSocket = new ServerSocket(port);
-        
-        //Listen for clients. Block till one connects
-        while(true) {
-        	//System.out.println("Waiting for clients...");
+    public void execute () throws IOException {
+        while (true) {
         	Socket client = serverSocket.accept();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String alt = br.readLine();
 			
-			if( alt.equals("s") ) {
+			if (alt.equals("s") ) {
 				getScore(client, br);
-			}else if( alt.equals("g")) {
+			} else if (alt.equals("g")) {
 				sendScore(client);
 			}
         }
     }
+
    /**
     * Sends every highscore to client
     * @param client - The client who connected
@@ -64,26 +60,27 @@ public class Server {
     private void sendScore(Socket client) throws IOException {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
         //Write from file
-        for(String element : list) {
+        for (String element : entries) {
         	writer.write(element);
         }
         writer.flush();
         writer.close();
     }
+
     /**
      * Retrieves a highscore add from client
      * @param client - The client who connected
      * @param br - a buffered reader
      * @throws IOException
      */
-    private void getScore(Socket client, BufferedReader br) throws IOException{
+    private void getScore(Socket client, BufferedReader br) throws IOException {
     	try {	
             //System.out.println("Response from client:");
             String userInput = br.readLine();
             br.close();
-            list.add(userInput);
-            Collections.sort(list);
-            Collections.reverse(list);
+            entries.add(userInput);
+            Collections.sort(entries);
+            Collections.reverse(entries);
             
             writeToFile();
 
@@ -98,44 +95,46 @@ public class Server {
      * Save the highscore-list to file
      * @throws IOException
      */
-    public void writeToFile() throws IOException {
+    private void writeToFile() throws IOException {
     	PrintWriter out = new PrintWriter("Score.txt");
-    	for ( String element : list )
+    	for ( String element : entries )
     		out.println(element);
     	out.close();
-    } 
+    }
+
     /**
      * Load the highscore-list from file
      * @throws IOException
      */
-    public void readFromFile() throws IOException{
-    	
+    public void readFromFile() throws IOException {    	
     	BufferedReader in = null;
     	if(( in = new BufferedReader(new FileReader("Score.txt")) ) != null) {
     		String line = in.readLine();
-    		while(line!=null) {
-    			list.add(line);
+    		while (line!=null) {
+    			entries.add(line);
     			line = in.readLine();
     		}
     	}
     	in.close();
     }
 
-    /**
-    * Creates a SocketServer object and starts the server.
-    *
-    * @param args
-    */
+	/**
+	 * Creates a SocketServer object and starts the server.
+	 *
+	 * @param args
+	 */
     public static void main(String[] args) {
-        // Setting a default port number.
-        int portNumber = 9990;
-        
         try {
             // initializing the Socket Server
-            Server socketServer = new Server(portNumber);
-            socketServer.start();
+        	System.out.println("Starting the socket server at port:" + port);
+            Server server = new Server();
             
-            } catch (IOException e) {
+            // reading all existing entries
+            server.readFromFile();
+            
+            // starting the server, waiting for incoming client
+            server.execute();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
