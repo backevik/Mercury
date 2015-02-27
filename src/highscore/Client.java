@@ -1,4 +1,4 @@
-package Server;
+package highscore;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Andreas Bäckevik & Daniel Edsinger
+ * @author Andreas BÃ¤ckevik & Daniel Edsinger
  * @version 0.8 alpha
  * @since 2015-02-26
  */
