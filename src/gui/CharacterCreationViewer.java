@@ -5,12 +5,22 @@ import java.util.List;
 
 import zlibrary.ZButton;
 import zlibrary.ZContainer;
-import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
 import zlibrary.ZText;
 import core.EventAdder;
 
-public class CharacterCreationViewer extends ZContainer implements ZDrawable
+/**
+ * @author	Mattias Benngård	<mbengan@gmail.com>
+ * @version	0.1					<2015-02-27>
+ * @since	2015-02-15
+ * 
+ * Class for setting up the scene for Character Creation
+ * 
+ * public CharacterCreationViewer (Image, int, int, EventAdder, List<ZEntity>)
+ * Creates the GUI elements for the characterCreationViewer.
+ */
+
+public class CharacterCreationViewer extends ZContainer
 {	
 	public CharacterCreationViewer(Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
 		super(image, x, y, eventAdder, entities);

@@ -21,8 +21,6 @@ public abstract class Character
 	private String name;
 	private int level;
 	
-	//private final CharacterStatus characterStatus = new CharacterStatus ();
-	
 	private final Map<String, Attribute> attributes = new HashMap<>();
 	private final Map<String, Skill> skills = new HashMap<>();
 	private final Map<String, Vital> vitals = new HashMap<>();

@@ -2,11 +2,10 @@ package constants;
 import java.util.HashMap;
 
 /**
-* @author	Daniel Edsinger <danieledsinger@hotmail.com>
-* @version	0.5				<2015-02-22>
-* @since	2015-02-21
-*/
-
+ * @author	Daniel Edsinger <danieledsinger@hotmail.com>
+ * @version	0.5				<2015-02-22>
+ * @since	2015-02-21
+ */
 
 public final class Directions
 {

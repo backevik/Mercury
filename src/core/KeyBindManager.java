@@ -25,12 +25,12 @@ public class KeyBindManager implements KeyEventDispatcher
 	        	
 	        	switch (keyToLowerCaseIfUpperCase(e.getKeyChar())) {
 	        		case 'c':
-	        			if (GlobalStateManager.getInstance().getWorldState("CharacterExists").equals("true")) {
+	        			if (GlobalStateManager.getInstance().getWorldState("CHARACTER_IS_ALIVE").equals("TRUE")) {
 	        				eventAdder.add("characterStatisticsToggle");
 	        			}
 	        			break;
 	        		case 'q':
-	        			if (GlobalStateManager.getInstance().getWorldState("CharacterExists").equals("true")) {
+	        			if (GlobalStateManager.getInstance().getWorldState("CHARACTER_IS_ALIVE").equals("TRUE")) {
 	        				eventAdder.add("questLogToggle");
 	        			}
 	        			break;

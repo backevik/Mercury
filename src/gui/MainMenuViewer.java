@@ -8,8 +8,19 @@ import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import core.EventAdder;
 
-public class MainMenuViewer extends ZContainer {
+/**
+ * @author	Mattias Benngård	<mbengan@gmail.com>
+ * @version	1.0					<2015-02-27>
+ * @since	2015-02-15
+ * 
+ * Class for setting up the scene for Main Menu
+ * 
+ * public MainMenuViewer (Image, int, int, EventAdder, List<ZEntity>, QuestLog)
+ * Creates the GUI elements for the mainMenuViewer.
+ */
 
+public class MainMenuViewer extends ZContainer
+{
 	private ZButton btnNewGame;
 	private ZButton btnLoadGame;
 	private ZButton btnCredits;

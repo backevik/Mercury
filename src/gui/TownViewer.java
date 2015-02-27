@@ -1,8 +1,8 @@
 package gui;
-import items.Item;
 
 import java.util.List;
 
+import items.Item;
 import player.Player;
 import vendor.Vendor;
 import zlibrary.ZButton;
@@ -13,15 +13,9 @@ import zlibrary.ZText;
 import core.EventAdder;
 import core.GlobalStateManager;
 import database.ImageDatabase;
-/**
- * Town is a subclass to JFrame
- *
- * @author Martin Claesson
- * @version 0.3, 2015-02-13
- *
- */
 
-public class TownViewer extends ZContainer {
+public class TownViewer extends ZContainer
+{
     private final static int WINDOW_BOTTOM = 597;
     private final static int BTN_WITH = 122;
     private final static int BTN_HEIGHT = 57;

@@ -15,6 +15,7 @@ import java.util.List;
 import database.EnemyDatabase;
 import database.ImageDatabase;
 import database.ItemDatabase;
+import database.QuestDatabase;
 import database.SpellDatabase;
 import combat.Combat;
 import combat.Encounter;
@@ -44,7 +45,7 @@ import vendor.Vendor;
  * @author 	Andreas Bäckevik	<@>
  * @author	Martin Claesson		<@>
  * @author 	Daniel Edsinger		<@>
- * @version	0.8					<2015-05-25>
+ * @version	0.9					<2015-05-25>
  * @since	2015-02-21
  * 
  * Main Class for the mercury project.
@@ -60,11 +61,10 @@ import vendor.Vendor;
  * private void eventHandler (String s)		to use reflection invocation
  * 
  * To-Do:
- *	- Save
- *	- Load
- *	- Credits
- *	- Load Game
- *	- Retreat Bug? Where you retreat and the opponent doesn't attack. Intended? As in spam retreat and succeed eventually without any consequence. 
+ *	- Update Event Handling to not Lag Behind
+ *	- Synchronize AWT Events
+ *	- Cleanup Reflection Code
+ *	- Change Frame layout to be consistent with pixel 0,0 to FRAME_X,FRAME_Y
  */
 
 public class Game implements MouseListener
@@ -242,35 +242,28 @@ public class Game implements MouseListener
     	}
     }
     
-    /**
-     * Handles events by using s in reflection
-     * @param s
-     */
-	private void eventHandler (String s) {
-		System.out.println("Event: " + s);
-		String[] a = s.split(",");
+	/**
+	 * Handles events by using s in reflection
+	 * @param s
+	 */
+	private void eventHandler (String event) {		
+		String method = (event.indexOf(",") == -1) ? event : event.substring(0, event.indexOf(","));
+		System.out.println("Method: " + method);
+		String arguments = (event.indexOf(",") == -1) ? null : event.substring(event.indexOf(",")+1);
+		System.out.println("Arguments: " + arguments);
+		System.out.println("---");
 		
-		switch (a.length){
-			case 1:
-				try {
-					this.getClass().getMethod(s).invoke(this);
-				} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				break;
-			
-			case 2:	//Method with string parameter
-				try {
-					this.getClass().getMethod(a[0], String.class).invoke(this, a[1]); //ex: methodName = a[0]  stringArg = a[1],  methodName(stringArg);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					e.printStackTrace();
-				}
-			
-			default:
-				break;
-		}		
+		try {
+			if (arguments == null) {
+				this.getClass().getMethod(method).invoke(this); 
+			} else {
+				this.getClass().getMethod(method, String.class).invoke(this, arguments); 
+			}
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void removeContainer (ZContainer z) {
@@ -355,8 +348,8 @@ public class Game implements MouseListener
     public void sceneCredits () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	//creditsViewer = new CharacterCreationViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
-    	//drawables.add (creditsViewer);
+    	creditsViewer = new CreditsViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+    	drawables.add (creditsViewer);
     }
     
     /**
@@ -367,10 +360,37 @@ public class Game implements MouseListener
     	characterCreationViewer = null;
     	player = new Player(playerName);
     	
-    	GlobalStateManager.getInstance().updateWorldState("CharacterExists", "true");
+    	eventQueue.getEventAdder().add("addQuest,First Quest");
+    	eventQueue.getEventAdder().add("addItem,HealingPotion1,5");
+    	
+    	GlobalStateManager.getInstance().updateWorldState("CHARACTER_IS_ALIVE", "TRUE");
     	GlobalStateManager.getInstance().updateWorldState("Location", "WORLD_MAP");
     	
     	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
+    
+    /**
+     * Adds an active quest to the player
+     */
+    public void addQuest (String questName) {
+    	player.getQuestLog().addQuest(QuestDatabase.getInstance().getQuest(questName));
+    }
+    
+    /**
+     * Adds an active quest to the player
+     */
+    public void completeQuest (String questName) {
+    	player.getQuestLog().completeQuest(QuestDatabase.getInstance().getQuest(questName));
+    }
+    
+    /**
+     * 
+     */
+    public void addItem (String itemInfo) {
+    	String name = itemInfo.substring(0, itemInfo.indexOf(","));
+    	int quantity = Integer.parseInt(itemInfo.substring(itemInfo.indexOf(",")+1));
+    	System.out.println(quantity + "x " + name);
+    	player.getPC().getInventory().addItem(ItemDatabase.getInstance().getItem(name), quantity);
     }
     
     /**
@@ -442,7 +462,7 @@ public class Game implements MouseListener
     	players = new ArrayList<>();
     	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("fireball"));
     	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("heal"));
-    	player.getPC().getInventory().addItem(ItemDatabase.getInstance().getItems("HealingPotion1"), 1);
+    	player.getPC().getInventory().addItem(ItemDatabase.getInstance().getItem("HealingPotion1"), 1);
     	players.add(player.getPC());
     	encounter = new Encounter("Victory", EnemyDatabase.getInstance().getEnemy("Big evil bengan"));
     	combat = new Combat(players, encounter, eventQueue.getEventAdder());
@@ -515,6 +535,7 @@ public class Game implements MouseListener
 	public void addTextToLog(String s){
 		combatViewer.addText(s);
 	}
+	
 	/**
 	 * 
 	 * @param s name of item to buy
@@ -524,8 +545,7 @@ public class Game implements MouseListener
 		if(vendor.buyItem(s)){
 			buyInfo = new ZPopup("You bought one "+ s, "ok",eventQueue.getEventAdder(), entities);
 			townViewer.updateCurrency(player);
-		}
-		else{
+		} else {
 			buyInfo = new ZPopup("You don't have enough money for a "+s, "ok",eventQueue.getEventAdder(), entities);
 		}
 		drawables.add(buyInfo);

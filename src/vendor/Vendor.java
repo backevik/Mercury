@@ -22,8 +22,8 @@ public class Vendor
 	
 	public Vendor(Player player) {
 		this.player = player;
-		items.put(ItemDatabase.getInstance().getItems("HealingPotion1"),MAX_HP_POTIONS);
-		items.put(ItemDatabase.getInstance().getItems("EnergyPotion1"), MAX_ENERGY_POTIONS);
+		items.put(ItemDatabase.getInstance().getItem("HealingPotion1"),MAX_HP_POTIONS);
+		items.put(ItemDatabase.getInstance().getItem("EnergyPotion1"), MAX_ENERGY_POTIONS);
 		// add more item to vendor
 	};
 	

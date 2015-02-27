@@ -36,7 +36,7 @@ public class ItemDatabase
 	 * return item from list base from name of item
 	 * @return
 	 */
-	public Item getItems(String itemName) {
+	public Item getItem (String itemName) {
 		return items.get(itemName);
 	}
 }
