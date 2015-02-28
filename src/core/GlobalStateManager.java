@@ -1,5 +1,9 @@
 package core;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,19 +26,20 @@ public class GlobalStateManager implements Serializable
 		Long number = r.nextLong();
 		
 		// key is not unique for this profile
-		if (false) {
-			for (int i = 0; i < 10000; ++i) {
-				number++;
+		for (int i = 0; i < 10000; ++i) {
+			if (keyUnique () == false) {
+				number = r.nextLong();	
 			}
 		}
 		
 		// if key still is false
-		if (false) {
+		if (keyUnique () == false) {
+			System.out.println("Failed to generate a valid key for profile handling.");
 			System.exit(0);
 		}
 		
 		key = Long.toString(number);
-	}	
+	}
 	
 	public void updateWorldState (String state, String value) {
 		worldState.put(state, value);
@@ -52,36 +57,6 @@ public class GlobalStateManager implements Serializable
 		return currentState;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public int save (Player player, String filename) {
-				
-		String directory = player.getPC().getName() + key;
-		
-		return saveThisToFile ();
-	}
-	
-	/**
-	 * TODO
-	 */
-	private int saveThisToFile () {return 0;}
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int load () {
-		return loadFromFile ();
-	}
-	
-	/**
-	 * 
-	 */
-	private int loadFromFile () {return 0;}
-	
 	public static GlobalStateManager getInstance () {
 		if (globalStateManager == null) {
 			globalStateManager = new GlobalStateManager ();
@@ -90,4 +65,57 @@ public class GlobalStateManager implements Serializable
 		return globalStateManager;
 	}
 	
+	/**
+	 * Check if there exists other profiles with this key
+	 * @return true if no other key like this exists
+	 */
+	private boolean keyUnique () {
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @return 0 if the save was succesful, if not -1
+	 */
+	public int save (Player player, String filename) {
+		if (globalStateManager == null) {
+			globalStateManager = new GlobalStateManager ();
+		}
+		
+		String directory = player.getPC().getName() + key;
+		
+		try {
+			FileOutputStream fos = new FileOutputStream (directory+"\\"+filename);
+			ObjectOutputStream oos = new ObjectOutputStream (fos);
+			oos.writeObject(this);
+			oos.close();
+			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}	
+	
+	/**
+	 * 
+	 * @return 0 if the load was succesful, if not -1
+	 */
+	public int load (String directory, String filename) {
+		if (globalStateManager == null) {
+			globalStateManager = new GlobalStateManager ();
+		}
+		
+		try {
+			FileInputStream fis = new FileInputStream (directory+"\\"+filename);
+			ObjectInputStream ois = new ObjectInputStream (fis);
+			globalStateManager = (GlobalStateManager) ois.readObject();
+			ois.close();
+			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
 }

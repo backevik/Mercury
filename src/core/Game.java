@@ -246,12 +246,10 @@ public class Game implements MouseListener
 	 * Handles events by using s in reflection
 	 * @param s
 	 */
-	private void eventHandler (String event) {		
+	private void eventHandler (String event) {
+		System.out.println("Event: " + event);
 		String method = (event.indexOf(",") == -1) ? event : event.substring(0, event.indexOf(","));
-		System.out.println("Method: " + method);
 		String arguments = (event.indexOf(",") == -1) ? null : event.substring(event.indexOf(",")+1);
-		System.out.println("Arguments: " + arguments);
-		System.out.println("---");
 		
 		try {
 			if (arguments == null) {
@@ -282,14 +280,14 @@ public class Game implements MouseListener
 	/**
 	 * 
 	 */
-	public void saveGame () {
-		
+	public void saveGame (String filename) {
+		GlobalStateManager.getInstance().save(player, filename);
 	}
 	
 	/**
 	 * 
 	 */
-	public void loadGame () {
+	public void loadGame (String filename) {
 		
 	}
 	
@@ -389,7 +387,6 @@ public class Game implements MouseListener
     public void addItem (String itemInfo) {
     	String name = itemInfo.substring(0, itemInfo.indexOf(","));
     	int quantity = Integer.parseInt(itemInfo.substring(itemInfo.indexOf(",")+1));
-    	System.out.println(quantity + "x " + name);
     	player.getPC().getInventory().addItem(ItemDatabase.getInstance().getItem(name), quantity);
     }
     

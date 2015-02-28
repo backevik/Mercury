@@ -31,8 +31,12 @@ public class LoadGameViewer extends ZContainer
 		if (getProfileNames().size() == 0) {
 			components.add(new ZText ("There is no saved game data avaible.", 20, 70, 16));
 		} else {
+			int i = 0;
 			for (String s : getProfileNames()) {
-				
+				ZButton save = new ZButton("Load " + s, 20, 70 + i*100, 240, 60, eventAdder, "loadGame,"+s);
+				components.add(save);
+				entities.add(save);
+				i++;
 			}
 		}		
 		
