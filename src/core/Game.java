@@ -532,6 +532,9 @@ public class Game implements MouseListener
 	public void addTextToLog(String s){
 		combatViewer.addText(s);
 	}
+	public void updateVisuals(){
+		combatViewer.updateVisuals();
+	}
 	
 	/**
 	 * 
