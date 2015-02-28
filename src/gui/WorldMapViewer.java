@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import worldmap.WorldMap;
 import worldmap.Zone;
+import zlibrary.ZButton;
 import zlibrary.ZContainer;
 import zlibrary.ZEntity;
 import core.EventAdder;
@@ -26,6 +27,14 @@ public class WorldMapViewer extends ZContainer implements RealTime
 	public WorldMapViewer(EventAdder eventAdder, List<ZEntity> entities, WorldMap worldMap) {
 		super(ImageDatabase.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
 
+		// Create GUI elements for character menus
+		ZButton tmpButton = new ZButton (ImageDatabase.getInstance().getImage("btnCharacterStatistics.jpg"), 800-35, 25, eventAdder, "characterStatisticsToggle");
+		components.add(tmpButton);
+		entities.add(tmpButton);
+		tmpButton = new ZButton (ImageDatabase.getInstance().getImage("btnQuestLog.jpg"), 800-67, 25, eventAdder, "questLogToggle");
+		components.add(tmpButton);
+		entities.add(tmpButton);
+		
 		// Create all buttons
 		for (Entry<String, Zone> z : worldMap.getZones().entrySet()) {
 			ZoneButton tmpZoneButton = new ZoneButton (
