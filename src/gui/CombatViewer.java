@@ -3,10 +3,12 @@ package gui;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Graphics;
 
 import character.Spell;
 import core.EventAdder;
 import core.GlobalStateManager;
+import core.RealTime;
 import player.ItemSlot;
 import player.Playable;
 import zlibrary.ZAnimation;
@@ -16,6 +18,7 @@ import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
 import zlibrary.ZImage;
 import zlibrary.ZTextArea;
+import combat.Encounter;
 import combat.Enemy;
 import database.ImageDatabase;
 
@@ -23,7 +26,7 @@ import database.ImageDatabase;
  * Combat is a subclass of JFrame for re-rendering the current JFrame
  * to this GUI if combat occurs.
  *
- * @author Andreas BÃƒÂ¤ckevik	& Daniel Edisnger
+ * @author Andreas BÃƒÆ’Ã‚Â¤ckevik	& Daniel Edisnger
  * @version 0.3.1
  * @since 2015-02-21
  */
@@ -40,20 +43,26 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	private ZButton retreatbtn;
 	
 	private Playable player;
+	private Enemy enemy;
 	private EventAdder eventAdder;
 	private List<ZButton> spellButtons;
 	private List<ZButton> itemButtons;
 	private List<Image> hpBar;
 	private List<Image> manaBar;
 	private ZTextArea combatlog = new ZTextArea(560,294,240,300,10);
+	private ZAnimation playerHP;
+	private ZAnimation playerMana;
+	private ZAnimation enemyHP;
+	private ZAnimation enemyMana;
 	
 	/*
 	 * The constructor of Combat creates all the necessary components and adding relevant player spells.
 	 * It also sets actionListeners to work with the game-logic.
 	 */
-	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players,  Enemy enemy) {
+	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Enemy enemy) {
 		super(ImageDatabase.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);
 		this.player = players;
+		this.enemy = enemy;
 		this.eventAdder = eventAdder;
 		spellButtons = new ArrayList<>();
 		itemButtons = new ArrayList<>();
@@ -92,16 +101,16 @@ public class CombatViewer extends ZContainer implements ZDrawable
 			manaBar.add(ImageDatabase.getInstance().getImage("guiCombatManabar"+i+".png"));
 		}
 		
-		ZAnimation playerMana = new ZAnimation(manaBar,240,482,0);
+		playerMana = new ZAnimation(manaBar,240,482,0);
 		components.add(playerMana);
 		
-		ZAnimation playerHP = new ZAnimation(hpBar,240,522,0);
+		playerHP = new ZAnimation(hpBar,240,522,0);
 		components.add(playerHP);
 		
-		ZAnimation enemyHP = new ZAnimation(hpBar,240,65,0);
+		enemyHP = new ZAnimation(hpBar,240,65,0);
 		components.add(enemyHP);
 		
-		ZAnimation enemyMana = new ZAnimation(manaBar,240,25,0);
+		enemyMana = new ZAnimation(manaBar,240,25,0);
 		components.add(enemyMana);
 		
 		//GUI to add
@@ -130,6 +139,7 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	public void clickedSpell(){
 		for(ZButton btn : spellButtons){
 			components.remove(btn);
+			entities.remove(btn);
 		}
 	}
 	
@@ -159,10 +169,44 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	public void clickedItem(){
 		for(ZButton btn : itemButtons){
 			components.remove(btn);
+			entities.remove(btn);
 		}
 	}
 	
 	public void addText(String s){
 		combatlog.addText(s);
+	}
+
+	public void updateVisuals(){
+		int playerHpMax,playerManaMax,enemyHpMax,enemyManaMax;
+		playerHpMax=(int)Math.round((player.getValueOfVital("Health")/((player.getMaxOfVital("Health")+10)/37)))+3;
+		System.out.println((int)Math.round((player.getValueOfVital("Health")/((player.getMaxOfVital("Health")+10)/37))));
+		playerManaMax=(int)Math.round((player.getValueOfVital("Energy")/((player.getMaxOfVital("Energy")+5)/37)));
+		enemyHpMax=(int)Math.round((enemy.getValueOfVital("Health")/((enemy.getMaxOfVital("Health")+10)/37)))+3;
+		enemyManaMax=(int)Math.round((enemy.getValueOfVital("Energy")/((enemy.getMaxOfVital("Energy")+10)/37)));
+		components.remove(playerHP);
+		components.remove(playerMana);
+		components.remove(enemyHP);
+		components.remove(enemyMana);
+		if(playerHpMax>37 || playerHpMax<0){
+			playerHpMax=37;
+		}
+		if(playerManaMax>37 || playerManaMax<0){
+			playerManaMax=2;
+		}
+		if(enemyHpMax>37 || enemyHpMax<0){
+			enemyHpMax=37;
+		}
+		if(enemyManaMax>37 || enemyManaMax<0){
+			enemyManaMax=2;
+		}
+		playerHP = new ZAnimation(hpBar,240,522,37-playerHpMax);
+		enemyHP = new ZAnimation(hpBar,240,65,37-enemyHpMax);
+		playerMana = new ZAnimation(manaBar,240,482,37-playerManaMax);
+		enemyMana = new ZAnimation(manaBar,240,25,37-enemyManaMax);
+		components.add(playerHP);
+		components.add(enemyHP);
+		components.add(playerMana);
+		components.add(enemyMana);
 	}
 }
