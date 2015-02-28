@@ -14,7 +14,8 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
-# Binary Files
+# Class and Binary files
+bin/
 *.class
 
 # Windows shortcuts
