@@ -362,7 +362,7 @@ public class Game implements MouseListener
     	eventQueue.getEventAdder().add("addItem,HealingPotion1,5");
     	
     	GlobalStateManager.getInstance().updateWorldState("CHARACTER_IS_ALIVE", "TRUE");
-    	GlobalStateManager.getInstance().updateWorldState("Location", "WORLD_MAP");
+    	GlobalStateManager.getInstance().updateWorldState("LOCATION", "WORLD_MAP");
     	
     	eventQueue.getEventAdder().add("sceneWorldMap");
     }
@@ -419,11 +419,11 @@ public class Game implements MouseListener
      * @param area
      */
     public void selectArea(String area) {    	
-		if (GlobalStateManager.getInstance().getWorldState("Location").equals(area)) {
+		if (GlobalStateManager.getInstance().getWorldState("LOCATION").equals(area)) {
 			System.out.println("You entered: " + area);
-			if (GlobalStateManager.getInstance().getWorldState("Location").startsWith("combat")) {
+			if (GlobalStateManager.getInstance().getWorldState("LOCATION").startsWith("combat")) {
 				sceneCombat();
-			} else if (GlobalStateManager.getInstance().getWorldState("Location").startsWith("town")){
+			} else if (GlobalStateManager.getInstance().getWorldState("LOCATION").startsWith("town")){
 				sceneTown();
 			}
 		} else {
