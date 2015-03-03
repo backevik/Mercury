@@ -13,10 +13,15 @@ import zlibrary.ZText;
 import core.EventAdder;
 import core.GlobalStateManager;
 import database.ImageDatabase;
+/**
+ * @author Martin Claesson
+ * @version 0.4.1
+ * @since 2015-03-03
+ */
 
 public class TownViewer extends ZContainer
 {
-    private final static int WINDOW_BOTTOM = 597;
+    private final static int WINDOW_BOTTOM = 600;
     private final static int BTN_WITH = 122;
     private final static int BTN_HEIGHT = 57;
 	private final static int PADDING = 10;
@@ -45,21 +50,21 @@ public class TownViewer extends ZContainer
         this.eventAdder = eventAdder;
         this.entities = entities;
         
-        btnVendor = new ZButton("Vendor", 3, 32, BTN_WITH, BTN_HEIGHT, eventAdder, "enterVendor");
+        btnVendor = new ZButton("Vendor", 0, 0, BTN_WITH, BTN_HEIGHT, eventAdder, "enterVendor");
         components.add(btnVendor);
         entities.add(btnVendor); 
         
-        btnLeaveTown = new ZButton( "Leave Town", 3, 32+BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "sceneWorldMap");
+        btnLeaveTown = new ZButton( "Leave Town", 0, BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "sceneWorldMap");
         components.add(btnLeaveTown);
         entities.add(btnLeaveTown);
         
         txtVendor = new ZText("Welcome to Vendor! What can I do for you?", BTN_WITH+9, WINDOW_BOTTOM-BTN_HEIGHT*2+10, 16);
        
-        bgText = new ZImage(ImageDatabase.getInstance().getImage("textruta.jpg"), 3+BTN_WITH, WINDOW_BOTTOM-2*BTN_HEIGHT);
+        bgText = new ZImage(ImageDatabase.getInstance().getImage("textruta.jpg"), BTN_WITH, WINDOW_BOTTOM-2*BTN_HEIGHT);
         
-        btnBuy = new ZButton("Buy", 3, WINDOW_BOTTOM-2*BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "enterVendorBuy");
+        btnBuy = new ZButton("Buy", 0, WINDOW_BOTTOM-2*BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "enterVendorBuy");
         
-        btnLeaveVendor = new ZButton( "Exit Vendor", 3, WINDOW_BOTTOM-BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "leaveVendor");
+        btnLeaveVendor = new ZButton( "Exit Vendor", 0, WINDOW_BOTTOM-BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "leaveVendor");
         
         bgCurrency = new ZImage(ImageDatabase.getInstance().getImage("coin.jpg"), 674, 32);
         
@@ -104,10 +109,10 @@ public class TownViewer extends ZContainer
 		ZImage bg = new ZImage(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"),3,32);
 		components.add(bg);
     	
-		ZText title = new ZText ("Vendor", 3+PADDING, 32+PADDING, 20);
+		ZText title = new ZText ("Vendor", PADDING, PADDING, 20);
 		components.add(title);
 		
-		ZButton backToTownVendor = new ZButton (ImageDatabase.getInstance().getImage("bgQuestViewerQuit.jpg"), ITEM_BG_SIZE-2*PADDING-6, 32+PADDING, eventAdder, "enterVendor");//not sure of how reflection works
+		ZButton backToTownVendor = new ZButton (ImageDatabase.getInstance().getImage("bgQuestViewerQuit.jpg"), ITEM_BG_SIZE-2*PADDING-3, PADDING, eventAdder, "enterVendor");//not sure of how reflection works
     	components.add(backToTownVendor);
     	entities.add(backToTownVendor);
 		int i =0;
@@ -115,21 +120,21 @@ public class TownViewer extends ZContainer
 		String itemName;// used in btnItem
     	for (Item item : vendor.getItems().keySet()) {
     		itemName = item.getName();//to send the item name to buyItem method in reflection
-    		ZButton btnItem = new ZButton (ImageDatabase.getInstance().getImage("bgQuestViewerIcon.jpg"), 3+PADDING, 32+PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, eventAdder,"buyItem,"+itemName);
+    		ZButton btnItem = new ZButton (ImageDatabase.getInstance().getImage("bgQuestViewerIcon.jpg"), PADDING, PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, eventAdder,"buyItem,"+itemName);
     		components.add(btnItem);
     		entities.add(btnItem);
     		
-    		ZText itemNameText = new ZText (item.getName(), 3+PADDING*2 + ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, 16);
+    		ZText itemNameText = new ZText (item.getName(), PADDING*2 + ITEM_ICON_SIZE, PADDING + TITLE_HEIGHT + i*ITEM_DISTANCE, 16);
     		components.add(itemNameText);
     		
-    		ZText itemDescription = new ZText (item.getDescription(), 3+PADDING*2+ ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT+20 + i*ITEM_DISTANCE, 12);
+    		ZText itemDescription = new ZText (item.getDescription(), PADDING*2+ ITEM_ICON_SIZE, PADDING + TITLE_HEIGHT+20 + i*ITEM_DISTANCE, 12);
     		components.add(itemDescription);
     		
-    		ZText itemPrice = new ZText("Price: "+Integer.toString(item.getSellPrice()),3+PADDING*2+ ITEM_ICON_SIZE, 32+PADDING + TITLE_HEIGHT+36 + i*ITEM_DISTANCE, 12);
+    		ZText itemPrice = new ZText("Price: "+Integer.toString(item.getSellPrice()),PADDING*2+ ITEM_ICON_SIZE, PADDING + TITLE_HEIGHT+36 + i*ITEM_DISTANCE, 12);
     		components.add(itemPrice);
     		
     		if (i != vendor.getItems().size()){
-    			ZImage itemBorder = new ZImage (ImageDatabase.getInstance().getImage("bgQuestViewerSeparator.jpg"), 3, 32+PADDING*2 + TITLE_HEIGHT +ITEM_ICON_SIZE +i*ITEM_DISTANCE);
+    			ZImage itemBorder = new ZImage (ImageDatabase.getInstance().getImage("bgQuestViewerSeparator.jpg"), 0, PADDING*2 + TITLE_HEIGHT +ITEM_ICON_SIZE +i*ITEM_DISTANCE);
     			components.add(itemBorder);
     		}
     		i++;
@@ -141,6 +146,8 @@ public class TownViewer extends ZContainer
      * updates the currency in GUI
      */
     public void updateCurrency(Player player){
+    	components.remove(currency);
     	currency = new ZText(Double.toString(player.getPC().getCurrency()),742,50,14);
+    	components.add(currency);
     }
 } 
