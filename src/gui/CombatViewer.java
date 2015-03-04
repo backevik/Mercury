@@ -20,24 +20,21 @@ import combat.Enemy;
 import database.ImageDatabase;
 
 /**
- * Combat is a subclass of JFrame for re-rendering the current JFrame
- * to this GUI if combat occurs.
+ * Combat is a subclass ZContainer for graphical components and implements ZDrawable so it's added to drawable-list.
+ * Handles all the combat GUI
  *
- * @author Andreas Bäckevik	& Daniel Edisnger
- * @version 0.3.1
+ * @author Andreas Bäckevik
+ * @version 1.0
  * @since 2015-02-21
  */
 
 public class CombatViewer extends ZContainer implements ZDrawable
 {
-	@SuppressWarnings("unused")
 	private ZButton atkbtn;
-	@SuppressWarnings("unused")
 	private ZButton spellbtn;
-	@SuppressWarnings("unused")
 	private ZButton itembtn;
-	@SuppressWarnings("unused")
 	private ZButton retreatbtn;
+	private ZButton nextturnbtn;
 	
 	private Playable player;
 	private Enemy enemy;
@@ -46,15 +43,18 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	private List<ZButton> itemButtons;
 	private List<Image> hpBar;
 	private List<Image> manaBar;
-	private ZTextArea combatlog = new ZTextArea(560,294,240,300,10);
+	private ZTextArea combatlog;
 	private ZAnimation playerHP;
 	private ZAnimation playerMana;
 	private ZAnimation enemyHP;
 	private ZAnimation enemyMana;
-	
-	/*
-	 * The constructor of Combat creates all the necessary components and adding relevant player spells.
-	 * It also sets actionListeners to work with the game-logic.
+
+	/**
+	 * The constructor initializes all necessary information for the combat GUI to work uniquely for each fight. And adds all GUI elements.
+	 * @param entities
+	 * @param eventAdder
+	 * @param players - list with playable characters.
+	 * @param e - the specific encounter for this combat that includes enemies
 	 */
 	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Encounter e) {
 		super(ImageDatabase.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);
@@ -69,23 +69,23 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		ZImage enemyIcon = new ZImage(enemy.getImage(), 300, 250);
 		components.add(enemyIcon);
 		
-		ZButton atkbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatAttack.jpg"), 0, 440, eventAdder, "attack");
+		atkbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatAttack.jpg"), 0, 440, eventAdder, "attack");
 		components.add(atkbtn);
 		entities.add(atkbtn);
 		
-		ZButton spellbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatSpell.jpg"), 0, 520, eventAdder, "spellMenu");
+		spellbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatSpell.jpg"), 0, 520, eventAdder, "spellMenu");
 		components.add(spellbtn);
 		entities.add(spellbtn);
 		
-		ZButton itembtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatItem.jpg"), 120, 440, eventAdder, "itemMenu");
+		itembtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatItem.jpg"), 120, 440, eventAdder, "itemMenu");
 		components.add(itembtn);
 		entities.add(itembtn);
 		
-		ZButton retreatbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "retreat");
+		retreatbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatRetreat.jpg"), 120, 520, eventAdder, "retreat");
 		components.add(retreatbtn);
 		entities.add(retreatbtn);
 		
-		ZButton nextturnbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatNextTurn.jpg"), 675, 360, eventAdder, "nextTurn");
+		nextturnbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatNextTurn.jpg"), 675, 360, eventAdder, "nextTurn");
 		components.add(nextturnbtn);
 		entities.add(nextturnbtn);
 		
@@ -121,6 +121,9 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		components.add(enemymana);
 		*/
 	}
+	/**
+	 * Opens spell menu with dynamically loaded spells from players spellbook to show in the GUI
+	 */
 	public void spellMenu(){
 		int yCord=0, j=0;
 		for(Spell spell : player.getSpellBook().getSpells()){
@@ -131,27 +134,32 @@ public class CombatViewer extends ZContainer implements ZDrawable
 			yCord=+30;
 		}
 	}
-	
+	/**
+	 * Removes the spell menu when spell is used.
+	 */
 	public void clickedSpell(){
 		for(ZButton btn : spellButtons){
 			components.remove(btn);
 			entities.remove(btn);
 		}
 	}
-	
+	/**
+	 * Opens item menu with dynamically loaded items from players inventory to show in the GUI
+	 */
 	public void itemMenu(){
 		int yCord=0, j=0;
 		boolean addedHealthPotion = false;
 		boolean addedEnergyPotion = false;
 		for(ItemSlot itemslot : player.getInventory().getItems()){
-			if(itemslot.getItem().getName().contains("Healing") && addedHealthPotion==false){
+			if(itemslot.getItem().getName().contains("Healing")){
 				itemButtons.add(new ZButton(itemslot.getItem().getName(),240,440+yCord,200,30,eventAdder,"item,"+itemslot.getItem().getName()));
 				components.add(itemButtons.get(j));
 				entities.add(itemButtons.get(j));
 				addedHealthPotion=true;
 				j++;
 				yCord=+30;
-			}else if(itemslot.getItem().getName().contains("Energy") && addedEnergyPotion==false){
+			}
+			if(itemslot.getItem().getName().contains("Energy") && addedEnergyPotion==false){
 				itemButtons.add(new ZButton(itemslot.getItem().getName(),240,440+yCord,200,30,eventAdder,"item,"+itemslot.getItem().getName()));
 				components.add(itemButtons.get(j));
 				entities.add(itemButtons.get(j));
@@ -187,25 +195,25 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		if(playerHpMax>37 || playerHpMax<=0){
 			playerHpMax=37;
 		}
-		if(playerManaMax<0){
+		if(playerManaMax<=0){
 			playerManaMax=2;
 		}
-		if(playerManaMax>37){
+		if(playerManaMax>31){
 			playerManaMax=37;
 		}
 		if(enemyHpMax>37 || enemyHpMax<=0){
 			enemyHpMax=37;
 		}
-		if(enemyManaMax>37){
+		if(enemyManaMax>31){
 			enemyManaMax=37;
 		}
-		if(enemyManaMax<0){
+		if(enemyManaMax<=0){
 			enemyManaMax=2;
 		}
 		playerHP = new ZAnimation(hpBar,240,522,37-playerHpMax);
-		enemyHP = new ZAnimation(hpBar,240,65,37-enemyHpMax);
+		enemyHP = new ZAnimation(hpBar,240,40,37-enemyHpMax);
 		playerMana = new ZAnimation(manaBar,240,482,37-playerManaMax);
-		enemyMana = new ZAnimation(manaBar,240,25,37-enemyManaMax);
+		enemyMana = new ZAnimation(manaBar,240,0,37-enemyManaMax);
 		components.add(playerHP);
 		components.add(enemyHP);
 		components.add(playerMana);
