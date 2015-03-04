@@ -14,9 +14,9 @@ import core.EventAdder;
 import core.GlobalStateManager;
 import database.ImageDatabase;
 /**
- * 
+ * TownViewer is a subclass to ZContainer and contains the graphical components for the Town and vendor GUI
  * @author Martin Claesson
- * @version 0.8
+ * @version 1.0
  * @since 2015-03-04
  *
  */
@@ -44,7 +44,9 @@ public class TownViewer extends ZContainer
     private List<ZEntity> entities;
     
     /**
-     * Constructor creates all components and adds them to drawable and clickable lists
+     * Constructor initializes all the components and adds them to the drawable and clickable list
+     * @param entities
+     * @param eventAdder
      */
     public TownViewer( List<ZEntity> entities, EventAdder eventAdder){
         super(ImageDatabase.getInstance().getImage("bgDefault.jpg"),0,0,eventAdder, entities);
@@ -105,7 +107,8 @@ public class TownViewer extends ZContainer
     }
     
     /**
-     * sets the game state to inside TownVendorBuy
+     * sets the game state inside the Vendor and displays the items
+     * @param vendor - reference to the vendor
      */
     public void enterTownVendorBuy(Vendor vendor){
 		ZImage bg = new ZImage(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"),0,0);
@@ -146,6 +149,7 @@ public class TownViewer extends ZContainer
     }
     /**
      * updates the currency in GUI
+     * @param player - reference to the player
      */
     public void updateCurrency(Player player){
     	components.remove(currency);

@@ -7,10 +7,11 @@ import items.Item;
 import database.ItemDatabase;
 import player.Player;
 
-/**
+/**Where the vendor is created, purchases are made and items are added to inventory. 
+ * Getters for items 
  * @author Martin Claesson
- * @version 0.4.1
- * @since 2015-02-21
+ * @version 1.0
+ * @since 2015-03-03
  */
 
 public class Vendor 
@@ -19,18 +20,21 @@ public class Vendor
 	private HashMap<Item, Integer> items = new HashMap<>();
 	private final static int 	MAX_HP_POTIONS= 50;
 	private final static int 	MAX_ENERGY_POTIONS= 50;
-	
+	/**
+	 * Constructor adds specific items to the vendor and declares local player reference
+	 * @param player - reference to player 
+	 */
 	public Vendor(Player player) {
 		this.player = player;
 		items.put(ItemDatabase.getInstance().getItem("HealingPotion1"),MAX_HP_POTIONS);
 		items.put(ItemDatabase.getInstance().getItem("EnergyPotion1"), MAX_ENERGY_POTIONS);
-		// add more item to vendor
 	};
 	
 	/**
-	 * 
-	 * @param name of item that player buys 
-	 * @return true if the player where able to buy item  else false
+	 * Handles the item purchases by adding the specified item to the players inventory and
+	 * subtracts the cost from the players currency
+	 * @param name -  name of item the player buys 
+	 * @return true - if the player where able to buy item otherwise false
 	 */
 	public boolean buyItem(String item){
 		
@@ -45,14 +49,17 @@ public class Vendor
 			return false;
 		}
 	}
-	
+	/**
+	 * Getter for items in vendor
+	 * @return HashMap - containing the items and the amount of them 
+	 */
 	public HashMap<Item, Integer> getItems(){
 		return items;
 	}
 	/**
-	 * 
-	 * @param Name of item
-	 * @return the value of the key 
+	 * returns the specified item that matches the string
+	 * @param Key - Name of item
+	 * @return Item - item value of the key if it exists. Otherwise null
 	 */
 	public Item getItem(String key){
 		for(Item item : items.keySet()){
