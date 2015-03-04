@@ -1,8 +1,10 @@
 package character;
 
 /**
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     0.1
+ * If buffs modify skills it is handled in this class.
+ * 
+ * @author      Andreas Bäckevik
+ * @version     1.0
  * @since       2015-02-01
  */
 

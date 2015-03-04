@@ -5,19 +5,24 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     0.4
+ * Contains a list of all the spells the character owns. Also able to add spells.
+ * 
+ * @author      Andreas Bäckevik
+ * @version     1.0
  * @since       2015-02-01
  */
 
 public class SpellBook
 {
 	private final List<Spell> spells = new ArrayList<>();
-	
+	/**
+	 * Constructor
+	 */
 	public SpellBook () {}
 	
 	/**
-	 * @return an unmodifiable list of spells
+	 * Returns a list of spells
+	 * @return list - an unmodifiable list of spells
 	 */
 	public List<Spell> getSpells () {
 		return Collections.unmodifiableList(spells);

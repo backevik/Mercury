@@ -10,9 +10,11 @@ import constants.Vitals;
 import player.Inventory;
 
 /**
+ * Where a character essentially is created with all basic statistics and info.
+ * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
  * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     0.4
+ * @version     1.0
  * @since       2015-02-01
  */
 
@@ -27,7 +29,10 @@ public abstract class Character
 	
 	private final SpellBook spellBook = new SpellBook ();
 	private final Inventory inventory = new Inventory ();
-	
+	/**
+	 * Constructor
+	 * @param name - name of the character that is created.
+	 */
 	public Character (String name) {
 		// give the character a name
 		this.name = name;
@@ -54,16 +59,23 @@ public abstract class Character
 	}
 	
 	/**
+	 * Returns name of character
 	 * @return 	name of this character
 	 */
 	public String getName () {
 		return name;
 	}
-	
+	/**
+	 * Return level of character
+	 * @return level of this character
+	 */
 	public int getLevel() {
 		return level;
 	}
-	
+	/**
+	 * Set level of the character and updates skills/vitals with new level.
+	 * @param level of character
+	 */
 	public void setLevel(int level){
 		this.level = level;
 		updateSkills (level);
@@ -145,31 +157,50 @@ public abstract class Character
 	public SpellBook getSpellBook () {
 		return spellBook;
 	}
-	
+	/**
+	 * Returns a map with String key and Attribute values
+	 * @return map with String key and Attribute values
+	 */
 	protected Map<String, Attribute> getAttributes () {
 		return attributes;
 	}
-	
+	/**
+	 * Returns a map with String key and Skills values
+	 * @return map with String key and Attribute values
+	 */
 	protected Map<String, Skill> getSkills () {
 		return skills;
 	}
-	
+	/**
+	 * Returns a map with String key and Vital values
+	 * @return map with String key and Vital values
+	 */
 	protected Map<String, Vital> getVitals () {
 		return vitals;
 	}
-	
+	/**
+	 * Updates skill values accordingly with level parameter
+	 * @param level of character
+	 */
 	protected void updateSkills (int level) {
 		for (Skill s : skills.values()) {
 			s.updateValue(level);
 		}
 	}
-	
+	/**
+	 * Updates vital values accordingly with level parameter
+	 * @param level of character				
+	 */
 	protected void updateVitals (int level) {
 		for (Vital v : vitals.values()) {
 			v.setMax(level);
 			v.updateValue(level);
 		}
 	}
+	/**
+	 * Updates attribute values accordingly with level parameter
+	 * @param level of character
+	 */
 	protected void updateAttributes (int level) {
 		for (Attribute a : attributes.values()){
 			a.updateValue(level);

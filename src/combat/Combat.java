@@ -12,8 +12,10 @@ import core.EventAdder;
 import core.RealTime;
 
 /**
- * @author      Andreas BÃƒÂ¤ckevik
- * @version     0.39
+ * All the logic and rules for encounters throughout the game. Implements interface RealTime for realtime support.
+ * 
+ * @author      Andreas B�ckevik
+ * @version     1.0
  * @since       2015-02-09
  */
 public class Combat implements RealTime {
@@ -30,6 +32,14 @@ public class Combat implements RealTime {
 	private String winEvent,
 				   lostEvent;
 	
+	/**
+	 * Constructor
+	 * @param players - reference of player
+	 * @param encounter - unique encounter
+	 * @param eventAdder
+	 * @param winEvent
+	 * @param lostEvent
+	 */
 	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder, String winEvent, String lostEvent){
 		rand = new Random();
 		this.eventAdder = eventAdder;
@@ -41,6 +51,9 @@ public class Combat implements RealTime {
 		nextTurn();
 	}
 	
+	/**
+	 * Initializes the turn based list
+	 */
 	public void initCombatList(){
 		for (Playable player : players){
 			turnList.add(player);	
@@ -51,7 +64,9 @@ public class Combat implements RealTime {
 		listSort();
 		
 	}
-	
+	/**
+	 * Sorts the list, highest speed goes first
+	 */
 	public void listSort(){
 		for(int i = 0; i < turnList.size(); i++){
 		    for(int j = i + 1; j < turnList.size(); j++){
@@ -63,7 +78,9 @@ public class Combat implements RealTime {
 		    }
 		}
 	}
-	
+	/**
+	 * Checks list to set next turn to that character
+	 */
 	public void nextTurn(){
 		if(currentChar instanceof Playable && turn==true){
 			eventAdder.add("popupWindow, You forgot to make your move!");
@@ -77,12 +94,18 @@ public class Combat implements RealTime {
 				}
 			}
 		}
-	
+	/**
+	 * Puts the first character last in turnlist
+	 */
 	private void removeFirstAddLast(){
 		currentChar=turnList.pollFirst();
 		turnList.addLast(currentChar);
 	}
-	
+	/**
+	 * Character attacks
+	 * @param src - character who has the turn
+	 * @param dest - the other character
+	 */
 	public void attack(Character src,Character dest){
 			if(src instanceof Playable){
 			dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
@@ -94,20 +117,25 @@ public class Combat implements RealTime {
 			deathCheck(dest,src.getValueOfSkill("Attack"));
 			dest.reduceVital("Health", src.getValueOfSkill("Attack"));			
 	}
-	
+	/**
+	 * Character spellcast
+	 * @param src - character who has the turn
+	 * @param dest - the other character
+	 * @param spellName - Name of the spell casted
+	 */
 	public void spell(Character src,Character dest,String spellName){
 		if(src instanceof Playable){
 		dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
 		}
 		
 		for(Spell spell : src.getSpellBook().getSpells()){
-			if(spell.getName().equals(spellName) && spell.getType().equals("heal") && energyCheck(spell.getName())){
+			if(spell.getName().equals(spellName) && spell.getType().equals("heal")){
 				src.reduceVital("Energy", spell.getEnergyCost());
 				eventAdder.add("addTextToLog,"+src.getName()+" restored "+src.getName()+" health for "+src.healVital("Health", spell.getspellPower()));
 				System.out.println(src.getName()+" restored "+src.getName()+" health for "+src.healVital("Health", spell.getspellPower()));
 				eventAdder.add("updateVisuals");
 				break;
-			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell.getName())){
+			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage")){
 				eventAdder.add("addTextToLog,"+src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
 				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
 				eventAdder.add("updateVisuals");
@@ -121,7 +149,10 @@ public class Combat implements RealTime {
 			}
 		}
 	}
-	
+	/**
+	 * Character uses item
+	 * @param itemName - name of item used
+	 */
 	public void useItem(String itemName){
 		for(ItemSlot itemslot : currentChar.getInventory().getItems()){
 			if(itemslot.getItem().getName().equals(itemName)){
@@ -136,16 +167,23 @@ public class Combat implements RealTime {
 			}
 		}
 	}
-	
+	/**
+	 * Check if player turn
+	 * @param itemName - name of item used
+	 */
 	public void itemCheck(String itemName){
 		if(turn==true){
 			useItem(itemName);
 		}
 	}
-	
+	/**
+	 * Check if player turn and enough energy
+	 * @param src - character who has the turn
+	 * @param dest - the other character
+	 */
 	public void spellCheck(Character src,String spellName){
 		Enemy dest;
-		if(currentChar instanceof Playable && turn==true && energy==true){
+		if(currentChar instanceof Playable && turn==true && energyCheck(spellName)){
 			dest = encounter.getEnemies().get(0);
 			spell(src,dest,spellName);
 			turn=false;
@@ -157,7 +195,10 @@ public class Combat implements RealTime {
 			spell(src,desti,spellName);
 		}
 	}
-	
+	/**
+	 * Check if player turn
+	 * @param src - character who has the turn
+	 */
 	public void attackCheck(Character src){
 		if(currentChar instanceof Playable && turn==true){
 			Enemy dest = encounter.getEnemies().get(0);
@@ -177,14 +218,14 @@ public class Combat implements RealTime {
 	}
 	
 	/**
-	 * Resetting count of real-time clock
+	 * Resetting count of real-time clock calls
 	 */
 	public void resetUpdateCount(){
 		clockTick=0;
 	}
 	
 	/**
-	 * Set turn to enemy;
+	 * Set turn to enemy
 	 */
 	private void enemyTurn(){	
 		turn=false;
@@ -192,14 +233,18 @@ public class Combat implements RealTime {
 		System.out.println(currentChar.getName()+"'s turn!");
 	}
 	/**
-	 * Set turn to player;
+	 * Set turn to player
 	 */
 	private void playerTurn(){
 		turn=true;
 		eventAdder.add("addTextToLog,"+currentChar.getName()+"'s turn!");
 		System.out.println(currentChar.getName()+"'s turn!");
 	}
-
+	/**
+	 * 
+	 * @param Character who is checked if dead
+	 * @param damage - the damage which might kill character
+	 */
 	public void deathCheck(Character c,double damage){
 		if((c.getValueOfVital("Health")-damage)<=0 && c instanceof Playable){
 			eventAdder.add("addTextToLog,"+c.getName()+" died! The fight is lost");
@@ -220,21 +265,27 @@ public class Combat implements RealTime {
 			eventAdder.add(winEvent);
 		}
 	}
-	
+	/**
+	 * check if character has sufficient energy
+	 * @param spellName - name of spell character wants to cast
+	 * @return boolean - true if energy was sufficient, else false
+	 */
 	private boolean energyCheck(String spellName){
 		for(Spell spell : currentChar.getSpellBook().getSpells()){
 			if(spell.getName().equals(spellName) && ((currentChar.getValueOfVital("Energy"))-(spell.getEnergyCost()))>=0){
 				return true;
+			}else if(spell.getName().equals(spellName) && (currentChar.getValueOfVital("Energy")-spell.getEnergyCost())<=0){
+				energy = false;
+				return false;
 			}
 		}
-		energy=false;
 		return false;
 	}
 	
 	/**
 	 * Calculate the chance for successful retreat
 	 * @param character - player or enemy we want to calculate chance for
-	 * @return the chance of successful retreat
+	 * @return double - the chance of successful retreat
 	 */
 	public double retreatChance(){
 			return ((40*currentChar.getValueOfSkill("Speed"))/currentChar.getValueOfSkill("Speed"))+10;		
@@ -254,7 +305,9 @@ public class Combat implements RealTime {
 			
 		}
 	}
-	
+	/**
+	 * Check if player turn
+	 */
 	public void retreatCheck(){
 		if(turn==true){
 			retreat();
@@ -272,16 +325,19 @@ public class Combat implements RealTime {
 					nextTurn();
 				}
 			}
+		}
+		if(rand.nextInt(2)+1==1 && energyCheck("fireball")){
+			spell(currentChar,players.get(0),"fireball");
+			nextTurn();
 		}else{
-			if(rand.nextInt(2)+1==1 && energyCheck("fireball")){
-				spell(currentChar,players.get(0),"fireball");
-				nextTurn();
-			}else{
-				attack(currentChar,players.get(0));
-				nextTurn();
-			}
+			attack(currentChar,players.get(0));
+			nextTurn();
 		}
 	}
+	/**
+	 * randomizes numbers
+	 * @return 1-100
+	 */
 	private int nextInt(){
 		return rand.nextInt(100)+1;
 	}
