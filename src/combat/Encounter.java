@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * A unique encounter for each zone that includes a chosen number of enemies (can be 0) and win/lose events.
  * 
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃ¤ckevik
  * @version     1.0
  * @since       2015-02-20
  */
@@ -28,6 +28,16 @@ public class Encounter {
 		this.winEvent = winEvent;
 		this.loseEvent = loseEvent;
 	}
+	/**
+  	* Copy Constructor for Encounter
+  	* Returns win event
+	 * @return String
+	 */
+	 public Encounter (Encounter e) {
+	 	enemyList = e.enemyList;
+	 	winEvent = e.winEvent;
+	 	loseEvent = e.loseEvent;
+ 	}
 	/**
 	 * Returns win event
 	 * @return String
