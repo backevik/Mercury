@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class Encounter {
-	private final List<Enemy> enemyList = new ArrayList<>();
+	private List<Enemy> enemyList = new ArrayList<>();
 	private String winEvent;
 	private String loseEvent;
 	
@@ -20,6 +20,15 @@ public class Encounter {
 		}
 		this.winEvent = winEvent;
 		this.loseEvent = loseEvent;
+	}
+	
+	/**
+	 * Copy Constructor for Encounter
+	 */
+	public Encounter (Encounter e) {
+		enemyList = e.enemyList;
+		winEvent = e.winEvent;
+		loseEvent = e.loseEvent;
 	}
 	
 	public String getWinEvent(){

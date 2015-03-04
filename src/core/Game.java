@@ -21,6 +21,7 @@ import database.QuestDatabase;
 import database.SpellDatabase;
 import database.ZoneDatabase;
 import combat.Combat;
+import combat.Encounter;
 import player.Playable;
 import player.Player;
 import zlibrary.ZContainer;
@@ -474,9 +475,13 @@ public class Game extends Canvas implements Runnable, MouseListener
     	worldMapViewer = null;
     	players = new ArrayList<>();
     	players.add(player.getPC());
-    	combat = new Combat(players, EncounterDatabase.getInstance().getEncounter(encounter),
-    			eventQueue.getEventAdder(), EncounterDatabase.getInstance().getEncounter(encounter).getWinEvent(),
-    			EncounterDatabase.getInstance().getEncounter(encounter).getLoseEvent());
+    	combat = new Combat (
+    			players,
+    			new Encounter(EncounterDatabase.getInstance().getEncounter(encounter)),
+    			eventQueue.getEventAdder(),
+    			EncounterDatabase.getInstance().getEncounter(encounter).getWinEvent(),
+    			EncounterDatabase.getInstance().getEncounter(encounter).getLoseEvent()
+    		);
     	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(), EncounterDatabase.getInstance().getEncounter(encounter));
     	drawables.add(combatViewer);
     }

@@ -11,7 +11,7 @@ import character.Spell;
  * @since       2015-02-01
  */
 
-public class Enemy extends Character{
+public class Enemy extends Character {
 	private Image img;
 	public Enemy (String name,int level,Image img,Spell...spells) {
 		super(name);
