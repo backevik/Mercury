@@ -7,7 +7,7 @@ import java.util.List;
 import items.Item;
 
 /**
- * @author      Mattias Benngård	<mbengan@gmail.com>
+ * @author      Mattias Benngard	<mbengan@gmail.com>
  * @version     0.9					<2015-02-27>
  * @since       2015-02-01
  */

@@ -1,14 +1,15 @@
 package player;
-/**
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author		Martin Claesson		<marclae@student.chalmers.se>
- * @author	Andreas Bäckevik	<a.backevik@student.chalmers.se>
- * @version     0.4
- * @since       2015-02-09
- */
 
 import character.Attribute;
 import character.Character;
+
+/**
+ * @author      Mattias Benngard	<mbengan@gmail.com>
+ * @author		Martin Claesson		<marclae@student.chalmers.se>
+ * @author		Andreas Bäckevik	<a.backevik@student.chalmers.se>
+ * @version     0.9
+ * @since       2015-02-09
+ */
 
 public class Playable extends Character
 {	

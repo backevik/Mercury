@@ -3,8 +3,10 @@ package player;
 import items.Item;
 
 /**
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     0.1
+ * Wrapper class for item, contains how many exists in the player inventory.
+ * 
+ * @author      Mattias Benngard	<mbengan@gmail.com>
+ * @version     0.9					<2015-02-27>
  * @since       2015-02-01
  */
 
