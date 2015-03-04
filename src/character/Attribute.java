@@ -48,4 +48,7 @@ public class Attribute
 	public void addValue (double v) {
 		value += v;
 	}
+	public void updateValue (int level) {
+		value = 5+level;
+	}
 }

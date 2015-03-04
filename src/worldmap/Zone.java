@@ -15,17 +15,18 @@ public class Zone
 {
 	private String name;
 	private String type;
+	private String event;
 	private int x;
 	private int y;
 	
 	private HashMap<String, Zone> routes = new HashMap<>();
 	
-	public Zone (String name, String type, int x, int y) {
+	public Zone (String name, String type, String event, int x, int y) {
 		this.name = name;
 		this.type = type;
+		this.event = event;
 		this.x = x;
 		this.y = y;
-		
 	}
 	
 	public String getName () {
@@ -34,6 +35,10 @@ public class Zone
 	
 	public String getType () {
 		return type;
+	}
+	
+	public String getEvent () {
+		return event;
 	}
 	
 	public int getX () {

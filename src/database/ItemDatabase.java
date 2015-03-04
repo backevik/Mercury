@@ -18,6 +18,7 @@ public class ItemDatabase
 	
 	private ItemDatabase(){
 		items.put("HealingPotion1", new ItemPotion("Minor Healing Potion", "A minor healing potion. Restores 20 health.", 20, 5, 0, 20));
+		items.put("HealingPotion2", new ItemPotion("Major Healing Potion", "A minor healing potion. Restores 20 health.", 20, 5, 0, 20));
 		items.put("EnergyPotion1", new ItemPotion("Minor Energy Potion", "A minor energy potion. Restores 15 energy.", 20, 5, 1, 15));
 	}
 	

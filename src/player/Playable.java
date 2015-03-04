@@ -20,7 +20,12 @@ public class Playable extends Character
 	public Playable (String name) {
 		super (name);
 		
-		level = 1;
+		level = 1000;
+		
+		updateSkills (this.getLevel());
+		updateAttributes(this.getLevel());
+		updateVitals (this.getLevel());
+		
 		setExpTnl ();
 		currency = 100;
 	}
@@ -65,7 +70,7 @@ public class Playable extends Character
 	 * Sets the expTnl based on your current level
 	 */
 	private void setExpTnl () {
-		expTnl = 100*level;
+		expTnl = 10*level;
 	}
 	
 	/**
@@ -89,6 +94,7 @@ public class Playable extends Character
 		}
 		
 		updateSkills (this.getLevel());
+		updateAttributes (this.getLevel());
 		updateVitals (this.getLevel());
 		
 		if (checkForLevel () == true) {

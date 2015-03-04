@@ -44,6 +44,7 @@ public class ZTextArea extends ZComponent
 		if (textIsRendered == false) {
 			setImage(createImageFromString ());
 			textIsRendered = true;
+			System.out.println("hej");
 		}
 		super.render(g);
 	}
@@ -99,8 +100,9 @@ public class ZTextArea extends ZComponent
 	 
 		 g.dispose();
 		 
-	     image = new BufferedImage(w , lineIndex * fontSize , BufferedImage.TYPE_INT_ARGB);
+	     image = new BufferedImage(w , lineIndex * fontSize + fm.getDescent() , BufferedImage.TYPE_INT_ARGB);
 		 g = image.createGraphics();
+	     g.setFont(new Font("Verdana", Font.PLAIN, fontSize));
 		 g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		 g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
@@ -121,13 +123,10 @@ public class ZTextArea extends ZComponent
 		 //CLIP IMAGE ACCORDINGLY BY COPYING WHAT IS WANTED FROM THE PREVIOUS INTO A NEW ONE		 
 	     BufferedImage renderImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 	     Graphics2D g2r = renderImage.createGraphics();
-	     System.out.println("test1");
 	     if(image.getHeight() > h){
-		     System.out.println("test2");
 	    	 g2r.drawImage(image, 0, 0, w, h, 0, (int)(image.getHeight() - h), w, (int)image.getHeight(), null, null);
 	     } else {
-		     System.out.println("test3");
-	    	 g2r.drawImage(image, 0, 0, w, h, 0, 0, w, (int)image.getHeight(), null, null);
+	    	 g2r.drawImage(image, 0, 0, w, lineIndex * fontSize + fm.getDescent(), 0, 0, w, (int)image.getHeight(), null, null);
 	     }
 
 	     g2r.dispose();

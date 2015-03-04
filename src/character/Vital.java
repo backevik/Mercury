@@ -20,6 +20,9 @@ public class Vital extends Skill
 	public double getMax () {
 		return max;
 	}
+	public void setMax(int level) {
+		this.max = this.getValue()+(level*5);
+	}
 	
 	public void reduceVital(double value){
 		setValue(getValue()-value);

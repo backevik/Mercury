@@ -11,17 +11,22 @@ import java.util.List;
 
 public class Encounter {
 	private final List<Enemy> enemyList = new ArrayList<>();
-	private String event;
+	private String winEvent;
+	private String loseEvent;
 	
-	public Encounter(String event,Enemy...enemies){
+	public Encounter(String winEvent,String loseEvent,Enemy...enemies){
 		for(Enemy enemy : enemies){
 			enemyList.add(enemy);
 		}
-		this.event = event;   	
+		this.winEvent = winEvent;
+		this.loseEvent = loseEvent;
 	}
 	
-	public String getEvent(){
-		return event;
+	public String getWinEvent(){
+		return winEvent;
+	}
+	public String getLoseEvent(){
+		return loseEvent;
 	}
 	
 	public List<Enemy> getEnemies(){

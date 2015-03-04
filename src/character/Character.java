@@ -48,6 +48,7 @@ public abstract class Character
 			vitals.put(s, new Vital(50.0d));
 		}
 		
+		updateAttributes (level);
 		updateSkills (level);
 		updateVitals (level);
 	}
@@ -165,7 +166,13 @@ public abstract class Character
 	
 	protected void updateVitals (int level) {
 		for (Vital v : vitals.values()) {
+			v.setMax(level);
 			v.updateValue(level);
+		}
+	}
+	protected void updateAttributes (int level) {
+		for (Attribute a : attributes.values()){
+			a.updateValue(level);
 		}
 	}
 }

@@ -3,12 +3,9 @@ package gui;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Graphics;
 
 import character.Spell;
 import core.EventAdder;
-import core.GlobalStateManager;
-import core.RealTime;
 import player.ItemSlot;
 import player.Playable;
 import zlibrary.ZAnimation;
@@ -26,7 +23,7 @@ import database.ImageDatabase;
  * Combat is a subclass of JFrame for re-rendering the current JFrame
  * to this GUI if combat occurs.
  *
- * @author Andreas BÃƒÆ’Ã‚Â¤ckevik	& Daniel Edisnger
+ * @author Andreas B�ckevik	& Daniel Edisnger
  * @version 0.3.1
  * @since 2015-02-21
  */
@@ -59,10 +56,10 @@ public class CombatViewer extends ZContainer implements ZDrawable
 	 * The constructor of Combat creates all the necessary components and adding relevant player spells.
 	 * It also sets actionListeners to work with the game-logic.
 	 */
-	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Enemy enemy) {
+	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Encounter e) {
 		super(ImageDatabase.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);
 		this.player = players;
-		this.enemy = enemy;
+		this.enemy = e.getEnemies().get(0);
 		this.eventAdder = eventAdder;
 		spellButtons = new ArrayList<>();
 		itemButtons = new ArrayList<>();
@@ -71,8 +68,6 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		
 		ZImage enemyIcon = new ZImage(enemy.getImage(), 300, 250);
 		components.add(enemyIcon);
-		
-		GlobalStateManager.getInstance().updateCurrentState("InCombat");
 		
 		ZButton atkbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatAttack.jpg"), 0, 440, eventAdder, "attack");
 		components.add(atkbtn);
@@ -90,10 +85,11 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		components.add(retreatbtn);
 		entities.add(retreatbtn);
 		
-		ZButton nextturnbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatNextTurn.jpg"), 677, 345, eventAdder, "nextTurn");
+		ZButton nextturnbtn = new ZButton(ImageDatabase.getInstance().getImage("btnCombatNextTurn.jpg"), 675, 360, eventAdder, "nextTurn");
 		components.add(nextturnbtn);
 		entities.add(nextturnbtn);
 		
+		combatlog = new ZTextArea(560,445,280,155,14);
 		components.add(combatlog);
 		
 		for(int i=37;i>0;i--){
@@ -107,10 +103,10 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		playerHP = new ZAnimation(hpBar,240,522,0);
 		components.add(playerHP);
 		
-		enemyHP = new ZAnimation(hpBar,240,65,0);
+		enemyHP = new ZAnimation(hpBar,240,40,0);
 		components.add(enemyHP);
 		
-		enemyMana = new ZAnimation(manaBar,240,25,0);
+		enemyMana = new ZAnimation(manaBar,240,0,0);
 		components.add(enemyMana);
 		
 		//GUI to add
@@ -148,14 +144,14 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		boolean addedHealthPotion = false;
 		boolean addedEnergyPotion = false;
 		for(ItemSlot itemslot : player.getInventory().getItems()){
-			if(itemslot.getItem().getName().equals("Minor Healing Potion") && addedHealthPotion==false){
+			if(itemslot.getItem().getName().contains("Healing") && addedHealthPotion==false){
 				itemButtons.add(new ZButton(itemslot.getItem().getName(),240,440+yCord,200,30,eventAdder,"item,"+itemslot.getItem().getName()));
 				components.add(itemButtons.get(j));
 				entities.add(itemButtons.get(j));
 				addedHealthPotion=true;
 				j++;
 				yCord=+30;
-			}else if(itemslot.getItem().getName().equals("Minor Energy Potion") && addedEnergyPotion==false){
+			}else if(itemslot.getItem().getName().contains("Energy") && addedEnergyPotion==false){
 				itemButtons.add(new ZButton(itemslot.getItem().getName(),240,440+yCord,200,30,eventAdder,"item,"+itemslot.getItem().getName()));
 				components.add(itemButtons.get(j));
 				entities.add(itemButtons.get(j));
@@ -188,16 +184,22 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		components.remove(playerMana);
 		components.remove(enemyHP);
 		components.remove(enemyMana);
-		if(playerHpMax>37 || playerHpMax<0){
+		if(playerHpMax>37 || playerHpMax<=0){
 			playerHpMax=37;
 		}
-		if(playerManaMax>37 || playerManaMax<0){
+		if(playerManaMax<0){
 			playerManaMax=2;
 		}
-		if(enemyHpMax>37 || enemyHpMax<0){
+		if(playerManaMax>37){
+			playerManaMax=37;
+		}
+		if(enemyHpMax>37 || enemyHpMax<=0){
 			enemyHpMax=37;
 		}
-		if(enemyManaMax>37 || enemyManaMax<0){
+		if(enemyManaMax>37){
+			enemyManaMax=37;
+		}
+		if(enemyManaMax<0){
 			enemyManaMax=2;
 		}
 		playerHP = new ZAnimation(hpBar,240,522,37-playerHpMax);

@@ -1,5 +1,7 @@
 package core;
 
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
@@ -12,16 +14,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.EnemyDatabase;
+import database.EncounterDatabase;
 import database.ImageDatabase;
 import database.ItemDatabase;
 import database.QuestDatabase;
 import database.SpellDatabase;
+import database.ZoneDatabase;
 import combat.Combat;
-import combat.Encounter;
 import player.Playable;
 import player.Player;
-import worldmap.WorldMap;
 import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
@@ -30,11 +31,14 @@ import gui.CharacterCreationViewer;
 import gui.CharacterStatisticsViewer;
 import gui.CombatViewer;
 import gui.CreditsViewer;
+import gui.EndSceneViewer;
+import gui.HighScoreViewer;
 import gui.LoadGameViewer;
 import gui.MainMenuViewer;
 import gui.QuestLogViewer;
 import gui.TownViewer;
 import gui.WorldMapViewer;
+import highscore.Client;
 import vendor.Vendor;
 
 /**
@@ -67,13 +71,16 @@ import vendor.Vendor;
  *	- Change Frame layout to be consistent with pixel 0,0 to FRAME_X,FRAME_Y
  */
 
-public class Game implements MouseListener
+public class Game extends Canvas implements Runnable, MouseListener
 {
+	private static final long serialVersionUID = 6545236699133411291L;
 	public static final int FRAME_X							= 800;
 	public static final int FRAME_Y							= 600;
+	public static final String TITLE						= "Mercury";
 	
-	private final Frame frame = new Frame ();
+	private Frame frame;
 	
+	public Thread thread;
 	private boolean isRunning = true;
     
     //Rate for updates/s and expected time per update.
@@ -100,7 +107,6 @@ public class Game implements MouseListener
 	private Player player;
 	private Combat combat;
 	private Vendor vendor;
-	private final WorldMap worldMap = new WorldMap ();
 	
 	// popup window
 	private ZPopup popup;
@@ -110,76 +116,33 @@ public class Game implements MouseListener
 	private CharacterCreationViewer characterCreationViewer;
 	private LoadGameViewer loadGameViewer;
 	private CreditsViewer creditsViewer;
+	private HighScoreViewer highScoreViewer;
 	
 	private WorldMapViewer worldMapViewer;
 	private TownViewer townViewer;
 	
 	private CombatViewer combatViewer;
-	
+		
 	private CharacterStatisticsViewer characterStatisticsViewer;
 	private QuestLogViewer questLogViewer;
 	
+	private EndSceneViewer endSceneViewer;
+	
 	private List<Playable> players;
 	
-	private Encounter encounter;
-	    
-    /**
-     * public Game
-     * 
-     * Settings for the Frame.
-     */
-    private Game () {
-    	frame.setSize (FRAME_X, FRAME_Y);
-    	frame.setResizable (false);    	
-    	frame.setTitle ("Mercury 0.1");    	
-    	frame.setVisible (true);
-    	
-    	// add listeners
-    	frame.addMouseListener(this);
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyBindManager);
-        frame.addWindowListener (new WindowAdapter () {
-			public void windowClosing(WindowEvent we){
-				eventQueue.getEventAdder().add("exitGame");
-			}
-		});
-    }
-    
-    /**
-     * public static void main (String[] args)
-     * @param args - System parameters, none are used.
-     */
-    public static void main (String[] args) {
-        Game game = new Game();
-        game.startGameLoop();
-    }
-    
-    /**
-     * private void startGameLoop()
-     * Creates Thread gameLoopThread with private void gameLoop() nested inside.
-     * Starts the new thread.
-     */
-    private void startGameLoop () {
-    	eventQueue.getEventAdder().add("sceneMainMenu");
-    	
-        Thread gameLoopThread = new Thread(){
-            public void run(){
-                gameLoop();
-            }
-        };
-        gameLoopThread.start();
-    }
-    
     /**
      * private void gameLoop()
      * The main game loop. Runs in the gameLoopThread thread.
      * Disposes the time in exec by giving update as much time as possible and allways render after
      * MAX_UPDATES_BEFORE_RENDER. IF time is left over yield it to other processes.
      */
-    private void gameLoop () {
+    public void run () {
         double lastUpdateTime = System.nanoTime();
         double lastRenderTime = System.nanoTime();
         double currentTime;
         int updateCount;
+        
+        eventQueue.getEventAdder().add("sceneMainMenu");
         
         while (isRunning) {
             currentTime = System.nanoTime();
@@ -215,10 +178,10 @@ public class Game implements MouseListener
      * Renders all objects to be render using a bufferStrategy.
      */
     private void render () {
-    	BufferStrategy bs = frame.getBufferStrategy();
+    	BufferStrategy bs = getBufferStrategy();
     	
     	if (bs == null) {
-    		frame.createBufferStrategy(3);
+    		createBufferStrategy(3);
     		return;
     	}
     	
@@ -299,17 +262,21 @@ public class Game implements MouseListener
     	drawables.add(popup);
     }    
     public void popupWindowOff () {
-    	for (ZEntity e : popup.remove ()) {
-    		entities.add(e);
-    	}
-    	drawables.remove(popup);
-    	popup = null;
+    	if (popup != null) {
+	    	for (ZEntity e : popup.remove ()) {
+	    		entities.add(e);
+	    	}
+	    	drawables.remove(popup);
+	    	popup = null;
+	    }
     }
     
     /**
 	 * Title Scene
 	 */
 	public void sceneMainMenu () {
+		removeContainer(highScoreViewer);
+		highScoreViewer = null;
 		removeContainer (characterCreationViewer);
     	characterCreationViewer = null;
     	removeContainer (loadGameViewer);
@@ -350,6 +317,13 @@ public class Game implements MouseListener
     	drawables.add (creditsViewer);
     }
     
+    
+    public void sceneHighScore(){
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	highScoreViewer = new HighScoreViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
+    	drawables.add(highScoreViewer);
+    }
     /**
      * Creates the player, adds the first quest.
      */
@@ -359,10 +333,13 @@ public class Game implements MouseListener
     	player = new Player(playerName);
     	
     	eventQueue.getEventAdder().add("addQuest,First Quest");
+    	eventQueue.getEventAdder().add("addItem,HealingPotion2,5");
     	eventQueue.getEventAdder().add("addItem,HealingPotion1,5");
+    	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("fireball"));
+    	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("heal"));
     	
     	GlobalStateManager.getInstance().updateWorldState("CHARACTER_IS_ALIVE", "TRUE");
-    	GlobalStateManager.getInstance().updateWorldState("LOCATION", "WORLD_MAP");
+    	GlobalStateManager.getInstance().updateWorldState("LOCATION", "Town0001");
     	
     	eventQueue.getEventAdder().add("sceneWorldMap");
     }
@@ -394,22 +371,7 @@ public class Game implements MouseListener
 	 * Render world map when returning from combat
 	 */
     public void sceneWorldMap () {
-    	switch (GlobalStateManager.getInstance().getCurrentState()) {
-			case "COMBAT":
-				removeContainer(combatViewer);
-				combatViewer = null;
-				break;
-			case "TOWN":		
-				removeContainer(townViewer);
-				townViewer = null;
-				break;
-			case "WORLD_MAP":
-				removeContainer(characterCreationViewer);
-				characterCreationViewer = null;
-			default:			
-				break;
-		}
-		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities, worldMap);
+		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities);
 		drawables.add(worldMapViewer);
 		realTimes.add(worldMapViewer);
 	}
@@ -418,34 +380,39 @@ public class Game implements MouseListener
      * Select zone from map. If you are currently on selected area, enter it.
      * @param area
      */
-    public void selectArea(String area) {    	
-		if (GlobalStateManager.getInstance().getWorldState("LOCATION").equals(area)) {
-			System.out.println("You entered: " + area);
-			if (GlobalStateManager.getInstance().getWorldState("LOCATION").startsWith("combat")) {
-				sceneCombat();
-			} else if (GlobalStateManager.getInstance().getWorldState("LOCATION").startsWith("town")){
-				sceneTown();
-			}
-		} else {
-			if (!worldMap.selectArea(area)) {
-				eventQueue.getEventAdder().add("popupWindow,Unreachable area!");
-			}
-		}
-	}
+    public void selectArea(String area) {
+    	// enter area
+    	if (GlobalStateManager.getInstance().getWorldState("LOCATION").equals(area)) {
+	    	if (GlobalStateManager.getInstance().getWorldState(area).equals("CLEAR")) {
+	    		eventQueue.getEventAdder().add("popupWindow,Completed zone!");
+	    	} else {
+	    		System.out.println("You entered: " + area);
+		    	removeWorldMap ();	
+		    	eventQueue.getEventAdder().add(ZoneDatabase.getInstance().getZone(area).getEvent());
+	    	}
+	    	return;
+    	}    	
+    	
+    	// unreachable
+    	if (!ZoneDatabase.getInstance().getZone(GlobalStateManager.getInstance().getWorldState("LOCATION")).isConnected(ZoneDatabase.getInstance().getZone(area))) {
+			eventQueue.getEventAdder().add("popupWindow,Unreachable area!");
+			return;
+    	}
+    	
+    	// move to area
+    	if (!GlobalStateManager.getInstance().getWorldState("LOCATION").equals(area)) {
+    		GlobalStateManager.getInstance().updateWorldState("LOCATION", area);
+    		System.out.println("Change globalWorldState from: " + GlobalStateManager.getInstance().getWorldState("LOCATION") + " To: "+ area);
+    		return;
+    	}
+    	
+    	eventQueue.getEventAdder().add("popupWindow,Completed area!");
+    }
 	
     /**
      * 
      */
     public void sceneTown() {
-    	switch(GlobalStateManager.getInstance().getCurrentState()){
-    		case "WorldMap":
-    			removeWorldMap ();
-    			break;
-    		case "inCombat_dead":
-    			removeContainer(combatViewer);
-    			combatViewer = null;
-    			break;
-    	}
     	townViewer = new TownViewer (entities,eventQueue.getEventAdder());
     	drawables.add(townViewer);
     }
@@ -453,17 +420,64 @@ public class Game implements MouseListener
     /**
      * 
      */
-    public void sceneCombat(){
+    public void leaveTown () {
+    	removeContainer(townViewer);
+    	townViewer = null;
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
+    
+    /**
+     * Default method to catch victory in combat
+     */
+    public void defaultVictory () {
+    	GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getWorldState("LOCATION"), "CLEAR");
+		
+    	removeContainer(combatViewer);
+    	combatViewer = null;
+    	
+    	sceneWorldMap ();
+    }
+    
+    /**
+     * End Game Scene
+     */
+    public void darkLordDefeated () {
+    	endSceneViewer = new EndSceneViewer (eventQueue.getEventAdder(), entities, player.getPC().getName(), player.getPC().getLevel());
+    	drawables.add(endSceneViewer);
+    }
+    public void updateToServer () {
+    	removeContainer (endSceneViewer);
+    	endSceneViewer = null;
+    	Client client = new Client ("localhost");
+    	client.sendScore(player.getPC().getName(), player.getPC().getLevel());
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
+    
+    /**
+     * Default method to catch defeat in combat
+     */
+    public void defaultLose () {
+    	player.getPC().healVital("Health", player.getPC().getMaxOfVital("Health"));
+    	player.getPC().healVital("Energy", player.getPC().getMaxOfVital("Energy"));
+    	
+    	removeContainer(combatViewer);
+    	combatViewer = null;
+    	
+    	sceneTown ();
+    }
+    
+    /**
+     * 
+     */
+    public void sceneCombat (String encounter){
     	removeWorldMap ();
     	worldMapViewer = null;
     	players = new ArrayList<>();
-    	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("fireball"));
-    	player.getPC().getSpellBook().addSpell(SpellDatabase.getInstance().getSpells("heal"));
-    	player.getPC().getInventory().addItem(ItemDatabase.getInstance().getItem("HealingPotion1"), 1);
     	players.add(player.getPC());
-    	encounter = new Encounter("Victory", EnemyDatabase.getInstance().getEnemy("Big evil bengan"));
-    	combat = new Combat(players, encounter, eventQueue.getEventAdder());
-    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(),EnemyDatabase.getInstance().getEnemy("Big evil bengan"));
+    	combat = new Combat(players, EncounterDatabase.getInstance().getEncounter(encounter),
+    			eventQueue.getEventAdder(), EncounterDatabase.getInstance().getEncounter(encounter).getWinEvent(),
+    			EncounterDatabase.getInstance().getEncounter(encounter).getLoseEvent());
+    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(), EncounterDatabase.getInstance().getEncounter(encounter));
     	drawables.add(combatViewer);
     }
     
@@ -507,10 +521,10 @@ public class Game implements MouseListener
 	 * TEMP
 	 */
 	public void attack (){
-		combat.attackCheck(player.getPC(), encounter.getEnemies().get(0));
+		combat.attackCheck(player.getPC());
 	}
 	public void spell(String spell){
-		combat.spellCheck(player.getPC(),encounter.getEnemies().get(0),spell);
+		combat.spellCheck(player.getPC(),spell);
 		combatViewer.clickedSpell();
 	}
 	public void nextTurn(){
@@ -541,14 +555,12 @@ public class Game implements MouseListener
 	 * @param s name of item to buy
 	 */
 	public void buyItem(String s){
-		ZPopup buyInfo;
 		if(vendor.buyItem(s)){
-			buyInfo = new ZPopup("You bought one "+ s, "ok",eventQueue.getEventAdder(), entities);
 			townViewer.updateCurrency(player);
+			eventQueue.getEventAdder().add("popupWindow,You bought one "+ s);
 		} else {
-			buyInfo = new ZPopup("You don't have enough money for a "+s, "ok",eventQueue.getEventAdder(), entities);
+			eventQueue.getEventAdder().add("popupWindow,You don't have enough money for a "+s);
 		}
-		drawables.add(buyInfo);
 	}
 	/**
 	 * method for entering vendor GUI
@@ -576,16 +588,55 @@ public class Game implements MouseListener
 	public void exitGame () {
     	System.exit(0);
     }
+	
+	/**
+	 * 
+	 */
+    private void initWindow() {
+    	setPreferredSize(new Dimension(FRAME_X, FRAME_Y));
+    	setMinimumSize(new Dimension(FRAME_X, FRAME_Y));
+    	setMaximumSize(new Dimension(FRAME_X, FRAME_Y));
+    	
+    	frame = new Frame (TITLE);
+    	frame.setResizable (false);    	
+    	frame.add(this);
+    	frame.pack();
+    	frame.setVisible (true);
+    	
+    	
+    	// add listeners
+    	addMouseListener(this);
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyBindManager);
+        frame.addWindowListener (new WindowAdapter () {
+			public void windowClosing(WindowEvent we){
+				eventQueue.getEventAdder().add("exitGame");
+			}
+		});		
+	}
+    
+    /**
+     * public Game
+     */
+    public Game () {
+    	initWindow ();
+    	
+    	thread = new Thread(this);
+    	thread.start();
+    }
+
+	/**
+     * public static void main (String[] args)
+     * @param args - System parameters, none are used.
+     */
+    public static void main (String[] args) {
+        new Game();
+    }
 
     /**
      * When the mouse is clicked anywhere mouseClicked checks if an action is required by notifying all active entities
      */
 	@Override
-	public void mouseClicked(MouseEvent me) {
-		for (ZEntity m : entities) {
-    		m.onClick(me.getX(), me.getY());
-    	}
-	}
+	public void mouseClicked(MouseEvent me) {}
 
 	@Override
 	public void mouseEntered(MouseEvent me) {
@@ -595,11 +646,15 @@ public class Game implements MouseListener
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent me) {}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent me) {
+		for (ZEntity m : entities) {
+    		m.onClick(me.getX(), me.getY());
+    	}
+	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent me) {}
 }

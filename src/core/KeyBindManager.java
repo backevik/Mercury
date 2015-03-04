@@ -1,6 +1,7 @@
 package core;
 
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import java.awt.KeyEventDispatcher;
@@ -24,6 +25,15 @@ public class KeyBindManager implements KeyEventDispatcher
 	        	keyPresses.add(pressed);
 	        	
 	        	switch (keyToLowerCaseIfUpperCase(e.getKeyChar())) {
+	        	case 'a':
+	        		System.out.println("---");
+	        		for (Entry<String,String> s : GlobalStateManager.getInstance().DEBUG_PRINT().entrySet()) {
+	        			System.out.println (s.getKey() + " => " + s.getValue());
+	        		}
+	        		System.out.println(GlobalStateManager.getInstance().getCurrentState());
+	        		System.out.println("---");
+	        		break;
+
 	        		case 'c':
 	        			if (GlobalStateManager.getInstance().getWorldState("CHARACTER_IS_ALIVE").equals("TRUE")) {
 	        				eventAdder.add("characterStatisticsToggle");

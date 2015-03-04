@@ -42,8 +42,8 @@ public class CharacterStatisticsViewer extends ZContainer
 	private final static int TITLE_HEIGHT 		= 30;
 	private final static int LINE_HEIGHT 		= 20;
 	
-	private final static int ATTRIBUTE_OFFSET 	= (int)(PADDING+TITLE_HEIGHT+LINE_HEIGHT*5.5);
-	private final static int VITAL_OFFSET 		= PADDING+TITLE_HEIGHT+LINE_HEIGHT*10;
+	private final static int ATTRIBUTE_OFFSET 	= (int)(PADDING+TITLE_HEIGHT+LINE_HEIGHT*6.5);
+	private final static int VITAL_OFFSET 		= PADDING+TITLE_HEIGHT+LINE_HEIGHT*11;
 	
 	private final List<ZEntity> entities 		= new ArrayList<>();
 	
@@ -67,9 +67,10 @@ public class CharacterStatisticsViewer extends ZContainer
 		components.add(new ZText (pc.getName(), COLUMN1_X, y+PADDING+TITLE_HEIGHT, 16));
 
 		components.add(new ZText ("Level " + pc.getLevel(), COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT, 14));	
-		components.add(new ZText ("Gender", COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*2, 14));		
-		components.add(new ZText ("Race", COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*3, 14));		
-		components.add(new ZText ("Class", COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*4, 14));
+		components.add(new ZText ("Experience " + (int)pc.getExpCur() + "/" + (int)pc.getExpTnl(), COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*2, 14));	
+		components.add(new ZText ("Gender", COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*3, 14));		
+		components.add(new ZText ("Race", COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*4, 14));		
+		components.add(new ZText ("Class", COLUMN1_X, y+PADDING+TITLE_HEIGHT+LINE_HEIGHT*5, 14));
 		
 		components.add(new ZText ("Attributes", COLUMN1_X, y+ATTRIBUTE_OFFSET, 16));		
 		for (int i = 0; i < constants.Attributes.getNames().size(); i++) {

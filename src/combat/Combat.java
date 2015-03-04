@@ -9,7 +9,6 @@ import character.Spell;
 import player.ItemSlot;
 import player.Playable;
 import core.EventAdder;
-import core.GlobalStateManager;
 import core.RealTime;
 
 /**
@@ -28,12 +27,16 @@ public class Combat implements RealTime {
 	private EventAdder eventAdder;
 	private List<Playable> players;
 	private Encounter encounter;
+	private String winEvent,
+				   lostEvent;
 	
-	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder){
+	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder, String winEvent, String lostEvent){
 		rand = new Random();
 		this.eventAdder = eventAdder;
 		this.players = players;
 		this.encounter = encounter;
+		this.winEvent = winEvent;
+		this.lostEvent = lostEvent;
 		initCombatList();
 		nextTurn();
 	}
@@ -87,9 +90,9 @@ public class Combat implements RealTime {
 			eventAdder.add("addTextToLog,"+src.getName()+" hit "+dest.getName()+" for "+src.getValueOfSkill("Attack")+" damage");
 			System.out.println(src.getName()+" hit "+dest.getName()+" for "+src.getValueOfSkill("Attack")+" damage");
 			//eventAdder.add("updateVisual,"+players.get(0).getValueOfSkill("Attack"));
-			deathCheck(dest,src.getValueOfSkill("Attack"));
-			dest.reduceVital("Health", src.getValueOfSkill("Attack"));
 			eventAdder.add("updateVisuals");
+			deathCheck(dest,src.getValueOfSkill("Attack"));
+			dest.reduceVital("Health", src.getValueOfSkill("Attack"));			
 	}
 	
 	public void spell(Character src,Character dest,String spellName){
@@ -107,10 +110,10 @@ public class Combat implements RealTime {
 			}else if(spell.getName().equals(spellName) && spell.getType().equals("damage") && energyCheck(spell.getName())){
 				eventAdder.add("addTextToLog,"+src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
 				System.out.println(src.getName()+" casted "+spell.getName()+" on "+dest.getName()+" for "+spell.getspellPower()+" damage");
+				eventAdder.add("updateVisuals");
 				deathCheck(dest,spell.getspellPower());
 				dest.reduceVital("Health", spell.getspellPower());
 				src.reduceVital("Energy", spell.getEnergyCost());
-				eventAdder.add("updateVisuals");
 				break;
 			}else if(currentChar instanceof Enemy){
 				attack(currentChar,players.get(0));
@@ -140,24 +143,29 @@ public class Combat implements RealTime {
 		}
 	}
 	
-	public void spellCheck(Character src,Character dest,String spellName){
+	public void spellCheck(Character src,String spellName){
+		Enemy dest;
 		if(currentChar instanceof Playable && turn==true && energy==true){
+			dest = encounter.getEnemies().get(0);
 			spell(src,dest,spellName);
 			turn=false;
 		}else if(energy==false){
 			eventAdder.add("addTextToLog,"+"Not enough energy.");
 			System.out.println("Not enough energy.");
 		}else if(currentChar instanceof Enemy && turn==false){
-			spell(src,dest,spellName);
+			Playable desti = players.get(0);
+			spell(src,desti,spellName);
 		}
 	}
 	
-	public void attackCheck(Character src,Character dest){
+	public void attackCheck(Character src){
 		if(currentChar instanceof Playable && turn==true){
+			Enemy dest = encounter.getEnemies().get(0);
 			attack(src,dest);
 			turn = false;
 		}else if(currentChar instanceof Enemy && turn==false){
-			attack(src,dest);
+			Playable desti = players.get(0);
+			attack(src,desti);
 		}
 	}
 	
@@ -197,23 +205,19 @@ public class Combat implements RealTime {
 			eventAdder.add("addTextToLog,"+c.getName()+" died! The fight is lost");
 			System.out.println(c.getName()+" died! The fight is lost");
 			currentChar = null;
-			GlobalStateManager.getInstance().updateCurrentState("InCombat_dead");
-			c.healVital("Health", c.getMaxOfVital("Health"));
-			c.healVital("Energy", c.getMaxOfVital("Energy"));
-			eventAdder.add("sceneTown");
+			eventAdder.add(lostEvent);
 		}else if((c.getValueOfVital("Health")-damage)<=0 && c instanceof Enemy){
-			players.get(0).addExp(c.getLevel()*5);
+			players.get(0).addExp(c.getLevel()*2);
 			eventAdder.add("addTextToLog,"+c.getName()+" was killed!");
 			System.out.println(c.getName()+" was killed!");
-			if(c.getLevel()*5>players.get(0).getExpTnl()){
+			if(c.getLevel()*2>players.get(0).getExpTnl()){
 				eventAdder.add("addTextToLog,"+"Congratulations "+players.get(0).getName()+"! You reached level "+players.get(0).getLevel());
 				System.out.println("Congratulations "+players.get(0).getName()+"! You reached level "+players.get(0).getLevel());
 			}else{
-				eventAdder.add("addTextToLog,"+"Congratulations "+players.get(0).getName()+"! You gained "+c.getLevel()*5+" experience!");
+				eventAdder.add("addTextToLog,"+"Congratulations "+players.get(0).getName()+"! You gained "+c.getLevel()*2+" experience!");
 				System.out.println("Congratulations "+players.get(0).getName()+"! You gained "+c.getLevel()*5+" experience!");
 			}
-			GlobalStateManager.getInstance().updateWorldState(GlobalStateManager.getInstance().getCurrentState(), "CLEAR");
-			eventAdder.add("sceneWorldMap");
+			eventAdder.add(winEvent);
 		}
 	}
 	

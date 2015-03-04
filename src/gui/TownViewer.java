@@ -14,9 +14,11 @@ import core.EventAdder;
 import core.GlobalStateManager;
 import database.ImageDatabase;
 /**
+ * 
  * @author Martin Claesson
- * @version 0.4.1
- * @since 2015-03-03
+ * @version 0.8
+ * @since 2015-03-04
+ *
  */
 
 public class TownViewer extends ZContainer
@@ -54,11 +56,11 @@ public class TownViewer extends ZContainer
         components.add(btnVendor);
         entities.add(btnVendor); 
         
-        btnLeaveTown = new ZButton( "Leave Town", 0, BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "sceneWorldMap");
+        btnLeaveTown = new ZButton( "Leave Town", 0, BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "leaveTown");
         components.add(btnLeaveTown);
         entities.add(btnLeaveTown);
         
-        txtVendor = new ZText("Welcome to Vendor! What can I do for you?", BTN_WITH+9, WINDOW_BOTTOM-BTN_HEIGHT*2+10, 16);
+        txtVendor = new ZText("Welcome to Vendor! What can I do for you?", BTN_WITH+6, WINDOW_BOTTOM-BTN_HEIGHT*2+10, 16);
        
         bgText = new ZImage(ImageDatabase.getInstance().getImage("textruta.jpg"), BTN_WITH, WINDOW_BOTTOM-2*BTN_HEIGHT);
         
@@ -66,7 +68,7 @@ public class TownViewer extends ZContainer
         
         btnLeaveVendor = new ZButton( "Exit Vendor", 0, WINDOW_BOTTOM-BTN_HEIGHT, BTN_WITH, BTN_HEIGHT, eventAdder, "leaveVendor");
         
-        bgCurrency = new ZImage(ImageDatabase.getInstance().getImage("coin.jpg"), 674, 32);
+        bgCurrency = new ZImage(ImageDatabase.getInstance().getImage("coin.jpg"), 677, 0);
         
         GlobalStateManager.getInstance().updateCurrentState("TOWN");  
     }
@@ -106,7 +108,7 @@ public class TownViewer extends ZContainer
      * sets the game state to inside TownVendorBuy
      */
     public void enterTownVendorBuy(Vendor vendor){
-		ZImage bg = new ZImage(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"),3,32);
+		ZImage bg = new ZImage(ImageDatabase.getInstance().getImage("bgQuestViewer.jpg"),0,0);
 		components.add(bg);
     	
 		ZText title = new ZText ("Vendor", PADDING, PADDING, 20);
@@ -147,7 +149,7 @@ public class TownViewer extends ZContainer
      */
     public void updateCurrency(Player player){
     	components.remove(currency);
-    	currency = new ZText(Double.toString(player.getPC().getCurrency()),742,50,14);
+    	currency = new ZText(Double.toString(player.getPC().getCurrency()),742,20,14);
     	components.add(currency);
     }
 } 

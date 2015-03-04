@@ -16,9 +16,12 @@ public class EnemyDatabase
 	private static EnemyDatabase instance = null;
 	
 	private EnemyDatabase(){
-		enemies.put("Big evil bengan", new Enemy("Big evil bengan",2,ImageDatabase.getInstance().getImage("enemy.jpg"),SpellDatabase.getInstance().getSpells("fireball"),SpellDatabase.getInstance().getSpells("heal")));
-		//Add enemies to list
-		
+		enemies.put("Thief", new Enemy("Thief",1,ImageDatabase.getInstance().getImage("enemy.png")));
+		enemies.put("Bandit Rogue", new Enemy("Bandit Rogue",1,ImageDatabase.getInstance().getImage("enemy.png")));
+		enemies.put("Bandit Lord", new Enemy("Bandit Lord",2,ImageDatabase.getInstance().getImage("enemy.png"), SpellDatabase.getInstance().getSpells("heal")));
+		enemies.put("Bandit Boss", new Enemy("Bandit Boss",4,ImageDatabase.getInstance().getImage("enemy.png"),SpellDatabase.getInstance().getSpells("fireball"),SpellDatabase.getInstance().getSpells("heal")));
+		enemies.put("Dark Lord", new Enemy("Dark Lord",15,ImageDatabase.getInstance().getImage("enemy.png"),SpellDatabase.getInstance().getSpells("fireball")));
+		enemies.put("Gladiator", new Enemy ("Gladiator", 1, ImageDatabase.getInstance().getImage("enemy.png")));
 	}
 	
 	/**
