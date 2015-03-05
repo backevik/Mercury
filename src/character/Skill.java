@@ -1,10 +1,10 @@
 package character;
 
 /**
- * Where skills are created and modified. Each skill has its own modifiers/getters.
+ * Characteristics and settings for skills in  a character.
  * 
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author		Andreas B�ckevik	<backevik@student.chalmers.se>
+ * @author      Mattias BenngÃ¥rd	<mbengan@gmail.com>
+ * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
  * @version     1.0
  * @since       2015-02-01
  */
