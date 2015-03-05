@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.EncounterDatabase;
+import database.EnemyDatabase;
 import database.ImageDatabase;
 import database.ItemDatabase;
 import database.QuestDatabase;
@@ -28,6 +29,7 @@ import zlibrary.ZContainer;
 import zlibrary.ZDrawable;
 import zlibrary.ZEntity;
 import zlibrary.ZPopup;
+import gui.ArenaEntranceViewer;
 import gui.CharacterCreationViewer;
 import gui.CharacterStatisticsViewer;
 import gui.CombatViewer;
@@ -45,9 +47,9 @@ import vendor.Vendor;
 /**
  * Game Class for project Mercury, holds main method. Instantiates itself.
  * 
- * @author	Anton AndrÃ©n		<@>
- * @author	Mattias BenngÃ¥rd	<mbengan@gmail.com>
- * @author 	Andreas BÃ¤ckevik	<@>
+ * @author	Anton Andrén		<@>
+ * @author	Mattias Benngård	<mbengan@gmail.com>
+ * @author 	Andreas Bäckevik	<@>
  * @author	Martin Claesson		<@>
  * @author 	Daniel Edsinger		<@>
  * @version	0.9					<2015-05-25>
@@ -118,6 +120,7 @@ public class Game extends Canvas implements Runnable, MouseListener
 	private LoadGameViewer loadGameViewer;
 	private CreditsViewer creditsViewer;
 	private HighScoreViewer highScoreViewer;
+	private ArenaEntranceViewer arenaEntranceViewer;
 	
 	private WorldMapViewer worldMapViewer;
 	private TownViewer townViewer;
@@ -284,7 +287,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     	loadGameViewer = null;
     	removeContainer (creditsViewer);
     	characterCreationViewer = null;
-    	mainMenuViewer = new MainMenuViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
+    	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), entities);
     	drawables.add(mainMenuViewer);
     }
     
@@ -314,7 +317,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     public void sceneCredits () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	creditsViewer = new CreditsViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+    	creditsViewer = new CreditsViewer (eventQueue.getEventAdder(), entities);
     	drawables.add (creditsViewer);
     }
     
@@ -446,6 +449,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     	endSceneViewer = new EndSceneViewer (eventQueue.getEventAdder(), entities, player.getPC().getName(), player.getPC().getLevel());
     	drawables.add(endSceneViewer);
     }
+    
     public void updateToServer () {
     	removeContainer (endSceneViewer);
     	endSceneViewer = null;
@@ -464,6 +468,8 @@ public class Game extends Canvas implements Runnable, MouseListener
     	removeContainer(combatViewer);
     	combatViewer = null;
     	
+    	GlobalStateManager.getInstance().updateWorldState("LOCATION", "Town0001");
+    	
     	sceneTown ();
     }
     
@@ -471,8 +477,6 @@ public class Game extends Canvas implements Runnable, MouseListener
      * 
      */
     public void sceneCombat (String encounter){
-    	removeWorldMap ();
-    	worldMapViewer = null;
     	players = new ArrayList<>();
     	players.add(player.getPC());
     	combat = new Combat (
@@ -484,6 +488,68 @@ public class Game extends Canvas implements Runnable, MouseListener
     		);
     	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(), EncounterDatabase.getInstance().getEncounter(encounter));
     	drawables.add(combatViewer);
+    }
+    
+    public void runFromBattle(){
+    	removeContainer(combatViewer);
+    	combatViewer = null;
+    	
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
+    
+    /**
+     * Loads the arenaEntranceViewer
+     */
+    public void sceneArenaEntranceViewer(){
+    	arenaEntranceViewer = new ArenaEntranceViewer(eventQueue.getEventAdder(), entities);
+    	drawables.add(arenaEntranceViewer);
+    }
+    
+    /**
+     * Removes the arenaEntranceViewer and loads the arena battle in the combatViewer.
+     */
+    public void enterArena (){
+    	removeContainer(arenaEntranceViewer);
+    	arenaEntranceViewer = null;
+    	eventQueue.getEventAdder().add("sceneCombat,Arena");
+    }
+    
+    /**
+     * Removes the arenaEntranceViewer and loads the worldMapViewer
+     */
+    public void leaveArena(){
+    	removeContainer(arenaEntranceViewer);
+    	arenaEntranceViewer = null;
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
+    
+    /**
+     * Increases the gladiator's level (by one) in the EnemyDatabase and load the next battle.
+     */
+    public void arenaWon(){
+		EnemyDatabase.getInstance().getEnemy("Gladiator").setLevel(EnemyDatabase.getInstance().getEnemy("Gladiator").getLevel() + 1);
+		
+		removeContainer(combatViewer);
+		combatViewer = null;
+		
+    	eventQueue.getEventAdder().add("sceneCombat,Arena");
+    }
+    
+    /**
+     * Resets the gladiator to level one, resotres players health and energy and updates the current LOCATION and loads the TownViewer.
+     */
+    public void arenaLost(){
+		EnemyDatabase.getInstance().getEnemy("Gladiator").setLevel(1);
+    	
+    	player.getPC().healVital("Health", player.getPC().getMaxOfVital("Health"));
+    	player.getPC().healVital("Energy", player.getPC().getMaxOfVital("Energy"));
+    	
+    	removeContainer(combatViewer);
+    	combatViewer = null;
+    	
+    	GlobalStateManager.getInstance().updateWorldState("LOCATION", "Town0001");
+    	
+    	eventQueue.getEventAdder().add("sceneTown");
     }
     
     /**

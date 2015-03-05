@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class Encounter {
-	private final List<Enemy> enemyList = new ArrayList<>();
+	private List<Enemy> enemyList = new ArrayList<>();
 	private String winEvent;
 	private String loseEvent;
 	/**

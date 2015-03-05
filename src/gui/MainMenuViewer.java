@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Image;
 import java.util.List;
 
 import zlibrary.ZButton;
@@ -18,14 +17,14 @@ import database.ImageDatabase;
  * 
  * Class for setting up the scene for Main Menu
  * 
- * public MainMenuViewer (Image, int, int, EventAdder, List<ZEntity>, QuestLog)
+ * public MainMenuViewer (EventAdder, List<ZEntity>, QuestLog)
  * Creates the GUI elements for the mainMenuViewer.
  */
 
 public class MainMenuViewer extends ZContainer
 {
-	public MainMenuViewer(Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
-		super(image, x, y, eventAdder, entities);
+	public MainMenuViewer(EventAdder eventAdder, List<ZEntity> entities) {
+		super(null, 0, 0, eventAdder, entities);
 		
 		components.add(new ZImage(ImageDatabase.getInstance().getImage("title.png"), (800-ImageDatabase.getInstance().getImage("title.png").getWidth(null))/2, 40));
 		

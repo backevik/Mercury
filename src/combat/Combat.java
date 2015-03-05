@@ -297,7 +297,7 @@ public class Combat implements RealTime {
 	public void retreat(){
 		if(retreatChance()>=nextInt()){
 			System.out.println("Successfull escape!");
-			eventAdder.add("sceneWorldMap");
+			eventAdder.add("runFromBattle");
 		}else{
 			turn = false;
 			eventAdder.add("addTextToLog,"+"You failed to run!");
