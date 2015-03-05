@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Where attributes are created and modified. Each attribute has its own modifiers/getters.
+ * Characteristics and settings for attributes in character.
  * 
- * @author      Andreas Bäckevik
+ * @author      Andreas BÃ¤ckevik
  * @version     1.0
  * @since       2015-02-01
  */
