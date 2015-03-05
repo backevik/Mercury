@@ -3,15 +3,10 @@ package zlibrary;
 import core.EventAdder;
 
 /**
- * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @author	Mattias Benngård
+ * @version	1.0
  * @since	2015-02-16
  * 
- * Class for creating buttons that are viewable for the player.
- * Buttons can implement events on mouse click.
- * ZButtons are ZImages.
- * 
- * Can be constructed with an Image or using a default appearance.
  */
 
 public abstract class ZEntity extends ZComponent implements ZDrawable

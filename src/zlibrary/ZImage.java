@@ -4,13 +4,13 @@ import java.awt.Image;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.8			<2015-02-20>
+ * @version	1.0
  * @since	2015-02-17
  * 
- * ZImage is the base class for all Z-components. It stores an Image and the location of said Image.
+ * ZImage is a Zcomponent containing an image.
  * 
- * Can be constructed with an existing Image or by using a default appearance.
- *
+ * public ZImage (Image image, int x, int y)
+ * Sets the image in ZComponent.
  */
 
 public class ZImage extends ZComponent

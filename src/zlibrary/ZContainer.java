@@ -9,10 +9,11 @@ import core.EventAdder;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @version	1.0
  * @since	2015-02-17
  *
- * Class for creating containers for Z-objects.
+ * Abstract class for creating containers for Z-objects.
+ * ZContainer is a ZImage.
  */
 public abstract class ZContainer extends ZImage implements ZDrawable
 {

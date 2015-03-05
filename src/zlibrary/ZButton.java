@@ -12,14 +12,17 @@ import core.EventAdder;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @version	1.0
  * @since	2015-02-16
  * 
  * Class for creating buttons that are viewable for the player.
  * Buttons can implement events on mouse click.
- * ZButtons are ZImages.
  * 
- * Can be constructed with an Image or using a default appearance.
+ * public Zbutton (Image image, int x, int y, EventAdder eventAdder, String eventOnClick)
+ * creates button using an image
+ * 
+ * public ZButton (String string, int x, int y, int w, int h, EventAdder eventAdder, String eventOnClick)
+ * creates the button using a default apperance
  */
 
 public class ZButton extends ZEntity
@@ -41,7 +44,11 @@ public class ZButton extends ZEntity
 	}
 
 	/**
-	 * 
+	 * Creates an image based on parameters.
+	 * @param String s	- string to be displayed on the button
+	 * @param int w		- width of the button
+	 * @param int h		- height of the button
+	 * @return Image
 	 */
 	private Image createButtonFromString (String s, int w, int h) {
         BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

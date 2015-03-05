@@ -10,14 +10,18 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @version	1.0
  * @since	2015-02-16
  * 
- * Class for creating buttons that are viewable for the player.
- * Buttons can implement events on mouse click.
- * ZButtons are ZImages.
+ * Class for creating images with text to be displayed.
  * 
- * Can be constructed with an Image or using a default appearance.
+ * public ZText (String string, int x, int y, int fontSize)
+ * Constructor for creating an image displaying a text in desired x and y position.
+ * 
+ * public ZText (String string, int x, int y, int w, int h, int fontSize, String delimiter)
+ * Constructor for creating an image displaying a text in desired x and y position
+ * with a certaint size determined by int w (width) and int h (height) .
+ * If the text is too long it cuts it to fit and ads an delimiter.
  */
 
 public class ZText extends ZEntity
@@ -34,6 +38,12 @@ public class ZText extends ZEntity
 		setY(y);
 	}
 	
+	/**
+	 * Creates the image displaying the text s
+	 * @param s		- string to be displayed in the image
+	 * @param fs	- fontSize to be used
+	 * @return image to be displayed
+	 */
 	private Image createImageFromString (String s, int fs) {
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = img.createGraphics();
@@ -78,6 +88,15 @@ public class ZText extends ZEntity
         return img;
 	}
 	
+	/**
+	 * Creates an image containing the text s (wrapped with delimiter if needed).
+	 * @param s		- string to be displayed in the image
+	 * @param w		- max width of the image
+	 * @param h		- max height of the image
+	 * @param fs	- fontSize to be used
+	 * @param d		- string to be used as delimiter
+	 * @return image to be displayed
+	 */
 	private Image createImageFromStringWrapped (String s, int w, int h, int fs, String d) {
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();

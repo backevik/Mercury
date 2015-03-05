@@ -5,7 +5,7 @@ import java.awt.Image;
 
 /**
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.8			<2015-02-20>
+ * @version	1.0			<2015-02-20>
  * @since	2015-02-20
  * 
  * ZComponent is the abstract base class for all Z-components. It stores an Image and the location of said Image.

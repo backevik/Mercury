@@ -9,6 +9,14 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
+/**
+ * @author	Anton Andrén
+ * @version	1.0
+ * @since	2015-03-03
+ * 
+ * NOT IMPLEMENTED
+ */
+
 public class ZTextArea extends ZComponent 
 {
 	private int w;
@@ -27,11 +35,19 @@ public class ZTextArea extends ZComponent
 		text = "";
 	}
 	
+	/**
+	 * Adds text to be displayed in the ZTextArea
+	 * @param s	-text to be displayed
+	 */
 	public void addTextWithoutLineFeed (String s) {
 		text += s;
 		textIsRendered= false;
 	}
 	
+	/**
+	 * Adds text to be displayed in the ZTextArea after a line break
+	 * @param s	-text to be displayed
+	 */
 	public void addText (String s) {
 		if (!text.isEmpty()) {
 			text += "\n";
@@ -39,16 +55,23 @@ public class ZTextArea extends ZComponent
 		text += s;
 		textIsRendered = false;
 	}
+	
+	/**
+	 * Checks if the text displayed is updated and renders accordingly.
+	 */
 	@Override
 	public void render (Graphics g) {
 		if (textIsRendered == false) {
 			setImage(createImageFromString ());
 			textIsRendered = true;
-			System.out.println("hej");
 		}
 		super.render(g);
 	}
 	
+	/**
+	 * Creates an image based on the text in String text with the size of int w (width) and int h (height)
+	 * @return image
+	 */
 	private Image createImageFromString () {
 	     BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 	     Graphics2D g = image.createGraphics();
