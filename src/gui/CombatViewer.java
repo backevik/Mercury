@@ -23,7 +23,7 @@ import database.ImageDatabase;
  * Combat is a subclass ZContainer for graphical components and implements ZDrawable so it's added to drawable-list.
  * Handles all the combat GUI
  *
- * @author Andreas Bäckevik
+ * @author Andreas BÃ¤ckevik
  * @version 1.0
  * @since 2015-02-21
  */
@@ -151,7 +151,7 @@ public class CombatViewer extends ZContainer implements ZDrawable
 		boolean addedHealthPotion = false;
 		boolean addedEnergyPotion = false;
 		for(ItemSlot itemslot : player.getInventory().getItems()){
-			if(itemslot.getItem().getName().contains("Healing")){
+			if(itemslot.getItem().getName().contains("Healing") && addedHealthPotion==false){
 				itemButtons.add(new ZButton(itemslot.getItem().getName(),240,440+yCord,200,30,eventAdder,"item,"+itemslot.getItem().getName()));
 				components.add(itemButtons.get(j));
 				entities.add(itemButtons.get(j));
@@ -169,18 +169,25 @@ public class CombatViewer extends ZContainer implements ZDrawable
 			}
 		}
 	}
-	
+	/**
+	 * Removes the item menu when item is used.
+	 */
 	public void clickedItem(){
 		for(ZButton btn : itemButtons){
 			components.remove(btn);
 			entities.remove(btn);
 		}
 	}
-	
+	/**
+	 * Prints text from combat logic in the log with s
+	 * @param s - text to print in log
+	 */
 	public void addText(String s){
 		combatlog.addText(s);
 	}
-
+	/**
+	 * Updates all the visuals with updated health/energy every time it changes.
+	 */
 	public void updateVisuals(){
 		int playerHpMax,playerManaMax,enemyHpMax,enemyManaMax;
 		playerHpMax=(int)Math.round((player.getValueOfVital("Health")/((player.getMaxOfVital("Health")+10)/37)))+3;
