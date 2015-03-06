@@ -6,10 +6,21 @@ import java.util.Map;
 
 import worldmap.Zone;
 
+/**
+ * A singleton that handles all zones in the game.
+ * 
+ * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @version		1.0
+ * @since		2015-03-06
+ */
+
 public class ZoneDatabase {
 	private final Map<String, Zone> zones = new HashMap<>();
 	private static ZoneDatabase instance = null;
 	
+	/**
+	 * Create all zones in game and connects zones to each other so you can travel between them.
+	 */
 	private ZoneDatabase (){
 		zones.put ("Town0001", 		new Zone ("Town0001", 	"Town",		"sceneTown", 				8, 		344));
 		zones.put ("Combat0001", 	new Zone ("Combat0001", "Combat",	"sceneCombat,Encounter1", 	70, 	240));
@@ -41,13 +52,18 @@ public class ZoneDatabase {
 	}
 
 	/**
-	 * return item from list base from name of item
-	 * @return
+	 * Get a zone from the database by providing the key as a String
+	 * @param zoneName - key
+	 * @return Zone corresponding to key
 	 */
 	public Zone getZone(String zoneName) {
 		return zones.get(zoneName);
 	}
 	
+	/**
+	 * Get the all zones from database
+	 * @return collection of zones
+	 */
 	public Map<String, Zone> getZones(){
 		return Collections.unmodifiableMap(zones);
 	}

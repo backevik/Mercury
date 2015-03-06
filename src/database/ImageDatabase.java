@@ -8,9 +8,11 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 /**
+ * A singleton that handles all images in game. Image file formats supported are .jpg and .png.
+ * 
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3.2
- * @since		2015-02-20
+ * @version		1.0
+ * @since		2015-03-06
  */
 	
 
@@ -19,6 +21,9 @@ public class ImageDatabase
 	private final HashMap<String, Image> images = new HashMap<String, Image>();
 	private static ImageDatabase instance = null;
 	
+	/**
+	 * Search through all maps in directory and saves all images in a hashmap for later use.
+	 */
 	private ImageDatabase(){
 		
 		File baseDirectory = new File("img/");	//base dir
@@ -81,10 +86,9 @@ public class ImageDatabase
 	}
 	
 	/**
-	 * Return an image from hashmap of images
-	 * @param imgName
-	 * @return	if image exists, return that image
-	 * 			else return null
+	 * Get an image from the database by providing the key as a String
+	 * @param imgName - key
+	 * @return Image corresponding to key
 	 */
 	public Image getImage(String imgName) {
 		return images.get(imgName);

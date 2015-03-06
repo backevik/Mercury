@@ -5,9 +5,11 @@ import java.util.HashMap;
 import combat.Encounter;
 
 /**
+ * A singleton that handles all encounters in game
+ * 
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3.2
- * @since		2015-02-21
+ * @version		1.0
+ * @since		2015-03-06
  */
 
 public class EncounterDatabase
@@ -15,7 +17,11 @@ public class EncounterDatabase
 	private final HashMap<String, Encounter> encounters = new HashMap<>();
 	private static EncounterDatabase instance = null;
 	
+	/**
+	 * Create encounters and put them in a hashmap for later use. Is dependent on EnemyDatabase the exist.
+	 */
 	private EncounterDatabase (){
+		//Add encounters
 		encounters.put("Encounter1", new Encounter ("defaultVictory", "defaultLose", EnemyDatabase.getInstance().getEnemy("Thief")));
 		encounters.put("Encounter2", new Encounter ("defaultVictory", "defaultLose", EnemyDatabase.getInstance().getEnemy("Bandit Rogue")));
 		encounters.put("Encounter3", new Encounter ("defaultVictory", "defaultLose", EnemyDatabase.getInstance().getEnemy("Bandit Lord")));
@@ -36,8 +42,9 @@ public class EncounterDatabase
 	}
 
 	/**
-	 * return item from list base from name of item
-	 * @return
+	 * Get an encounter from the database by providing the key as a String
+	 * @param encounterName - key
+	 * @return Encounter corresponding to key
 	 */
 	public Encounter getEncounter (String encounterName) {
 		return encounters.get(encounterName);

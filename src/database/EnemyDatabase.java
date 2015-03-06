@@ -5,9 +5,11 @@ import java.util.HashMap;
 import combat.Enemy;
 
 /**
+ * A singleton that handles all enemies in the game
+ * 
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3.2
- * @since		2015-02-21
+ * @version		1.0
+ * @since		2015-03-06
  */
 
 public class EnemyDatabase
@@ -15,7 +17,11 @@ public class EnemyDatabase
 	private final HashMap<String, Enemy> enemies = new HashMap<>();
 	private static EnemyDatabase instance = null;
 	
+	/**
+	 * Create all enemies in game and put them in hashmap for later use. Is dependent on ImageDatabase to exist.
+	 */
 	private EnemyDatabase(){
+		//Add enemies
 		enemies.put("Thief", new Enemy("Thief",1,ImageDatabase.getInstance().getImage("enemy.png")));
 		enemies.put("Bandit Rogue", new Enemy("Bandit Rogue",1,ImageDatabase.getInstance().getImage("enemy.png")));
 		enemies.put("Bandit Lord", new Enemy("Bandit Lord",2,ImageDatabase.getInstance().getImage("enemy.png"), SpellDatabase.getInstance().getSpells("heal")));
@@ -36,8 +42,9 @@ public class EnemyDatabase
 	}
 
 	/**
-	 * return item from list base from name of item
-	 * @return
+	 * Get an enemy from the database by providing the key as a String
+	 * @param enemyName - key
+	 * @return Enemy corresponding to key
 	 */
 	public Enemy getEnemy(String enemyName) {
 		return enemies.get(enemyName);
