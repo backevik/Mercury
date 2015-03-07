@@ -54,46 +54,27 @@ import vendor.Vendor;
  * @author 	Daniel Edsinger		<@>
  * @version	0.9					<2015-05-25>
  * @since	2015-02-21
- * 
- * Main Class for the mercury project.
- * 
- * public static void main (String[])		Instantiates Game and runs the gameLoop initiation
- * private Game ()							a
- * 
- * private void startGameLoop ()			a
- * private void gameLoop ()					a
- * 
- * private  void render ()					to render all ZDrawable
- * private  void update ()					to update all ZRealTime
- * private void eventHandler (String s)		to use reflection invocation
- * 
- * To-Do:
- *	- Update Event Handling to not Lag Behind
- *	- Synchronize AWT Events
- *	- Cleanup Reflection Code
- *	- Change Frame layout to be consistent with pixel 0,0 to FRAME_X,FRAME_Y
  */
 
 public class Game extends Canvas implements Runnable, MouseListener
 {
+	// game window
 	private static final long serialVersionUID = 6545236699133411291L;
-	public static final int FRAME_X							= 800;
-	public static final int FRAME_Y							= 600;
-	public static final String TITLE						= "Mercury";
-	
-	private Frame frame;
-	
 	public Thread thread;
 	private boolean isRunning = true;
-    
-    //Rate for updates/s and expected time per update.
+    public static final int FRAME_X							= 800;
+	public static final int FRAME_Y							= 600;
+	public static final String TITLE						= "Mercury";	
+	private Frame frame;
+		
+    // rate for updates/s and expected time per update.
 	public static final double GAME_UPDATE_RATE				= 30.0;
 	public static final double TARGET_TIME_BETWEEN_UPDATES = 1000_000_000.0 / GAME_UPDATE_RATE;
     
-    //Allow update to play catch up for MAX times.
+    // allow update to play catch up for MAX times.
 	public static final int MAX_UPDATES_BEFORE_RENDER 		= 7;
     
-    //Rate for renders/s and expected time per render
+    // rate for renders/s and expected time per render
 	public static final double TARGET_GAME_RENDER_RATE 		= 24.0;
 	public static final double TARGET_TIME_BETWEEN_RENDERS = 1000_000_000.0 / TARGET_GAME_RENDER_RATE;
     
@@ -135,7 +116,6 @@ public class Game extends Canvas implements Runnable, MouseListener
 	private List<Playable> players;
 	
     /**
-     * private void gameLoop()
      * The main game loop. Runs in the gameLoopThread thread.
      * Disposes the time in exec by giving update as much time as possible and allways render after
      * MAX_UPDATES_BEFORE_RENDER. IF time is left over yield it to other processes.
@@ -179,7 +159,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
     
     /**
-     * Renders all objects to be render using a bufferStrategy.
+     * Renders all objects in the drawable list
      */
     private void render () {
     	BufferStrategy bs = getBufferStrategy();
@@ -201,7 +181,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
     
     /**
-     * Updates all entities to be updated
+     * Updates all entities in the real time list
      */
     private  void update () {
     	for (RealTime r : realTimes) {
@@ -209,9 +189,13 @@ public class Game extends Canvas implements Runnable, MouseListener
     	}
     }
     
+	/////////////////////////////
+	// Start of Event Handling //
+	/////////////////////////////
+    
 	/**
 	 * Handles events by using s in reflection
-	 * @param s
+	 * @param s - what event to be invoked
 	 */
 	private void eventHandler (String event) {
 		System.out.println("Event: " + event);
@@ -231,6 +215,10 @@ public class Game extends Canvas implements Runnable, MouseListener
 		}
 	}
 	
+	/**
+	 * Helper method to remove containers and all their objects
+	 * @param z - which ZContainer to be removed
+	 */
 	private void removeContainer (ZContainer z) {
 		if (z != null ) {
 			drawables.remove(z);
@@ -238,6 +226,9 @@ public class Game extends Canvas implements Runnable, MouseListener
 		}
 	}
 	
+	/**
+	 * Helper method to remove the world map and all its objects
+	 */
 	private void removeWorldMap () {
 	    removeContainer(worldMapViewer);
 		realTimes.remove(worldMapViewer);
@@ -269,7 +260,11 @@ public class Game extends Canvas implements Runnable, MouseListener
     public void popupWindow (String s) {
     	popup = new ZPopup (s, "ok", eventQueue.getEventAdder(), entities);
     	drawables.add(popup);
-    }    
+    }
+    
+    /**
+     * Closes the popup window and restores all clickable entitites
+     */
     public void popupWindowOff () {
     	if (popup != null) {
 	    	for (ZEntity e : popup.remove ()) {
@@ -279,65 +274,7 @@ public class Game extends Canvas implements Runnable, MouseListener
 	    	popup = null;
 	    }
     }
-    
-    /**
-	 * Title Scene
-	 */
-	public void sceneMainMenu () {
-		removeContainer(highScoreViewer);
-		highScoreViewer = null;
-		removeContainer (characterCreationViewer);
-    	characterCreationViewer = null;
-    	removeContainer (loadGameViewer);
-    	loadGameViewer = null;
-    	removeContainer (creditsViewer);
-    	characterCreationViewer = null;
-    	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), entities);
-    	drawables.add(mainMenuViewer);
-    }
-    
-    /**
-	 * Create Character Scene
-	 */
-    public void sceneCharacterCreation () {
-    	removeContainer (mainMenuViewer);
-    	mainMenuViewer = null;
-    	characterCreationViewer = new CharacterCreationViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
-    	drawables.add(characterCreationViewer);
-    }
 
-    /**
-	 * Load Game Scene
-	 */
-    public void sceneLoadGame () {
-    	removeContainer (mainMenuViewer);
-    	mainMenuViewer = null;
-    	try {
-			loadGameViewer = new LoadGameViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	drawables.add (loadGameViewer);
-    }
-    
-    /**
-	 * Credits Scene
-	 */
-    public void sceneCredits () {
-    	removeContainer (mainMenuViewer);
-    	mainMenuViewer = null;
-    	creditsViewer = new CreditsViewer (eventQueue.getEventAdder(), entities);
-    	drawables.add (creditsViewer);
-    }
-    
-    
-    public void sceneHighScore(){
-    	removeContainer (mainMenuViewer);
-    	mainMenuViewer = null;
-    	highScoreViewer = new HighScoreViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
-    	drawables.add(highScoreViewer);
-    }
     /**
      * Creates the player, adds the first quest.
      */
@@ -373,7 +310,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
     
     /**
-     * 
+     * Adds item to the player
      */
     public void addItem (String itemInfo) {
     	String name = itemInfo.substring(0, itemInfo.indexOf(","));
@@ -382,17 +319,17 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
     
     /**
-	 * Render world map when returning from combat
-	 */
-    public void sceneWorldMap () {
-		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities);
-		drawables.add(worldMapViewer);
-		realTimes.add(worldMapViewer);
-	}
+     * Exists the town to move to the world map
+     */
+    public void leaveTown () {
+    	removeContainer(townViewer);
+    	townViewer = null;
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }
     
     /**
      * Select zone from map. If you are currently on selected area, enter it.
-     * @param area
+     * @param area - which are to move to
      */
     public void selectArea(String area) {
     	// enter area
@@ -419,28 +356,11 @@ public class Game extends Canvas implements Runnable, MouseListener
     		System.out.println("Change globalWorldState from: " + GlobalStateManager.getInstance().getWorldState("LOCATION") + " To: "+ area);
     		saveGame();
     		return;
-    	}
-    	
-    	eventQueue.getEventAdder().add("popupWindow,Completed area!");
-    	
+    	}    	
+    	eventQueue.getEventAdder().add("popupWindow,Completed area!");    	
     }
-	
-    /**
-     * 
-     */
-    public void sceneTown() {
-    	townViewer = new TownViewer (entities,eventQueue.getEventAdder());
-    	drawables.add(townViewer);
-    }
+   
     
-    /**
-     * 
-     */
-    public void leaveTown () {
-    	removeContainer(townViewer);
-    	townViewer = null;
-    	eventQueue.getEventAdder().add("sceneWorldMap");
-    }
     
     /**
      * Default method to catch victory in combat
@@ -452,22 +372,6 @@ public class Game extends Canvas implements Runnable, MouseListener
     	combatViewer = null;
     	
     	sceneWorldMap ();
-    }
-    
-    /**
-     * End Game Scene
-     */
-    public void darkLordDefeated () {
-    	endSceneViewer = new EndSceneViewer (eventQueue.getEventAdder(), entities, player.getPC().getName(), player.getPC().getLevel());
-    	drawables.add(endSceneViewer);
-    }
-    
-    public void updateToServer () {
-    	removeContainer (endSceneViewer);
-    	endSceneViewer = null;
-    	Client client = new Client ("localhost");
-    	client.sendScore(player.getPC().getName(), player.getPC().getLevel());
-    	eventQueue.getEventAdder().add("sceneWorldMap");
     }
     
     /**
@@ -486,21 +390,20 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
     
     /**
-     * 
+     * End Game Scene
      */
-    public void sceneCombat (String encounter){
-    	players = new ArrayList<>();
-    	players.add(player.getPC());
-    	combat = new Combat (
-    			players,
-    			new Encounter(EncounterDatabase.getInstance().getEncounter(encounter)),
-    			eventQueue.getEventAdder(),
-    			EncounterDatabase.getInstance().getEncounter(encounter).getWinEvent(),
-    			EncounterDatabase.getInstance().getEncounter(encounter).getLoseEvent()
-    		);
-    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(), EncounterDatabase.getInstance().getEncounter(encounter));
-    	drawables.add(combatViewer);
+    public void darkLordDefeated () {
+    	endSceneViewer = new EndSceneViewer (eventQueue.getEventAdder(), entities, player.getPC().getName(), player.getPC().getLevel());
+    	drawables.add(endSceneViewer);
     }
+    
+    public void updateToServer () {
+    	removeContainer (endSceneViewer);
+    	endSceneViewer = null;
+    	Client client = new Client ("localhost");
+    	client.sendScore(player.getPC().getName(), player.getPC().getLevel());
+    	eventQueue.getEventAdder().add("sceneWorldMap");
+    }    
     
     public void runFromBattle(){
     	removeContainer(combatViewer);
@@ -672,8 +575,116 @@ public class Game extends Canvas implements Runnable, MouseListener
     	System.exit(0);
     }
 	
+	///////////////////////////
+	// End of Event Handling //
+    ///////////////////////////	
+	
+	
+	
+	/////////////////////
+	// Start of Scenes //
+	/////////////////////
+	
 	/**
-	 * 
+	 * Title Scene
+	 */
+	public void sceneMainMenu () {
+		removeContainer(highScoreViewer);
+		highScoreViewer = null;
+		removeContainer (characterCreationViewer);
+    	characterCreationViewer = null;
+    	removeContainer (loadGameViewer);
+    	loadGameViewer = null;
+    	removeContainer (creditsViewer);
+    	characterCreationViewer = null;
+    	mainMenuViewer = new MainMenuViewer(eventQueue.getEventAdder(), entities);
+    	drawables.add(mainMenuViewer);
+    }
+    
+    /**
+	 * Create Character Scene
+	 */
+    public void sceneCharacterCreation () {
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	characterCreationViewer = new CharacterCreationViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+    	drawables.add(characterCreationViewer);
+    }
+
+    /**
+	 * Load Game Scene
+	 */
+    public void sceneLoadGame () {
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	try {
+			loadGameViewer = new LoadGameViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+    	drawables.add (loadGameViewer);
+    }
+    
+    /**
+	 * Credits Scene
+	 */
+    public void sceneCredits () {
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	creditsViewer = new CreditsViewer (eventQueue.getEventAdder(), entities);
+    	drawables.add (creditsViewer);
+    }
+    
+    /**
+     * High Score Scene
+     */
+    public void sceneHighScore(){
+    	removeContainer (mainMenuViewer);
+    	mainMenuViewer = null;
+    	highScoreViewer = new HighScoreViewer(null, 0, 0, eventQueue.getEventAdder(), entities);
+    	drawables.add(highScoreViewer);
+    }
+    
+    /**
+	 * World Map Scene
+	 */
+    public void sceneWorldMap () {
+		worldMapViewer = new WorldMapViewer(eventQueue.getEventAdder(), entities);
+		drawables.add(worldMapViewer);
+		realTimes.add(worldMapViewer);
+	}
+    
+    /**
+     * Town Scene
+     */
+    public void sceneTown() {
+    	townViewer = new TownViewer (entities,eventQueue.getEventAdder());
+    	drawables.add(townViewer);
+    }
+    
+    /**
+     * Combat Scene
+     */
+    public void sceneCombat (String encounter){
+    	players = new ArrayList<>();
+    	players.add(player.getPC());
+    	combat = new Combat (
+    			players,
+    			new Encounter(EncounterDatabase.getInstance().getEncounter(encounter)),
+    			eventQueue.getEventAdder(),
+    			EncounterDatabase.getInstance().getEncounter(encounter).getWinEvent(),
+    			EncounterDatabase.getInstance().getEncounter(encounter).getLoseEvent()
+    		);
+    	combatViewer = new CombatViewer(entities,eventQueue.getEventAdder(),player.getPC(), EncounterDatabase.getInstance().getEncounter(encounter));
+    	drawables.add(combatViewer);
+    }
+    
+    ///////////////////
+    // End of Scenes //
+    ///////////////////
+	
+	/**
+	 * Initializes the main frame
 	 */
     private void initWindow() {
     	setPreferredSize(new Dimension(FRAME_X, FRAME_Y));
@@ -684,8 +695,7 @@ public class Game extends Canvas implements Runnable, MouseListener
     	frame.setResizable (false);    	
     	frame.add(this);
     	frame.pack();
-    	frame.setVisible (true);
-    	
+    	frame.setVisible (true);    	
     	
     	// add listeners
     	addMouseListener(this);
@@ -696,24 +706,6 @@ public class Game extends Canvas implements Runnable, MouseListener
 			}
 		});		
 	}
-    
-    /**
-     * public Game
-     */
-    public Game () {
-    	initWindow ();
-    	
-    	thread = new Thread(this);
-    	thread.start();
-    }
-
-	/**
-     * public static void main (String[] args)
-     * @param args - System parameters, none are used.
-     */
-    public static void main (String[] args) {
-        new Game();
-    }
 
     /**
      * When the mouse is clicked anywhere mouseClicked checks if an action is required by notifying all active entities
@@ -740,4 +732,22 @@ public class Game extends Canvas implements Runnable, MouseListener
 
 	@Override
 	public void mouseReleased(MouseEvent me) {}
+	
+	/**
+     * Constructor for Game
+     */
+    public Game () {
+    	initWindow ();
+    	
+    	thread = new Thread(this);
+    	thread.start();
+    }
+
+	/**
+     * public static void main (String[] args)
+     * @param args - System parameters, none are used.
+     */
+    public static void main (String[] args) {
+        new Game();
+    }
 }

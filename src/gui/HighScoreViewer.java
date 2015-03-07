@@ -13,14 +13,11 @@ import zlibrary.ZText;
 import zlibrary.ZTextArea;
 
 /**
+ * Scene for displaying high scores
+ * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
  * @version	0.1					<2015-02-27>
  * @since	2015-02-15
- * 
- * Class for setting up the scene for Load Game
- * 
- * public LoadGameViewer (Image, int, int, EventAdder, List<ZEntity>)
- * Creates the GUI elements for the loadGameViewer.
  */
 
 public class HighScoreViewer extends ZContainer
