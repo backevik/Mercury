@@ -9,18 +9,22 @@ import zlibrary.ZEntity;
 import zlibrary.ZTextArea;
 
 /**
+ * Class for setting up the scene for the credits with all its GUI elements
+ * 
  * @author	Anton Andrén
  * @version	0.1	
  * @since	015-03-01
- * 
- * Class for setting up the scene for the credits
- * 
- * public CreditsViewer(EventAdder eventAdder, List<ZEntity> entities)
- * Creates the GUI elements for the CreditsViewer.
  */
 
 public class CreditsViewer extends ZContainer
 {
+	/**
+	 * public CreditsViewer(EventAdder eventAdder, List<ZEntity> entities)
+	 * Creates the GUI elements for the CreditsViewer.
+	 * 
+	 * @param eventAdder	-	Used to add events in the eventQueue to be processed by the game loop.
+	 * @param entities		-	Used to track player interactions with an object.
+	 */
 	public CreditsViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(null, 0, 0, eventAdder, entities);
 		

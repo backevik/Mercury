@@ -10,19 +10,23 @@ import zlibrary.ZEntity;
 import zlibrary.ZText;
 
 /**
+ * Class for setting up the scene for the arena entrance with all its GUI elements.
+ * 
  * @author	Anton Andrén
  * @version	1.0	
- * @since	015-03-05
- * 
- * Class for setting up the scene for the arena entrance
- * 
- * public ArenaEntranceViewer(EventAdder eventAdder, List<ZEntity> entities)
- * Creates the GUI elements for the ArenaEntranceViewer.
+ * @since	2015-03-05
  */
 
 public class ArenaEntranceViewer extends ZContainer
 {
 
+	/*
+	 * public ArenaEntranceViewer(EventAdder eventAdder, List<ZEntity> entities)
+	 * Creates the GUI elements for the ArenaEntranceViewer.
+	 * 
+	 * @param eventAdder	-	Used to add events in the eventQueue to be processed by the game loop.
+	 * @param entities		-	Used to track player interactions with an object.
+	 */
 	public ArenaEntranceViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(ImageDatabase.getInstance().getImage("ArenaBG.jpg"), 0, 0, eventAdder, entities);
 		
