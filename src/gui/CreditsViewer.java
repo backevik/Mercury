@@ -12,7 +12,7 @@ import zlibrary.ZTextArea;
  * Class for setting up the scene for the credits with all its GUI elements
  * 
  * @author	Anton Andrén
- * @version	0.1	
+ * @version	1.0	
  * @since	015-03-01
  */
 
