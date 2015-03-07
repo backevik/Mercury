@@ -5,10 +5,12 @@ import java.util.HashMap;
 import constants.Directions;
 
 /**
-* @author	Daniel Edsinger 	<danieledsinger@hotmail.com>
-* @version	1.0					<2015-03-07>
-* @since	2015-02-21
-*/
+ * A zone on the world map.
+ * 
+ * @author	Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @version	1.0					<2015-03-07>
+ * @since	2015-02-21
+ */
 
 public class Zone
 {
