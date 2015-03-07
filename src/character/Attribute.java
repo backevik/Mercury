@@ -1,5 +1,6 @@
 package character;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +9,12 @@ import java.util.List;
  * 
  * @author      Andreas Bäckevik
  * @version     1.0
- * @since       2015-02-01
+ * @since       2015-03-07
  */
 
-public class Attribute
+public class Attribute implements Serializable
 {
+	private static final long serialVersionUID = 219299157256612602L;
 	private double value;
 	private final List<AttributeModifier> attributeModifiers = new ArrayList<>();
 	/**

@@ -84,47 +84,46 @@ public class GlobalStateManager implements Serializable
 	
 	/**
 	 * 
-	 * @return 0 if the save was succesful, if not -1
+	 * @param player - playerdata to save
+	 * @param fileName - save data to fileName
 	 */
-	public int save (Player player, String filename) {
+	public void save (Player player, String fileName) {
 		if (globalStateManager == null) {
 			globalStateManager = new GlobalStateManager ();
 		}
 		
-		String directory = player.getPC().getName() + key;
-		
 		try {
-			FileOutputStream fos = new FileOutputStream (directory+"\\"+filename);
+			FileOutputStream fos = new FileOutputStream ("saves/" + fileName + " savefile.dat");
 			ObjectOutputStream oos = new ObjectOutputStream (fos);
+			oos.writeObject(player);
 			oos.writeObject(this);
 			oos.close();
-			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return -1;
 	}	
 	
 	/**
-	 * 
-	 * @return 0 if the load was succesful, if not -1
+	 * Load all data for player
+	 * @param filename - name of file
+	 * @return Player object from file
 	 */
-	public int load (String directory, String filename) {
+	public Player load (String filename) {
 		if (globalStateManager == null) {
 			globalStateManager = new GlobalStateManager ();
 		}
 		
 		try {
-			FileInputStream fis = new FileInputStream (directory+"\\"+filename);
+			FileInputStream fis = new FileInputStream ("saves/" + filename + " savefile.dat");
 			ObjectInputStream ois = new ObjectInputStream (fis);
+			Player player = (Player) ois.readObject();
 			globalStateManager = (GlobalStateManager) ois.readObject();
+			
 			ois.close();
-			return 0;
+			return player;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return -1;
+		return null;
 	}
 }

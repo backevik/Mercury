@@ -1,15 +1,18 @@
 package player;
 
+import java.io.Serializable;
+
 /**
  * Wrapper class for quest, contains if the quest is completed or not.
  * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     1.0					<2015-03-06>
- * @since       2015-02-01
+ * @version     1.0					<2015-02-27>
+ * @since       2015-03-07
  */
 
-public class QuestEntry
+public class QuestEntry  implements Serializable
 {
+	private static final long serialVersionUID = 3944115119299510738L;
 	private Quest quest;
 	private boolean completed;
 	

@@ -1,16 +1,19 @@
 package character;
 
+import java.io.Serializable;
+
 /**
  * Characteristics and settings for skills in  a character.
  * 
  * @author      Mattias BenngÃ¥rd	<mbengan@gmail.com>
  * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     1.0
- * @since       2015-02-01
+ * @version     1.0.1
+ * @since       2015-03-07
  */
 
-public class Skill
+public class Skill implements Serializable
 {
+	private static final long serialVersionUID = -5577052425469320662L;
 	private double value;
 	/**
 	 * Constructor 

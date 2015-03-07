@@ -1,5 +1,6 @@
 package player;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,12 +9,13 @@ import items.Item;
 
 /**
  * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     0.9					<2015-02-27>
- * @since       2015-02-01
+ * @version     1.0				<2015-02-27>
+ * @since       2015-03-07
  */
 
-public class Inventory
+public class Inventory implements Serializable
 {
+	private static final long serialVersionUID = -2719693338249833172L;
 	private final ItemSlot[] items = new ItemSlot[constants.Player.MAX_ITEMS];
 	
 	public Inventory () {}

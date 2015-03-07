@@ -9,21 +9,23 @@ import character.Spell;
 import player.ItemSlot;
 import player.Playable;
 import core.EventAdder;
+import core.RealTime;
 
 /**
- * All the logic and rules for encounters throughout the game.
+ * All the logic and rules for encounters throughout the game. Implements interface RealTime for realtime support.
  * 
  * @author      Andreas Bäckevik
  * @version     1.0
  * @since       2015-02-09
  */
-public class Combat {
+public class Combat implements RealTime {
 	private boolean turn;
 	private boolean energy = true;
 	private Random rand;
 	private final LinkedList<Character> turnList = new LinkedList<Character>();;
 	private Character currentChar;
-
+	@SuppressWarnings("unused")
+	private int clockTick;
 	private EventAdder eventAdder;
 	private List<Playable> players;
 	private Encounter encounter;
@@ -31,15 +33,14 @@ public class Combat {
 				   lostEvent;
 	
 	/**
-	 * Constructor for Combat
-	 * 
+	 * Constructor
 	 * @param players - reference of player
 	 * @param encounter - unique encounter
-	 * @param eventAdder - event queue
-	 * @param winEvent - event triggered if the player is victorious
-	 * @param lostEvent - event triggered if the player is defeated
+	 * @param eventAdder
+	 * @param winEvent
+	 * @param lostEvent
 	 */
-	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder, String winEvent, String lostEvent) {
+	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder, String winEvent, String lostEvent){
 		rand = new Random();
 		this.eventAdder = eventAdder;
 		this.players = players;
@@ -208,7 +209,21 @@ public class Combat {
 			attack(src,desti);
 		}
 	}
-
+	
+	/**
+	 * Counting amount of updates for real-time clock
+	 */
+	public void update(){
+		clockTick++;
+	}
+	
+	/**
+	 * Resetting count of real-time clock calls
+	 */
+	public void resetUpdateCount(){
+		clockTick=0;
+	}
+	
 	/**
 	 * Set turn to enemy
 	 */

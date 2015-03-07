@@ -1,5 +1,7 @@
 package player;
 
+import java.io.Serializable;
+
 import character.Attribute;
 import character.Character;
 
@@ -8,18 +10,18 @@ import character.Character;
  * 
  * @author      Mattias Benngard	<mbengan@gmail.com>
  * @version     1.0					<2015-03-06>
- * @since       2015-02-09
+ * @since       2015-03-07
  */
 
-public class Playable extends Character
+public class Playable extends Character implements Serializable
 {	
+	private static final long serialVersionUID = -4578604823177359363L;
 	private int level;
 	private double expCur;
 	private double expTnl;
 	private double currency;
 	
 	/**
-	 * 
 	 * @param name - name to give the playable character
 	 */
 	public Playable (String name) {
@@ -134,4 +136,5 @@ public class Playable extends Character
 	public void addCurrency (double currency) {
 		this.currency += currency;
 	}
+	
 }

@@ -222,7 +222,7 @@ public class Game extends Canvas implements Runnable, MouseListener
 			if (arguments == null) {
 				this.getClass().getMethod(method).invoke(this); 
 			} else {
-				this.getClass().getMethod(method, String.class).invoke(this, arguments); 
+				this.getClass().getMethod(method, String.class).invoke(this, arguments);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException
@@ -245,17 +245,22 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
 	
 	/**
-	 * 
+	 * Save game data to file
 	 */
-	public void saveGame (String filename) {
-		GlobalStateManager.getInstance().save(player, filename);
+	public void saveGame () {
+		GlobalStateManager.getInstance().save(player, player.getPC().getName());
 	}
 	
 	/**
-	 * 
+	 * Load game data from file
 	 */
 	public void loadGame (String filename) {
-		
+		System.out.println("Loading game!");
+		if( (player = GlobalStateManager.getInstance().load( filename)) != null) {
+			removeContainer(loadGameViewer);
+			loadGameViewer = null;
+			sceneWorldMap();
+		}
 	}
 	
 	/**
@@ -307,7 +312,12 @@ public class Game extends Canvas implements Runnable, MouseListener
     public void sceneLoadGame () {
     	removeContainer (mainMenuViewer);
     	mainMenuViewer = null;
-    	loadGameViewer = new LoadGameViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+    	try {
+			loadGameViewer = new LoadGameViewer (null, 0, 0, eventQueue.getEventAdder(), entities);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	drawables.add (loadGameViewer);
     }
     
@@ -391,11 +401,11 @@ public class Game extends Canvas implements Runnable, MouseListener
 	    		eventQueue.getEventAdder().add("popupWindow,Completed zone!");
 	    	} else {
 	    		System.out.println("You entered: " + area);
-		    	removeWorldMap ();	
+		    	removeWorldMap ();
 		    	eventQueue.getEventAdder().add(ZoneDatabase.getInstance().getZone(area).getEvent());
 	    	}
 	    	return;
-    	}    	
+    	}
     	
     	// unreachable
     	if (!ZoneDatabase.getInstance().getZone(GlobalStateManager.getInstance().getWorldState("LOCATION")).isConnected(ZoneDatabase.getInstance().getZone(area))) {
@@ -407,10 +417,12 @@ public class Game extends Canvas implements Runnable, MouseListener
     	if (!GlobalStateManager.getInstance().getWorldState("LOCATION").equals(area)) {
     		GlobalStateManager.getInstance().updateWorldState("LOCATION", area);
     		System.out.println("Change globalWorldState from: " + GlobalStateManager.getInstance().getWorldState("LOCATION") + " To: "+ area);
+    		saveGame();
     		return;
     	}
     	
     	eventQueue.getEventAdder().add("popupWindow,Completed area!");
+    	
     }
 	
     /**

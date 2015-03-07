@@ -1,16 +1,19 @@
 package character;
 
+import java.io.Serializable;
+
 /**
  * Creates spell and handles getters
  * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
  * @author 		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     1.0
- * @since       2015-02-01
+ * @version     1.0.1
+ * @since       2015-03-07
  */
 
-public class Spell
+public class Spell implements Serializable
 {
+	private static final long serialVersionUID = -3796082793918717341L;
 	private String name;
 	private String description;
 	private int energyCost;

@@ -1,15 +1,18 @@
 package character;
 
+import java.io.Serializable;
+
 /**
  * Where Vitals are created and modified. Each vital has its own modifiers/getters
  * 
  * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     1.0
- * @since       2015-02-01
+ * @version     1.0.1
+ * @since       2015-03-07
  */
 
-public class Vital extends Skill
+public class Vital extends Skill implements Serializable
 {
+	private static final long serialVersionUID = -6913445933204599812L;
 	private double max;
 	/**
 	 * Constructor

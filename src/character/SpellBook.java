@@ -1,5 +1,6 @@
 package character;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,12 +9,13 @@ import java.util.List;
  * Contains a list of all the spells the character owns. Also able to add spells.
  * 
  * @author      Andreas Bäckevik
- * @version     1.0
- * @since       2015-02-01
+ * @version     1.0.1
+ * @since       2015-03-07
  */
 
-public class SpellBook
+public class SpellBook implements Serializable
 {
+	private static final long serialVersionUID = -1175481083251095481L;
 	private final List<Spell> spells = new ArrayList<>();
 	/**
 	 * Constructor

@@ -1,15 +1,18 @@
 package player;
 
+import java.io.Serializable;
+
 /**
  * Data container for quests. instantiated in database.Questdatabase
  * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     1.0					<2015-03-06>
- * @since       2015-02-01
+ * @version     1.0					<2015-02-17>
+ * @since       2015-03-07
  */
 
-public class Quest
+public class Quest implements Serializable
 {	
+	private static final long serialVersionUID = 6363280308011546027L;
 	private String name;
 	private String description;
 	

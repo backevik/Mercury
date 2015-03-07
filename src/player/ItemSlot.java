@@ -1,17 +1,20 @@
 package player;
 
+import java.io.Serializable;
+
 import items.Item;
 
 /**
  * Wrapper class for item, contains how many exists in the player inventory.
  * 
  * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     0.9					<2015-02-27>
- * @since       2015-02-01
+ * @version     1.0					<2015-02-27>
+ * @since       2015-03-07
  */
 
-public class ItemSlot
+public class ItemSlot implements Serializable
 {
+	private static final long serialVersionUID = -5028802384998565603L;
 	private Item item;
 	private int quantity;
 

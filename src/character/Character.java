@@ -1,7 +1,7 @@
 package character;
 
+import java.io.Serializable;
 import java.util.HashMap;
-
 import java.util.Map;
 
 import constants.Attributes;
@@ -14,12 +14,13 @@ import player.Inventory;
  * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
  * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     1.0
- * @since       2015-02-01
+ * @version     1.0.1
+ * @since       2015-03-07
  */
 
-public abstract class Character
+public abstract class Character implements Serializable
 {
+	private static final long serialVersionUID = -278514111167157706L;
 	private String name;
 	private int level;
 	

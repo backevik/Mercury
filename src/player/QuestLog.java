@@ -1,5 +1,6 @@
 package player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,12 +9,13 @@ import java.util.List;
  * Quest container for Player
  * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
- * @version     1.0					<2015-03-06>
- * @since       2015-02-01
+ * @version     1.0.1
+ * @since       2015-03-07
  */
 
-public class QuestLog
+public class QuestLog implements Serializable
 {
+	private static final long serialVersionUID = -167672833904890544L;
 	private final List<QuestEntry> questEntries = new ArrayList<>();
 	
 	/**
