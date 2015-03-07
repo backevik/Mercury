@@ -7,11 +7,12 @@ import items.Item;
 import database.ItemDatabase;
 import player.Player;
 
-/**Where the vendor is created, purchases are made and items are added to inventory. 
- * Getters for items 
- * @author Martin Claesson
- * @version 1.0
- * @since 2015-03-03
+/**
+ * Where the vendor is created, purchases are made and items are added to inventory. 
+ * 
+ * @author		Martin Claesson		<>
+ * @version		1.0					<2015-03-07>
+ * @since		2015-03-03
  */
 
 public class Vendor 
@@ -20,6 +21,7 @@ public class Vendor
 	private HashMap<Item, Integer> items = new HashMap<>();
 	private final static int 	MAX_HP_POTIONS= 50;
 	private final static int 	MAX_ENERGY_POTIONS= 50;
+	
 	/**
 	 * Constructor adds specific items to the vendor and declares local player reference
 	 * @param player - reference to player 
@@ -38,17 +40,16 @@ public class Vendor
 	 */
 	public boolean buyItem(String item){
 		
-		if(player.getPC().getCurrency() >= getItem(item).getSellPrice() && items.get(getItem(item))!=0){
+		if (player.getPC().getCurrency() >= getItem(item).getSellPrice() && items.get(getItem(item))!=0) {
 			player.getPC().subtractCurrency(getItem(item).getSellPrice());
 			player.getPC().getInventory().addItem(getItem(item),1);
 			items.put(getItem(item), items.get(getItem(item))-1);
-			
 			return true;
 		}
-		else{
-			return false;
-		}
+		
+		return false;
 	}
+	
 	/**
 	 * Getter for items in vendor
 	 * @return HashMap - containing the items and the amount of them 
@@ -56,6 +57,7 @@ public class Vendor
 	public HashMap<Item, Integer> getItems(){
 		return items;
 	}
+	
 	/**
 	 * returns the specified item that matches the string
 	 * @param Key - Name of item

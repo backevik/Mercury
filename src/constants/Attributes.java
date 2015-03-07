@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Contains all attributes existing in the game
+ * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
  * @version 1.0					<2015-02-27>
  * @since   2015-02-01

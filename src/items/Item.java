@@ -17,7 +17,14 @@ public abstract class Item implements Serializable
 	private String description;
 	private int maxStackSize;
 	private int sellPrice;
-		
+	
+	/**
+	 * Constructor for Item
+	 * @param name - name of the item
+	 * @param description - description of the item
+	 * @param maxStackSize - how many items a stack can contain
+	 * @param sellPrice - what the sell price of an item is
+	 */
 	public Item (String name, String description, int maxStackSize,
 			int sellPrice) {
 		this.name = name;
@@ -26,18 +33,34 @@ public abstract class Item implements Serializable
 		this.sellPrice = sellPrice;
 	}
 	
+	/**
+	 * Public getter for name
+	 * @return name of the item
+	 */
 	public String getName () {
 		return name;
 	}
 	
+	/**
+	 * Public getter for description
+	 * @return description of the item
+	 */
 	public String getDescription () {
 		return description;
 	}
 	
+	/**
+	 * Public getter for max stack size
+	 * @return how many the items of this type can be stacked on each other
+	 */
 	public int getMaxStackSize () {
 		return maxStackSize;
 	}
 	
+	/**
+	 * Public getter for sell price
+	 * @return the sell price of the item
+	 */
 	public int getSellPrice () {
 		return sellPrice;
 	}

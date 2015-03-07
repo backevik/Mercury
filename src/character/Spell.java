@@ -18,11 +18,10 @@ public class Spell implements Serializable
 	private String description;
 	private int energyCost;
 	private String type;
-	private double spellPower;
-	
+	private double spellPower;	
 	
 	/**
-	 * Constructor
+	 * Constructor for Spell
 	 * @param name - name of spell
 	 * @param description - spell description
 	 * @param energyCost - How much energy it costs to cast
@@ -36,6 +35,7 @@ public class Spell implements Serializable
 		this.type = type;
 		this.spellPower = spellPower;
 	}
+	
 	/**
 	 * Returns name of spell
 	 * @return String - name of spell
@@ -43,6 +43,7 @@ public class Spell implements Serializable
 	public String getName () {
 		return name;
 	}
+	
 	/**
 	 * Returns description of spell
 	 * @return String - description
@@ -50,6 +51,7 @@ public class Spell implements Serializable
 	public String getDescription () {
 		return description;
 	}
+	
 	/**
 	 * Returns energycost of spell
 	 * @return int - energy
@@ -57,6 +59,7 @@ public class Spell implements Serializable
 	public int getEnergyCost () {
 		return energyCost;
 	}
+	
 	/**
 	 * Returns type of spell
 	 * @return String - type of the spell
@@ -64,6 +67,7 @@ public class Spell implements Serializable
 	public String getType () {
 		return type;
 	}
+	
 	/**
 	 * Returns spellpower of spell
 	 * @return double spellpower

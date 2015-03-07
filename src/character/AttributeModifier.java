@@ -4,8 +4,8 @@ package character;
  * If items and/or buffs modify attributes it is handled in this class.
  * 
  * @unused
- * @author      Andreas Bäckevik
- * @version     1.0
+ * @author      Andreas Backevik
+ * @version     1.0						<2015-03-17>
  * @since       2015-02-01
  */
 

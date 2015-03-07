@@ -1,11 +1,14 @@
 package constants;
+
 import java.util.HashMap;
 
 /**
+ * Constnats to match opposite directions
+ * 
  * @author	Daniel Edsinger <danieledsinger@hotmail.com>
- * @version	0.5				<2015-02-22>
- * @since	2015-02-21
- */
+ * @version 1.0					<2015-03-07>
+ * @since   2015-02-01
+ */ 
 
 public final class Directions
 {
@@ -17,6 +20,11 @@ public final class Directions
 		directions.put("west","east");
     }
 	
+    /**
+     * Public getter for opposite direction
+     * @param d - current direction
+     * @return opposite direction
+     */
 	public static String opposite(String d) {
 		return directions.get(d);
 	}

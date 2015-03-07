@@ -12,9 +12,9 @@ import player.Inventory;
 /**
  * Where a character essentially is created with all basic statistics and info.
  * 
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     1.0.1
+ * @author      Mattias Benngard	<mbengan@gmail.com>
+ * @author		Andreas Backevik	<backevik@student.chalmers.se>
+ * @version     1.0.1				<2015-03-07>
  * @since       2015-03-07
  */
 
@@ -30,8 +30,9 @@ public abstract class Character implements Serializable
 	
 	private final SpellBook spellBook = new SpellBook ();
 	private final Inventory inventory = new Inventory ();
+	
 	/**
-	 * Constructor
+	 * Constructor for Character
 	 * @param name - name of the character that is created.
 	 */
 	public Character (String name) {

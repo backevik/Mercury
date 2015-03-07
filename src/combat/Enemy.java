@@ -19,7 +19,7 @@ public class Enemy extends Character
 	private Image img;
 	
 	/**
-	 * Constructor
+	 * Constructor for Enemy
 	 * @param name - Name of the enemy
 	 * @param level - Starting level of enemy
 	 * @param img - Image of enemy which later connects to GUI
@@ -33,9 +33,10 @@ public class Enemy extends Character
 		this.setLevel(level);
 		this.img = img;
 	}
+	
 	/**
-	 * Returns the image of enemy
-	 * @return Image - Image of enemy
+	 * Public getter for image
+	 * @return the image of the enemy
 	 */
 	public Image getImage(){
 		return img;

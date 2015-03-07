@@ -15,8 +15,9 @@ public class Encounter {
 	private List<Enemy> enemyList = new ArrayList<>();
 	private String winEvent;
 	private String loseEvent;
+	
 	/**
-	 * Constructor
+	 * Constructor for Encounter
 	 * @param winEvent - event if encounter is won by player
 	 * @param loseEvent event if encounter is lost by player
 	 * @param enemies - 0 to unlimited amount of enemies in encounter
@@ -28,33 +29,35 @@ public class Encounter {
 		this.winEvent = winEvent;
 		this.loseEvent = loseEvent;
 	}
+	
 	/**
-  	* Copy Constructor for Encounter
-  	* Returns win event
-	 * @return String
+  	 * Copy Constructor for Encounter
 	 */
 	 public Encounter (Encounter e) {
 	 	enemyList = e.enemyList;
 	 	winEvent = e.winEvent;
 	 	loseEvent = e.loseEvent;
  	}
+	 
 	/**
-	 * Returns win event
-	 * @return String
+	 * Public getter for win event
+	 * @return event triggered on victory
 	 */
 	public String getWinEvent(){
 		return winEvent;
 	}
+	
 	/**
-	 * Returns lose event
-	 * @return String
+	 * Public getter for lose event
+	 * @return event triggered on defeat
 	 */
 	public String getLoseEvent(){
 		return loseEvent;
 	}
+	
 	/**
 	 * Returns list of enemies
-	 * @return List
+	 * @return all enemies in this encounter
 	 */
 	public List<Enemy> getEnemies(){
 		return enemyList;

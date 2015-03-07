@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Contains a list of all the spells the character owns. Also able to add spells.
  * 
- * @author      Andreas Bäckevik
- * @version     1.0.1
+ * @author      Andreas Bäckevik		<>
+ * @version     1.0.1					<2015-03-07>
  * @since       2015-03-07
  */
 
@@ -17,10 +17,6 @@ public class SpellBook implements Serializable
 {
 	private static final long serialVersionUID = -1175481083251095481L;
 	private final List<Spell> spells = new ArrayList<>();
-	/**
-	 * Constructor
-	 */
-	public SpellBook () {}
 	
 	/**
 	 * Returns a list of spells

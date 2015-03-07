@@ -6,8 +6,7 @@ import constants.Directions;
 
 /**
 * @author	Daniel Edsinger 	<danieledsinger@hotmail.com>
-* @author	Mattias Benngård	<mbengan@gmail.com>
-* @version	0.8					<2015-02-23>
+* @version	1.0					<2015-03-07>
 * @since	2015-02-21
 */
 
@@ -21,6 +20,14 @@ public class Zone
 	
 	private HashMap<String, Zone> routes = new HashMap<>();
 	
+	/**
+	 * Constructor for Zone
+	 * @param name - name of the zone
+	 * @param type - type of the zone
+	 * @param event - event triggered in the zone
+	 * @param x - coordinate in x of the zone
+	 * @param y - coordinate in y of the zone
+	 */
 	public Zone (String name, String type, String event, int x, int y) {
 		this.name = name;
 		this.type = type;
@@ -29,31 +36,50 @@ public class Zone
 		this.y = y;
 	}
 	
+	/**
+	 * Public getter for name
+	 * @return name of the zone
+	 */
 	public String getName () {
 		return name;
 	}
 	
+	/**
+	 * Public getter for type
+	 * @return what zone it is
+	 */
 	public String getType () {
 		return type;
 	}
 	
+	/**
+	 * Public getter for event
+	 * @return what event is triggered in the zone
+	 */
 	public String getEvent () {
 		return event;
 	}
 	
+	/**
+	 * Public getter for x
+	 * @return the x coordinate of the zone
+	 */
 	public int getX () {
 		return x;
 	}
 	
+	/**
+	 * Public getter for y
+	 * @return the y coordinate of the zone
+	 */
 	public int getY () {
 		return y;
 	}
 	
 	/**
 	 * Connect two zones on the map. You are then able to travel between them
-	 * 
-	 * @param direction
-	 * @param other
+	 * @param direction - in what direction they are connected
+	 * @param other - which zone it is that this is connected to
 	 */
 	public void connect (String direction, Zone other) {
         if (! routes.containsKey(direction) ) {
@@ -66,10 +92,8 @@ public class Zone
 	
 	/**
 	 * Checks if this zone is connected to the other zone
-	 * 
-	 * @param other
-	 * @return	true if the buttons are connected
-	 * 			false otherwise
+	 * @param other - zone to check connection against
+	 * @return if the zone is connected to this zone or not
 	 */
 	public boolean isConnected (Zone other) {
 		return routes.containsValue(other);

@@ -9,7 +9,6 @@ import character.Spell;
 import player.ItemSlot;
 import player.Playable;
 import core.EventAdder;
-import core.RealTime;
 
 /**
  * All the logic and rules for encounters throughout the game. Implements interface RealTime for realtime support.
@@ -18,27 +17,26 @@ import core.RealTime;
  * @version     1.0
  * @since       2015-02-09
  */
-public class Combat implements RealTime {
+public class Combat
+{
 	private boolean turn;
 	private boolean energy = true;
 	private Random rand;
 	private final LinkedList<Character> turnList = new LinkedList<Character>();;
 	private Character currentChar;
-	@SuppressWarnings("unused")
-	private int clockTick;
 	private EventAdder eventAdder;
 	private List<Playable> players;
 	private Encounter encounter;
-	private String winEvent,
-				   lostEvent;
+	private String winEvent;
+	private String lostEvent;
 	
 	/**
-	 * Constructor
+	 * Constructor for Combat
 	 * @param players - reference of player
 	 * @param encounter - unique encounter
-	 * @param eventAdder
-	 * @param winEvent
-	 * @param lostEvent
+	 * @param eventAdder - refernece to the event queue
+	 * @param winEvent - what event is triggered on victory
+	 * @param lostEvent - what event is triggered on defeat
 	 */
 	public Combat(List<Playable> players, Encounter encounter,EventAdder eventAdder, String winEvent, String lostEvent){
 		rand = new Random();
@@ -52,9 +50,9 @@ public class Combat implements RealTime {
 	}
 	
 	/**
-	 * Initializes the turn based list
+	 * Helper method to initializes the turn based list based 
 	 */
-	public void initCombatList(){
+	private void initCombatList(){
 		for (Playable player : players){
 			turnList.add(player);	
 		}
@@ -64,10 +62,11 @@ public class Combat implements RealTime {
 		listSort();
 		
 	}
+	
 	/**
-	 * Sorts the list, highest speed goes first
+	 * Helper method to sort the list, highest speed goes first
 	 */
-	public void listSort(){
+	private void listSort(){
 		for(int i = 0; i < turnList.size(); i++){
 		    for(int j = i + 1; j < turnList.size(); j++){
 		        if(turnList.get(i).getValueOfSkill("Speed")<turnList.get(j).getValueOfSkill("Speed")) {
@@ -78,22 +77,24 @@ public class Combat implements RealTime {
 		    }
 		}
 	}
+	
 	/**
 	 * Checks list to set next turn to that character
 	 */
-	public void nextTurn(){
+	public void nextTurn () {
 		if(currentChar instanceof Playable && turn==true){
 			eventAdder.add("popupWindow, You forgot to make your move!");
-			}else{
-				removeFirstAddLast();
-				if(currentChar instanceof Enemy){
-					enemyTurn();
-					enemyNextMove();
-				}else if(currentChar.getValueOfVital("Health")>0){
-					playerTurn();
-				}
+		} else {
+			removeFirstAddLast();
+			if(currentChar instanceof Enemy){
+				enemyTurn();
+				enemyNextMove();
+			}else if(currentChar.getValueOfVital("Health")>0){
+				playerTurn();
 			}
 		}
+	}
+	
 	/**
 	 * Puts the first character last in turnlist
 	 */
@@ -101,10 +102,11 @@ public class Combat implements RealTime {
 		currentChar=turnList.pollFirst();
 		turnList.addLast(currentChar);
 	}
+	
 	/**
 	 * Character attacks
-	 * @param src - character who has the turn
-	 * @param dest - the other character
+	 * @param src - character who attacks
+	 * @param dest - target of the character
 	 */
 	public void attack(Character src,Character dest){
 			if(src instanceof Playable){
@@ -117,15 +119,16 @@ public class Combat implements RealTime {
 			deathCheck(dest,src.getValueOfSkill("Attack"));
 			dest.reduceVital("Health", src.getValueOfSkill("Attack"));			
 	}
+	
 	/**
-	 * Character spellcast
+	 * Character casts a spell
 	 * @param src - character who has the turn
 	 * @param dest - the other character
 	 * @param spellName - Name of the spell casted
 	 */
 	public void spell(Character src,Character dest,String spellName){
 		if(src instanceof Playable){
-		dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
+			dest = encounter.getEnemies().get(0); //TEMPORARY FOR JUST 1v1's
 		}
 		
 		for(Spell spell : src.getSpellBook().getSpells()){
@@ -149,6 +152,7 @@ public class Combat implements RealTime {
 			}
 		}
 	}
+
 	/**
 	 * Character uses item
 	 * @param itemName - name of item used
@@ -167,6 +171,7 @@ public class Combat implements RealTime {
 			}
 		}
 	}
+
 	/**
 	 * Check if player turn
 	 * @param itemName - name of item used
@@ -176,6 +181,7 @@ public class Combat implements RealTime {
 			useItem(itemName);
 		}
 	}
+
 	/**
 	 * Check if player turn and enough energy
 	 * @param src - character who has the turn
@@ -195,6 +201,7 @@ public class Combat implements RealTime {
 			spell(src,desti,spellName);
 		}
 	}
+
 	/**
 	 * Check if player turn
 	 * @param src - character who has the turn
@@ -211,20 +218,6 @@ public class Combat implements RealTime {
 	}
 	
 	/**
-	 * Counting amount of updates for real-time clock
-	 */
-	public void update(){
-		clockTick++;
-	}
-	
-	/**
-	 * Resetting count of real-time clock calls
-	 */
-	public void resetUpdateCount(){
-		clockTick=0;
-	}
-	
-	/**
 	 * Set turn to enemy
 	 */
 	private void enemyTurn(){	
@@ -232,6 +225,7 @@ public class Combat implements RealTime {
 		eventAdder.add("addTextToLog,"+currentChar.getName()+"'s turn!");
 		System.out.println(currentChar.getName()+"'s turn!");
 	}
+
 	/**
 	 * Set turn to player
 	 */
@@ -240,6 +234,7 @@ public class Combat implements RealTime {
 		eventAdder.add("addTextToLog,"+currentChar.getName()+"'s turn!");
 		System.out.println(currentChar.getName()+"'s turn!");
 	}
+
 	/**
 	 * 
 	 * @param Character who is checked if dead
@@ -265,6 +260,7 @@ public class Combat implements RealTime {
 			eventAdder.add(winEvent);
 		}
 	}
+
 	/**
 	 * check if character has sufficient energy
 	 * @param spellName - name of spell character wants to cast
@@ -305,6 +301,7 @@ public class Combat implements RealTime {
 			
 		}
 	}
+
 	/**
 	 * Check if player turn
 	 */
@@ -329,17 +326,17 @@ public class Combat implements RealTime {
 		if(rand.nextInt(2)+1==1 && energyCheck("fireball")){
 			spell(currentChar,players.get(0),"fireball");
 			nextTurn();
-		}else{
+		} else {
 			attack(currentChar,players.get(0));
 			nextTurn();
 		}
 	}
+
 	/**
 	 * randomizes numbers
 	 * @return 1-100
 	 */
-	private int nextInt(){
+	private int nextInt () {
 		return rand.nextInt(100)+1;
 	}
-
 }

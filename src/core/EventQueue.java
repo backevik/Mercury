@@ -1,15 +1,15 @@
 package core;
 
 import java.util.LinkedList;
+
 /**
+ * Keeps track of the Events list and lets user retrieve the first item. Wraps around EventAdder
+ * 
  * @author	Anton Andrén & Mattias Benngård
  * @version	0.4
  * @since	2015-02-16
- * 
- * Keeps track of the Events list and lets user retrieve the first item.
- * 
- * Instantiates EventAdder
  */
+
 public class EventQueue
 {
 	private final LinkedList<String> events = new LinkedList<>();

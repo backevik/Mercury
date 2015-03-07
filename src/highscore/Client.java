@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 
 /**
  * 
- * @author Andreas Bäckevik & Daniel Edsinger
+ * @author Andreas Backevik & Daniel Edsinger
  * @version 0.8 alpha
  * @since 2015-02-26
  */
