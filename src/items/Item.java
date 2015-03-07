@@ -3,9 +3,10 @@ package items;
 import java.io.Serializable;
 
 /**
+ * Base class that all items extends from
+ * 
  * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     0.4
+ * @version     1.0					<2015-03-07>
  * @since       2015-02-01
  */
 

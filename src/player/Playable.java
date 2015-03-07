@@ -6,7 +6,7 @@ import character.Attribute;
 import character.Character;
 
 /**
- * Class 
+ * A playable character, can get experience and level up 
  * 
  * @author      Mattias Benngard	<mbengan@gmail.com>
  * @version     1.0					<2015-03-06>

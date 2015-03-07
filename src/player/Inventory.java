@@ -8,9 +8,11 @@ import java.util.List;
 import items.Item;
 
 /**
+ * Managing the inventory of the player.
+ * 
  * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     1.0					<2015-02-27>
- * @since       2015-03-07
+ * @version     1.0					<2015-03-07>
+ * @since       2015-02-12
  */
 
 public class Inventory implements Serializable
