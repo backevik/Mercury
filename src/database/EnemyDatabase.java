@@ -9,7 +9,7 @@ import combat.Enemy;
  * 
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
  * @version		1.0
- * @since		2015-03-06
+ * @since		2015-02-24
  */
 
 public class EnemyDatabase

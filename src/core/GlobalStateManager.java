@@ -11,6 +11,14 @@ import java.util.Random;
 
 import player.Player;
 
+/**
+ * A singleton that contains all progress made through the game as well as current location.
+ * 
+ * @author		Mattias Benngard	<mbengan@gmail.com>
+ * @version		1.0					<2015-03-07>
+ * @since		2015-02-06
+ */
+
 public class GlobalStateManager implements Serializable
 {
 	private static final long serialVersionUID = 5455542778351671247L;
@@ -21,6 +29,9 @@ public class GlobalStateManager implements Serializable
 	// used for profile handling in save files.
 	private String key;
 	
+	/**
+	 * Singleton Constructor for GlobalStateManager
+	 */
 	private GlobalStateManager () {
 		Random r = new Random (System.currentTimeMillis());
 		Long number = r.nextLong();
@@ -40,24 +51,45 @@ public class GlobalStateManager implements Serializable
 		
 		key = Long.toString(number);
 	}
-	//
 	
+	/**
+	 * Public setter for worldState
+	 * @param state - key for which state to be set
+	 * @param value - the content of the state
+	 */
 	public void updateWorldState (String state, String value) {
 		worldState.put(state, value);
 	}
 	
+	/**
+	 * Public getter for World State
+	 * @param state - the key of which state to be given
+	 * @return the value of given state
+	 */
 	public String getWorldState (String state) {
 		return (worldState.get(state) != null) ? worldState.get(state) : "";
 	}
 	
+	/**
+	 * Public setter for currentState
+	 * @param value - new value to be put in currentState
+	 */
 	public void updateCurrentState (String value) {
 		currentState = value;
 	}
 	
+	/**
+	 * Public getter for currentState
+	 * @return the current state of the game
+	 */
 	public String getCurrentState () {
 		return currentState;
 	}
 	
+	/**
+	 * Public Singleton getter
+	 * @return this instance
+	 */
 	public static GlobalStateManager getInstance () {
 		if (globalStateManager == null) {
 			globalStateManager = new GlobalStateManager ();

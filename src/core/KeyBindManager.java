@@ -6,11 +6,23 @@ import java.util.Set;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 
+/**
+ * Debug tool, keybinds can trigger events or do funny things
+ * 
+ * @author	Mattias Benngård 	<mbengan@gmail.com>
+ * @version	1.0					<2015-03-07>
+ * @since	2015-02-18
+ */
+
 public class KeyBindManager implements KeyEventDispatcher
 {
 	private Set<String> keyPresses = new HashSet<>();
 	private EventAdder eventAdder;
 	
+	/**
+	 * Constructor for KeyBindManager
+	 * @param eventAdder - reference to the event queue
+	 */
 	public KeyBindManager (EventAdder eventAdder) {
 		this.eventAdder = eventAdder;
 	}
