@@ -16,18 +16,24 @@ import zlibrary.ZEntity;
 import zlibrary.ZText;
 
 /**
+ * Sets up and holds all gui elements to the load game scenes
+ * 
  * @author	Mattias Benngård	<mbengan@gmail.com> (Daniel Edsinger)
  * @version	1.0	
  * @since	2015-03-07
- * 
- * Class for setting up the scene for Load Game
- * 
- * public LoadGameViewer (Image, int, int, EventAdder, List<ZEntity>)
- * Creates the GUI elements for the loadGameViewer.
  */
 
 public class LoadGameViewer extends ZContainer
 {
+	/**
+	 * Constructor for CharacterCreationViewer
+	 * @param image - background image of the scene
+	 * @param x - where the scene begins in x
+	 * @param y - where the scene begins in y
+	 * @param eventAdder - reference to the event queue
+	 * @param entities - copy of entity list, to add components
+	 * @throws ClassNotFoundException
+	 */
 	public LoadGameViewer(Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) throws ClassNotFoundException {
 		super(image, x, y, eventAdder, entities);
 		

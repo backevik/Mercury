@@ -13,7 +13,7 @@ import zlibrary.ZText;
 import zlibrary.ZTextArea;
 
 /**
- * Scene for displaying high scores
+ * Sets up and holds all gui elements to the character creation
  * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
  * @version	0.1					<2015-02-27>

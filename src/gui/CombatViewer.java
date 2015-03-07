@@ -20,10 +20,9 @@ import combat.Enemy;
 import database.ImageDatabase;
 
 /**
- * Combat is a subclass ZContainer for graphical components and implements ZDrawable so it's added to drawable-list.
- * Handles all the combat GUI
+ * The scene for combat vieweing
  *
- * @author Andreas Bäckevik
+ * @author Andreas Backevik
  * @version 1.0
  * @since 2015-02-21
  */

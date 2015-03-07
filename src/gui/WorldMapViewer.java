@@ -15,6 +15,8 @@ import database.ImageDatabase;
 import database.ZoneDatabase;
 
 /**
+ * Sets up and holds all gui elements to the world map
+ * 
  * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
  * @version		0.3.2
  * @since		2015-02-21
@@ -24,6 +26,11 @@ public class WorldMapViewer extends ZContainer implements RealTime
 {	
 	private List<ZoneButton> zones = new ArrayList<>();
 	
+	/**
+	 * Constructor for WorldMapViewer
+	 * @param eventAdder
+	 * @param entities
+	 */
 	public WorldMapViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(ImageDatabase.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
 

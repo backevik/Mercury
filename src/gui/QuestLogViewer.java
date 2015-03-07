@@ -15,14 +15,11 @@ import core.EventAdder;
 import database.ImageDatabase;
 
 /**
+ * Sets up and holds all gui elements to the quest log frame
+ * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
  * @version	0.9					<2015-02-27>
  * @since	2015-02-17
- * 
- * Class for displaying the quest log to the player.
- * 
- * public questLogViewer (Image, int, int, EventAdder, List<ZEntity>, QuestLog)
- * Creates the GUI elements for the questLogViewer depending on how many quest the player currently has.
  */
 
 public class QuestLogViewer extends ZContainer
@@ -37,6 +34,15 @@ public class QuestLogViewer extends ZContainer
 	private final List<ZEntity> entities = new ArrayList<>();
 	private int questOffset		= 0;
 	
+	/**
+	 * Constructor for QuestLogViewer
+	 * @param image - background image of the scene
+	 * @param x - where the scene begins in x
+	 * @param y - where the scene begins in y
+	 * @param eventAdder - reference to the event queue
+	 * @param entities - copy of entity list, to add components
+	 * @param questLog - reference to the players quest log
+	 */
 	public QuestLogViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, QuestLog questLog) {
 		super(image, x, y, eventAdder, entities);
 		
@@ -78,14 +84,19 @@ public class QuestLogViewer extends ZContainer
     	// to do add incOffset() here as ZComponent
 	}
 	
+	/* Not used
 	public void incOffset () {
 		questOffset++;
 	}
 	
 	public void decOffset () {
 		questOffset--;
-	}
+	}*/
 	
+	/**
+	 * Public getter for entities
+	 * @return old entity list
+	 */
 	public List<ZEntity> getEntities () {
 		return entities;
 	}

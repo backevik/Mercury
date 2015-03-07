@@ -11,14 +11,11 @@ import core.EventAdder;
 import database.ImageDatabase;
 
 /**
- * @author	Mattias Benngård	<mbengan@gmail.com>
- * @version	1.0					<2015-02-27>
+ * Sets up and holds all gui elements to the main menu
+ * 
+ * @author	Mattias Benngard	<mbengan@gmail.com>
+ * @version	1.0					<2015-03-07>
  * @since	2015-02-15
- * 
- * Class for setting up the scene for Main Menu
- * 
- * public MainMenuViewer (EventAdder, List<ZEntity>, QuestLog)
- * Creates the GUI elements for the mainMenuViewer.
  */
 
 public class MainMenuViewer extends ZContainer

@@ -14,17 +14,11 @@ import core.EventAdder;
 import database.ImageDatabase;
 
 /**
+ * Sets up and holds all gui elements to the character statistics frame
+ * 
  * @author	Mattias Benngård	<mbengan@gmail.com
  * @version	1.0					<2015-02-27>
  * @since	2015-02-17
- * 
- * Class for displaying player characteristics, equipment and inventory.
- * Also handles 
- * 
- * public CharacterStatisticsViewer (Image, int, int, EventAdder, List<ZEntity>, Playable)
- * 
- * Should be instantiated from game.
- * Remember to add it to drawable.
  */
 
 public class CharacterStatisticsViewer extends ZContainer
@@ -47,6 +41,15 @@ public class CharacterStatisticsViewer extends ZContainer
 	
 	private final List<ZEntity> entities 		= new ArrayList<>();
 	
+	/**
+	 * Constructor for CharacterStatisticsViewer
+	 * @param image - background image of the scene
+	 * @param x - where the scene begins in x
+	 * @param y - where the scene begins in y
+	 * @param eventAdder - reference to the event queue
+	 * @param entities - copy of entity list, to add components
+	 * @param pc - reference of the pc
+	 */
 	public CharacterStatisticsViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, Playable pc) {
 		super(image, x, y, eventAdder, entities);
 		
@@ -84,6 +87,7 @@ public class CharacterStatisticsViewer extends ZContainer
 			components.add(new ZText (pc.getValueOfVital(constants.Vitals.getNames().get(i))+"/"+pc.getMaxOfVital(constants.Vitals.getNames().get(i)), COLUMN1_X+100, y+LINE_HEIGHT+VITAL_OFFSET+i*18, 14));
 		}
 		
+		/* hidden - not complete yet
 		// equipment, inventory
 		components.add(new ZText ("Equipment", COLUMN2_X, y+PADDING+TITLE_HEIGHT, 16));
 		
@@ -98,8 +102,13 @@ public class CharacterStatisticsViewer extends ZContainer
 				}
 			}
 		}
+		*/
 	}
 	
+	/**
+	 * Public getter for entities
+	 * @return old entity list
+	 */
 	public List<ZEntity> getEntities () {
 		return entities;
 	}
