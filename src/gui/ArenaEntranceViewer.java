@@ -10,7 +10,7 @@ import zlibrary.ZEntity;
 import zlibrary.ZText;
 
 /**
- * Class for setting up the scene for the arena entrance with all its GUI elements.
+ * Sets up the scene for the arena entrance with all its GUI elements.
  * 
  * @author	Anton Andrén
  * @version	1.0	
@@ -19,9 +19,7 @@ import zlibrary.ZText;
 
 public class ArenaEntranceViewer extends ZContainer
 {
-
-	/*
-	 * public ArenaEntranceViewer(EventAdder eventAdder, List<ZEntity> entities)
+	/**
 	 * Creates the GUI elements for the ArenaEntranceViewer.
 	 * 
 	 * @param eventAdder	-	Used to add events in the eventQueue to be processed by the game loop.
@@ -43,7 +41,5 @@ public class ArenaEntranceViewer extends ZContainer
 		ZButton btnLeaveArena = new ZButton("Leave", 310, 380, 180, 60, eventAdder, "leaveArena");
 		components.add(btnLeaveArena);
 		entities.add(btnLeaveArena);
-		
 	}
-
 }

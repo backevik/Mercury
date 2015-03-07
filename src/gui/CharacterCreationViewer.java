@@ -10,14 +10,11 @@ import zlibrary.ZText;
 import core.EventAdder;
 
 /**
+ * 
+ * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
  * @version	0.1					<2015-02-27>
  * @since	2015-02-15
- * 
- * Class for setting up the scene for Character Creation
- * 
- * public CharacterCreationViewer (Image, int, int, EventAdder, List<ZEntity>)
- * Creates the GUI elements for the characterCreationViewer.
  */
 
 public class CharacterCreationViewer extends ZContainer
@@ -29,10 +26,6 @@ public class CharacterCreationViewer extends ZContainer
 		
 		components.add(new ZText ("Character Name", 20, 70, 16));
 		components.add(new ZText ("John Doe", 170, 70, 16));
-		
-		/*textFieldUserName = new ZTextField("Default", x,  y,  200, 20);
-		components.add(textFieldUserName);
-		entities.add(textFieldUserName);*/
 
 		components.add(new ZText ("Gender", 20, 110, 16));
 		components.add(new ZText ("No Genders Implemented", 170, 110, 16));

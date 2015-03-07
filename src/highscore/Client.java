@@ -8,18 +8,24 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
+ * Client to handle communication to server. Fetching high scores.
  * 
  * @author Andreas Backevik & Daniel Edsinger
  * @version 0.8 alpha
  * @since 2015-02-26
  */
+
 public class Client {
 
     private String hostname;
     private int port;
     Socket socketClient;
 
-    public Client(String hostname){
+    /**
+     * Constructor for Client
+     * @param hostname - what hostname to be used
+     */
+    public Client (String hostname){
         this.hostname = hostname;
         port = 9990;
     }
@@ -47,8 +53,8 @@ public class Client {
     }
     
     /**
-     * Retrieves highscore from server
-     * @return list - list of highscore, each index is a character with level
+     * Public getter for high score, connects, retrieves and returns
+     * @return list of highscore, each index is a character with level
      */
     public String[] getScore() {
     	String[] list = null;
@@ -64,8 +70,7 @@ public class Client {
             System.out.println("Response from server:");
             if ((userInput = stdIn.readLine()) != null) {
             	list = userInput.split(",");
-            }
-            
+            }            
         } catch (UnknownHostException e) {
             System.err.println("Host unknown. Cannot establish connection");
         } catch (IOException e) {
@@ -73,6 +78,7 @@ public class Client {
         }
     	return list;
     }
+
     /**
      * Connects to the server
      * @throws UnknownHostException
@@ -83,22 +89,4 @@ public class Client {
         socketClient = new Socket(hostname,port);
         System.out.println("Connection Established");
     }
- /*   
-    public static void main(String arg[]) throws UnknownHostException, IOException{
-    	//Creating a Client object
-    	Client client = new Client ("localhost");
-        //send score to server
-		client.sendScore("Daniel", 9);
-		client.sendScore("Bangan", 7);
-		client.sendScore("Olaf", 4);
-		
-		//get score from server
-		int i =1;
-		System.out.println(client.getScore().length);
-		for(String s : client.getScore()) {
-			System.out.println(""+ i + ": "+ s);
-			i++;
-		}
-    }
-   */
 }

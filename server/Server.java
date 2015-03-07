@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Server to store information regarding high scores in.
  * 
  * @author Daniel Edsinger & Andreas Bäckevik
  * @version 0.8 alpha
@@ -26,7 +27,7 @@ public class Server
     private final List<String> entries		= new ArrayList<>();
     
     /**
-     * Instantiates serverSocket
+     * Constructor for Server
      * @throws IOException
      */
     public Server () throws IOException {

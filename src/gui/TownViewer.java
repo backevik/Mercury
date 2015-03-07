@@ -13,12 +13,12 @@ import zlibrary.ZText;
 import core.EventAdder;
 import core.GlobalStateManager;
 import database.ImageDatabase;
+
 /**
  * TownViewer is a subclass to ZContainer and contains the graphical components for the Town and vendor GUI
  * @author Martin Claesson
  * @version 1.0
  * @since 2015-03-04
- *
  */
 
 public class TownViewer extends ZContainer
@@ -39,7 +39,7 @@ public class TownViewer extends ZContainer
     private ZText	txtVendor;
     private ZText	currency;
     private ZImage	bgText;
-    ZImage bgCurrency;
+    private ZImage bgCurrency;
     private EventAdder eventAdder; 
     private List<ZEntity> entities;
     
@@ -145,8 +145,8 @@ public class TownViewer extends ZContainer
     		i++;
     	}
     	GlobalStateManager.getInstance().updateCurrentState("TOWN_VENDOR_BUY");
-    	
     }
+
     /**
      * updates the currency in GUI
      * @param player - reference to the player

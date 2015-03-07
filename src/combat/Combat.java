@@ -11,12 +11,13 @@ import player.Playable;
 import core.EventAdder;
 
 /**
- * All the logic and rules for encounters throughout the game. Implements interface RealTime for realtime support.
+ * All the logic and rules for encounters throughout the game.
  * 
  * @author      Andreas Bäckevik
  * @version     1.0
  * @since       2015-02-09
  */
+
 public class Combat
 {
 	private boolean turn;
@@ -33,8 +34,8 @@ public class Combat
 	/**
 	 * Constructor for Combat
 	 * @param players - reference of player
-	 * @param encounter - unique encounter
-	 * @param eventAdder - refernece to the event queue
+	 * @param encounter - encounter to battle against
+	 * @param eventAdder - reference to the event queue
 	 * @param winEvent - what event is triggered on victory
 	 * @param lostEvent - what event is triggered on defeat
 	 */
