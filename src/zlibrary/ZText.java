@@ -9,29 +9,38 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 /**
- * @author	Anton Andrén & Mattias Benngård
- * @version	1.0
- * @since	2015-02-16
- * 
  * Class for creating images with text to be displayed.
  * 
- * public ZText (String string, int x, int y, int fontSize)
- * Constructor for creating an image displaying a text in desired x and y position.
- * 
- * public ZText (String string, int x, int y, int w, int h, int fontSize, String delimiter)
- * Constructor for creating an image displaying a text in desired x and y position
- * with a certaint size determined by int w (width) and int h (height) .
- * If the text is too long it cuts it to fit and ads an delimiter.
+ * @author	Anton Andren		<>
+ * @version	1.0					<2015-03-07>
+ * @since	2015-02-16
  */
 
 public class ZText extends ZEntity
 {
+	/**
+	 * Constructor for ZText
+	 * @param string - what text to be converted to image
+	 * @param x - x position of the text
+	 * @param y - y position of the text
+	 * @param fontSize - the size of the font
+	 */
 	public ZText (String string, int x, int y, int fontSize) {
 		setImage(createImageFromString(string, fontSize));
 		setX(x);
 		setY(y);
 	}
 	
+	/**
+	 * Constructor for setting a cap on the text length, adding delimeter at the end
+	 * @param string - what text to be converted to image
+	 * @param x - x position of the text
+	 * @param y - y position of the text
+	 * @param w - maximum width of the text
+	 * @param h - maximum height of the text
+	 * @param fontSize - the size of the font
+	 * @param delimteter - what to be displayed if maximum w or h was surpassed
+	 */
 	public ZText (String string, int x, int y, int w, int h, int fontSize, String delimeter) {
 		setImage(createImageFromStringWrapped(string, w, h, fontSize, delimeter));
 		setX(x);

@@ -9,7 +9,7 @@ import items.Item;
 
 /**
  * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     1.0				<2015-02-27>
+ * @version     1.0					<2015-02-27>
  * @since       2015-03-07
  */
 
@@ -17,8 +17,6 @@ public class Inventory implements Serializable
 {
 	private static final long serialVersionUID = -2719693338249833172L;
 	private final ItemSlot[] items = new ItemSlot[constants.Player.MAX_ITEMS];
-	
-	public Inventory () {}
 	
 	/**
 	 * @return	an unmodifiable list of item slots
@@ -69,12 +67,5 @@ public class Inventory implements Serializable
 		}
 		
 		return quantity;
-	}
-	
-	public void useItem (int index) {
-		if (index < 0 || index >= constants.Player.MAX_ITEMS) {
-			return;
-		}
-		items[index].use();
 	}
 }

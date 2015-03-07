@@ -40,14 +40,6 @@ public class GlobalStateManager implements Serializable
 		
 		key = Long.toString(number);
 	}
-	
-	/**
-	 * TEMP
-	 * @return
-	 */
-	public Map<String, String> DEBUG_PRINT () {
-		return worldState;
-	}
 	//
 	
 	public void updateWorldState (String state, String value) {

@@ -22,6 +22,7 @@ public class Playable extends Character implements Serializable
 	private double currency;
 	
 	/**
+	 * Constructor for Playable
 	 * @param name - name to give the playable character
 	 */
 	public Playable (String name) {

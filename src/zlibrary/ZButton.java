@@ -11,22 +11,23 @@ import java.awt.image.BufferedImage;
 import core.EventAdder;
 
 /**
- * @author	Anton Andrén & Mattias Benngård
- * @version	1.0
- * @since	2015-02-16
+ * A GUI Button that trigger event on click
  * 
- * Class for creating buttons that are viewable for the player.
- * Buttons can implement events on mouse click.
- * 
- * public Zbutton (Image image, int x, int y, EventAdder eventAdder, String eventOnClick)
- * creates button using an image
- * 
- * public ZButton (String string, int x, int y, int w, int h, EventAdder eventAdder, String eventOnClick)
- * creates the button using a default apperance
+ * @author      Mattias Benngard	<mbengan@gmail.com>
+ * @version     1.0					<2015-02-27>
+ * @since       2015-03-07
  */
 
 public class ZButton extends ZEntity
 {
+	/**
+	 * Constructor for Image
+	 * @param image - which image to be drawn as the button
+	 * @param x - where it is placed in x
+	 * @param y - where it is placed in y
+	 * @param eventAdder - to what event queue it should be adding
+	 * @param eventOnClick - what event is triggered on press
+	 */
 	public ZButton (Image image, int x, int y, EventAdder eventAdder, String eventOnClick) {
 		setImage(image);
 		setX(x);
@@ -35,6 +36,16 @@ public class ZButton extends ZEntity
 		setEventOnClick(eventOnClick);
 	}
 	
+	/**
+	 * Constructor to create an image from Text
+	 * @param string - string to be rendered as image
+	 * @param x - where it is placed in x
+	 * @param y - where it is placed in y
+	 * @param w - how width the button the should be
+	 * @param h - what height the button should have
+	 * @param eventAdder - to what event queue it should be adding
+	 * @param eventOnClick - what event is triggered on press 
+	 */
 	public ZButton (String string, int x, int y, int w, int h, EventAdder eventAdder, String eventOnClick) {
 		setImage(createButtonFromString(string, w, h));
 		setX(x);
@@ -44,11 +55,11 @@ public class ZButton extends ZEntity
 	}
 
 	/**
-	 * Creates an image based on parameters.
+	 * Creates an image based on parameters. Private helper method for ZButtonb
 	 * @param String s	- string to be displayed on the button
 	 * @param int w		- width of the button
 	 * @param int h		- height of the button
-	 * @return Image
+	 * @return an image created specified by above variables
 	 */
 	private Image createButtonFromString (String s, int w, int h) {
         BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

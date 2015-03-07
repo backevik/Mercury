@@ -8,18 +8,25 @@ import java.util.List;
 import core.EventAdder;
 
 /**
- * @author	Anton Andrén & Mattias Benngård
- * @version	1.0
- * @since	2015-02-17
- *
- * Abstract class for creating containers for Z-objects.
- * ZContainer is a ZImage.
+ * Abstract class for creating containers for Z-objects. Contains a component list and an entity list to self keep track of its sub-components.
+ * 
+ * @author      Mattias Benngard	<mbengan@gmail.com>
+ * @version     1.0					<2015-03-07>
+ * @since       2015-02-27
  */
 public abstract class ZContainer extends ZImage implements ZDrawable
 {
 	protected List<ZComponent> components = new ArrayList<>();
 	protected List<ZEntity> entities;
 	
+	/**
+	 * Constructor for ZContainer
+	 * @param image - which image to be drawn as the background of the container
+	 * @param x - where it is placed in x
+	 * @param y - where it is placed in y
+	 * @param eventAdder - to what event queue it should be adding
+	 * @param entities - a reference to all existing entities
+	 */
 	public ZContainer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
 		super(image, x, y);
 		this.entities = entities;

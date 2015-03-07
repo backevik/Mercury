@@ -10,11 +10,11 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 /**
- * @author	Anton Andrén
- * @version	1.0
- * @since	2015-03-03
+ * GUI component for Text Areas
  * 
- * NOT IMPLEMENTED
+ * @author	Anton Andren		<>
+ * @version	1.0					<2015-03-07>
+ * @since	2015-02-16
  */
 
 public class ZTextArea extends ZComponent 
@@ -25,8 +25,17 @@ public class ZTextArea extends ZComponent
 	private String text;
 	private boolean textIsRendered;
 	
-	// TO-DO ADD CONSTRUCTOR FOR PICTURE AND CHANGE DRAWIMAGEFROMSTRING ACCORDINGLY
+	/**
+	 * Constructor for ZTextArea
+	 * @param x - x position of the text
+	 * @param y - y position of the text
+	 * @param w - maximum width of the text
+	 * @param h - maximum height of the text
+	 * @param fontSize - the size of the font
+	 */
 	public ZTextArea(int x, int y, int w, int h, int fontSize) {
+		// TO-DO ADD CONSTRUCTOR FOR PICTURE AND CHANGE DRAWIMAGEFROMSTRING ACCORDINGLY
+		
 		this.w = w;
 		this.h = h;
 		setX(x);

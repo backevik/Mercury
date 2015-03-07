@@ -18,11 +18,17 @@ public class ItemSlot implements Serializable
 	private Item item;
 	private int quantity;
 
+	/**
+	 * Adds items to the item slot
+	 * @param item - which item to add
+	 * @param quantity - how many to add of them
+	 */
 	public ItemSlot (Item item, int quantity) {
 		addItem (item, quantity);
 	}
 	
 	/**
+	 * Public getter for item
 	 * @return reference to item
 	 */
 	public Item getItem () {
@@ -30,6 +36,7 @@ public class ItemSlot implements Serializable
 	}
 	
 	/**
+	 * Public getter for quantity
 	 * @return how many items that are stored
 	 */
 	public int getQuantity () {

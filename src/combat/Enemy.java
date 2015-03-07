@@ -13,8 +13,11 @@ import character.Spell;
  * @since       2015-02-01
  */
 
-public class Enemy extends Character{
+public class Enemy extends Character
+{
+	private static final long serialVersionUID = 410123268366271927L;
 	private Image img;
+	
 	/**
 	 * Constructor
 	 * @param name - Name of the enemy
