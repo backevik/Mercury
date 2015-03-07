@@ -56,6 +56,11 @@ public class KeyBindManager implements KeyEventDispatcher
         return false;
     }
     
+    /**
+     * Private helper to convert upper case to lower case
+     * @param c - the character to be converted
+     * @return the character lowered
+     */
     private char keyToLowerCaseIfUpperCase (char c) {
     	if (c >= 'A' && c <= 'Z') {
     		c = Character.toLowerCase(c);
