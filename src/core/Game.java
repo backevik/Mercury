@@ -47,9 +47,9 @@ import vendor.Vendor;
 /**
  * Game Class for project Mercury, holds main method. Instantiates itself.
  * 
- * @author	Anton Andrén		<@>
- * @author	Mattias Benngård	<mbengan@gmail.com>
- * @author 	Andreas Bäckevik	<@>
+ * @author	Anton AndrÃ©n		<@>
+ * @author	Mattias BenngÃ¥rd	<mbengan@gmail.com>
+ * @author 	Andreas BÃ¤ckevik	<@>
  * @author	Martin Claesson		<@>
  * @author 	Daniel Edsinger		<@>
  * @version	0.9					<2015-05-25>
@@ -504,34 +504,61 @@ public class Game extends Canvas implements Runnable, MouseListener
     }
 	
 	/**
-	 * TEMP
+	 * Calls combat attackCheck.
 	 */
 	public void attack (){
 		combat.attackCheck(player.getPC());
 	}
+	/**
+	 * Calls combat spellCheck with parameter and closes spellmenu in GUI.
+	 * @param spell - name of the spell
+	 */
 	public void spell(String spell){
 		combat.spellCheck(player.getPC(),spell);
 		combatViewer.clickedSpell();
 	}
+	/**
+	 * Calls combat nextTurn.
+	 */
 	public void nextTurn(){
 		combat.nextTurn();
 	}
+	/**
+	 * Calls combat itemCheck with parameter and closes itemmenu in GUI.
+	 * @param item - name of item
+	 */
 	public void item(String item){
 		combat.itemCheck(item);
 		combatViewer.clickedItem();
 	}
+	/**
+	 * Calls combat retreatCheck.
+	 */
 	public void retreat(){
 		combat.retreatCheck();
 	}
+	/**
+	 * Calls combat GUI's spell menu.
+	 */
 	public void spellMenu(){
 		combatViewer.spellMenu();
 	}
+	/**
+	 * Calls combat GUI's item menu.
+	 */
 	public void itemMenu(){
 		combatViewer.itemMenu();
 	}
+	/**
+	 * Calls combat GUI's log to add text
+	 * @param s - text added to log.
+	 */
 	public void addTextToLog(String s){
 		combatViewer.addText(s);
 	}
+	/**
+	 * Calls combat GUI's updateVisuals.
+	 */
 	public void updateVisuals(){
 		combatViewer.updateVisuals();
 	}
