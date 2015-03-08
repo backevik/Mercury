@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class Server
 {
-	private static final int port 			= 9990;
+	private static final int port 			= 46000;
 	private ServerSocket serverSocket;
     private final List<String> entries		= new ArrayList<>();
     
