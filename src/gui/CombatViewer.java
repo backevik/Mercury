@@ -6,7 +6,7 @@ import java.util.List;
 
 import character.Spell;
 import core.EventAdder;
-import player.ItemSlot;
+import character.ItemSlot;
 import player.Playable;
 import zlibrary.ZAnimation;
 import zlibrary.ZButton;
