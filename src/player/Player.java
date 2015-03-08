@@ -14,8 +14,7 @@ public class Player implements Serializable
 {
 	private static final long serialVersionUID = -3899132846395594636L;
 	private Playable pc;
-	private final Inventory inventory = new Inventory ();
-	private final QuestLog questLog = new QuestLog (); 
+	private final QuestLog questLog = new QuestLog ();
 	
 	/**
 	 * Constructor for Player
@@ -39,13 +38,5 @@ public class Player implements Serializable
 	 */
 	public QuestLog getQuestLog () {
 		return questLog;
-	}
-	
-	/**
-	 * Public getter for the inventory
-	 * @return the inventory
-	 */
-	public Inventory getInventory () {
-		return inventory;
 	}
 }
