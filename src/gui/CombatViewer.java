@@ -6,7 +6,7 @@ import java.util.List;
 
 import character.Spell;
 import core.EventAdder;
-import player.ItemSlot;
+import character.ItemSlot;
 import player.Playable;
 import zlibrary.ZAnimation;
 import zlibrary.ZButton;
@@ -20,7 +20,7 @@ import combat.Enemy;
 import database.ImageDatabase;
 
 /**
- * The scene for combat vieweing
+ * Sets up and holds all gui elements to the combat scene
  *
  * @author Andreas Backevik
  * @version 1.0

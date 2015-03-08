@@ -6,7 +6,7 @@ import java.util.Random;
 
 import character.Character;
 import character.Spell;
-import player.ItemSlot;
+import character.ItemSlot;
 import player.Playable;
 import core.EventAdder;
 

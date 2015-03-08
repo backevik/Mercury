@@ -7,7 +7,6 @@ import java.util.Map;
 import constants.Attributes;
 import constants.Skills;
 import constants.Vitals;
-import player.Inventory;
 
 /**
  * Where a character essentially is created with all basic statistics and info.
@@ -152,6 +151,7 @@ public abstract class Character implements Serializable
 	public Inventory getInventory(){
 		return inventory;
 	}
+	
 	/**
 	 * Returns a reference to the Character's spell book
 	 * @return Spellbook from this character

@@ -1,4 +1,4 @@
-package player;
+package character;
 
 import java.io.Serializable;
 import java.util.Arrays;
