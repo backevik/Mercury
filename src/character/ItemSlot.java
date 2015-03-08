@@ -45,8 +45,8 @@ public class ItemSlot implements Serializable
 	
 	/**
 	 * Add item with quantity to this slot. Note: It overrides any existing item in the slot.
-	 * @param item
-	 * @param quantity
+	 * @param item reference to item to be added 
+	 * @param quantity how many items that should be added 
 	 */
 	public void addItem (Item item, int quantity) {
 		this.item = item;
@@ -55,6 +55,7 @@ public class ItemSlot implements Serializable
 	
 	/**
 	 * Adds to current quantity
+	 * @param quantity amount to be added to local quantity
 	 */
 	public void addQuantity (int quantity) {
 		this.quantity += quantity;

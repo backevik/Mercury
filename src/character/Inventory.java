@@ -29,7 +29,7 @@ public class Inventory implements Serializable
 	
 	/**
 	 * Get an item slot by index greater than or equal to 0 and lesser than MAX_ITEMS 
-	 * @param index
+	 * @param index index number in list 
 	 * @return ItemSlot at index
 	 */
 	public ItemSlot getItem (int index) {
