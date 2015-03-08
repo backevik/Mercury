@@ -10,5 +10,8 @@ package core;
 
 public interface RealTime
 {
+	/**
+	 * Executes one time each run of game loop 
+	 */
 	public void update ();
 }

@@ -19,12 +19,12 @@ public class ItemPotion extends Item implements Serializable
 	
 	/**
 	 * Constructor for ItemPotion
-	 * @param name - name of the item to created
-	 * @param description - description of the item to be created
-	 * @param maxStackSize - maximum stack si
-	 * @param sellPrice
-	 * @param vitalID
-	 * @param effect
+	 * @param name  name of the item to created
+	 * @param description  description of the item to be created
+	 * @param maxStackSize  maximum stack 
+	 * @param sellPrice item prize
+	 * @param vitalID	id of inventory 
+	 * @param effect	value of intem effect
 	 */
 	public ItemPotion (String name, String description, int maxStackSize, int sellPrice, int vitalID, int effect)	{
 		super(name, description, maxStackSize, sellPrice);

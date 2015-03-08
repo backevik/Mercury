@@ -54,7 +54,10 @@ public class WorldMapViewer extends ZContainer implements RealTime
 			add(tmpZoneButton);
 		}
 	}
-	
+	/**
+	 * Adds a zone to WoldMap
+	 * @param z reference to zone
+	 */
 	private void add (ZoneButton z) {
 		zones.add(z);
 		components.add(z);

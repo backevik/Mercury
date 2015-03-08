@@ -102,8 +102,8 @@ public class Zone
 	}
 	
 	/**
-	 * 
-	 * @param direction
+	 * gets the next zone in the given direction
+	 * @param direction direction to get the next zone from 
 	 * @return	Zone if zones are connected in the chosen direction
 	 * 			false if no zone connected
 	 */

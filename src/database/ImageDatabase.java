@@ -49,7 +49,7 @@ public class ImageDatabase
 	
 	/**
 	 * Add files from directory map. May reuse itself if there's a map within the map
-	 * @param dir
+	 * @param dir directory where images are stored
 	 */
 	public void addFilesFromMap(File map) {
 		
