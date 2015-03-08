@@ -12,5 +12,9 @@ import java.awt.Graphics;
 
 public interface ZDrawable
 {
+	/**
+	 * Abstract rendering method
+	 * @param g - screen to render in
+	 */
 	public abstract void render (Graphics g);
 }

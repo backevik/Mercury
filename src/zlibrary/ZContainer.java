@@ -43,10 +43,8 @@ public abstract class ZContainer extends ZImage implements ZDrawable
 	}
 
 	/**
-	 * Calls render for the background ZImage of the container 
-	 * as well as calling render for all the Z-objects that the container holds.
-	 * 
-	 * @param Graphics g
+	 * Calls render for the background ZImage of the container as well as calling render for all the Z-objects that the container holds.
+	 * @param g - screen to render in
 	 */
 	@Override
 	public void render(Graphics g) {
