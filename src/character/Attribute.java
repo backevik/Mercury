@@ -17,14 +17,15 @@ public class Attribute implements Serializable
 	private static final long serialVersionUID = 219299157256612602L;
 	private double value;
 	private final List<AttributeModifier> attributeModifiers = new ArrayList<>();
+	
 	/**
-	 * Constructor
-	 * @param value - Startvalue of the created attribute 
+	 * Constructor for Attribute
+	 * @param value - Start value of the created attribute 
 	 */
 	public Attribute (double value) {
 		this.value = value;
 	}
-	
+
 	/**
 	 * Returns value of attribute
 	 * @return	value of the attribute
