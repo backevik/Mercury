@@ -20,7 +20,7 @@ public class Client {
 
     private String hostname;
     private int port;
-    Socket socketClient;
+    private Socket socketClient;
 
     /**
      * Constructor for Client
