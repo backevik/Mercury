@@ -20,10 +20,9 @@ import zlibrary.ZText;
 public class ArenaEntranceViewer extends ZContainer
 {
 	/**
-	 * Creates the GUI elements for the ArenaEntranceViewer.
-	 * 
-	 * @param eventAdder	-	Used to add events in the eventQueue to be processed by the game loop.
-	 * @param entities		-	Used to track player interactions with an object.
+	 * Creates the GUI elements for the ArenaEntranceViewer
+	 * @param eventAdder reference to the event queue
+	 * @param entities copy of entity list, to add components
 	 */
 	public ArenaEntranceViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(ImageDatabase.getInstance().getImage("ArenaBG.jpg"), 0, 0, eventAdder, entities);

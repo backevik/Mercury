@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Keeps track of the Events list and lets user retrieve the first item. Wraps around EventAdder
  * 
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @version	1.0
  * @since	2015-02-16
  */
 
@@ -19,7 +19,7 @@ public class EventQueue
 	
 	/**
 	 * Returns the first event in the list and removes it.
-	 * @return String
+	 * @return String name of first event
 	 */
 	public String get () {
 		return events.pollFirst ();
@@ -27,7 +27,7 @@ public class EventQueue
 	
 	/**
 	 * Returns the EventAdder so that classes that need to both add and retrieve data for the list can do so.
-	 * @return EventAdder
+	 * @return EventAdder reference to eventadder 
 	 */
 	public EventAdder getEventAdder () {
 		return eventAdder;

@@ -11,8 +11,7 @@ import zlibrary.ZImage;
 import zlibrary.ZText;
 
 /**
- * Combat is a subclass to ZContainer and contains graphical components for the end scene
- * Displays the end scene GUI
+ * Sets up and holds all gui elements for end scene
  * @author	Martin Claesson
  * @version	1.0
  * @since	2015-03-02
@@ -24,10 +23,10 @@ public class EndSceneViewer extends ZContainer
 	private final static int BTN_HEIGHT = 114;
 	/**
 	 * Constructor initializes the graphical components  
-	 * @param eventAdder 
-	 * @param entities
-	 * @param player - String with the players name
-	 * @param lvl - string with the players level
+	 * @param eventAdder reference to the event queue
+	 * @param entities copy of entity list, to add components
+	 * @param player  String with the players name
+	 * @param lvl  string with the players level
 	 */
 	public EndSceneViewer(EventAdder eventAdder,List<ZEntity> entities, String player, int lvl) {
 		super(ImageDatabase.getInstance().getImage("endScene.jpg"),0,0,eventAdder, entities);

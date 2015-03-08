@@ -43,12 +43,12 @@ public class CharacterStatisticsViewer extends ZContainer
 	
 	/**
 	 * Constructor for CharacterStatisticsViewer
-	 * @param image - background image of the scene
-	 * @param x - where the scene begins in x
-	 * @param y - where the scene begins in y
-	 * @param eventAdder - reference to the event queue
-	 * @param entities - copy of entity list, to add components
-	 * @param pc - reference of the pc
+	 * @param image  background image of the scene
+	 * @param x  where the scene begins in x
+	 * @param y  where the scene begins in y
+	 * @param eventAdder  reference to the event queue
+	 * @param entities  copy of entity list, to add components
+	 * @param pc  reference of the pc
 	 */
 	public CharacterStatisticsViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, Playable pc) {
 		super(image, x, y, eventAdder, entities);

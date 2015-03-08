@@ -19,7 +19,12 @@ import database.ImageDatabase;
  */
 
 public class MainMenuViewer extends ZContainer
-{
+{	
+	/**
+	 * Constructor initializes all the components and adds them to the drawable and clickable list
+	 * @param eventAdder reference to the event queue
+	 * @param entities copy of entity list, to add components
+	 */
 	public MainMenuViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(null, 0, 0, eventAdder, entities);
 		

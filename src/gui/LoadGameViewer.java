@@ -27,11 +27,11 @@ public class LoadGameViewer extends ZContainer
 {
 	/**
 	 * Constructor for CharacterCreationViewer
-	 * @param image - background image of the scene
-	 * @param x - where the scene begins in x
-	 * @param y - where the scene begins in y
-	 * @param eventAdder - reference to the event queue
-	 * @param entities - copy of entity list, to add components
+	 * @param image  background image of the scene
+	 * @param x  where the scene begins in x
+	 * @param y  where the scene begins in y
+	 * @param eventAdder  reference to the event queue
+	 * @param entities  copy of entity list, to add components
 	 * @throws ClassNotFoundException
 	 */
 	public LoadGameViewer(Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) throws ClassNotFoundException {

@@ -11,7 +11,6 @@ import core.EventAdder;
 
 /**
  * Sets up and holds all gui elements to the character creation scene
- * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
  * @version	0.1					<2015-02-27>
  * @since	2015-02-15
@@ -21,11 +20,11 @@ public class CharacterCreationViewer extends ZContainer
 {	
 	/**
 	 * Constructor for CharacterCreationViewer
-	 * @param image - background image of the scene
-	 * @param x - where the scene begins in x
-	 * @param y - where the scene begins in y
-	 * @param eventAdder - reference to the event queue
-	 * @param entities - copy of entity list, to add components
+	 * @param image background image of the scene
+	 * @param x  where the scene begins in x
+	 * @param y  where the scene begins in y
+	 * @param eventAdder reference to the event queue
+	 * @param entities copy of entity list, to add components
 	 */
 	public CharacterCreationViewer(Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
 		super(image, x, y, eventAdder, entities);

@@ -18,7 +18,7 @@ import database.ImageDatabase;
  * Sets up and holds all gui elements to the quest log frame
  * 
  * @author	Mattias Benngård	<mbengan@gmail.com>
- * @version	0.9					<2015-02-27>
+ * @version	1.0					<2015-02-27>
  * @since	2015-02-17
  */
 
@@ -36,12 +36,12 @@ public class QuestLogViewer extends ZContainer
 	
 	/**
 	 * Constructor for QuestLogViewer
-	 * @param image - background image of the scene
-	 * @param x - where the scene begins in x
-	 * @param y - where the scene begins in y
-	 * @param eventAdder - reference to the event queue
-	 * @param entities - copy of entity list, to add components
-	 * @param questLog - reference to the players quest log
+	 * @param image background image of the scene
+	 * @param x  where the scene begins in x
+	 * @param y  where the scene begins in y
+	 * @param eventAdder  reference to the event queue
+	 * @param entities  copy of entity list, to add components
+	 * @param questLog  reference to the players quest log
 	 */
 	public QuestLogViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities, QuestLog questLog) {
 		super(image, x, y, eventAdder, entities);

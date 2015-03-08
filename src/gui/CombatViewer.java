@@ -6,7 +6,7 @@ import java.util.List;
 
 import character.Spell;
 import core.EventAdder;
-import character.ItemSlot;
+import player.ItemSlot;
 import player.Playable;
 import zlibrary.ZAnimation;
 import zlibrary.ZButton;
@@ -20,8 +20,7 @@ import combat.Enemy;
 import database.ImageDatabase;
 
 /**
- * Sets up and holds all gui elements to the combat scene
- *
+ * Sets up and holds all gui elements to the combat frame
  * @author Andreas Backevik
  * @version 1.0
  * @since 2015-02-21
@@ -50,10 +49,10 @@ public class CombatViewer extends ZContainer implements ZDrawable
 
 	/**
 	 * The constructor initializes all necessary information for the combat GUI to work uniquely for each fight. And adds all GUI elements.
-	 * @param entities
-	 * @param eventAdder
-	 * @param players - list with playable characters.
-	 * @param e - the specific encounter for this combat that includes enemies
+	 * @param entities copy of entity list, to add components
+	 * @param eventAdder reference to the event queue
+	 * @param players list with playable characters.
+	 * @param e the specific encounter for this combat that includes enemies
 	 */
 	public CombatViewer (List<ZEntity> entities, EventAdder eventAdder, Playable players, Encounter e) {
 		super(ImageDatabase.getInstance().getImage("bgCombatForest.jpg"), 0, 0, eventAdder, entities);

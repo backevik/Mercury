@@ -15,7 +15,7 @@ import core.GlobalStateManager;
 import database.ImageDatabase;
 
 /**
- * TownViewer is a subclass to ZContainer and contains the graphical components for the Town and vendor GUI
+ * Sets up and holds all gui elements for town and vendor
  * @author Martin Claesson
  * @version 1.0
  * @since 2015-03-04
@@ -45,11 +45,11 @@ public class TownViewer extends ZContainer
     
     /**
      * Constructor initializes all the components and adds them to the drawable and clickable list
-     * @param entities
-     * @param eventAdder
+     * @param entities copy of entity list, to add components
+     * @param eventAdder reference to the event queue
      */
     public TownViewer( List<ZEntity> entities, EventAdder eventAdder){
-        super(ImageDatabase.getInstance().getImage("bgDefault.jpg"),0,0,eventAdder, entities);
+        super(ImageDatabase.getInstance().getImage("bgTown.png"),0,0,eventAdder, entities);
         
         this.eventAdder = eventAdder;
         this.entities = entities;

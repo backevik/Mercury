@@ -20,12 +20,12 @@ public class ZoneButton extends ZButton
 	
 	/**
 	 * Constructor for CharacterCreationViewer
-	 * @param image - background image of the scene
-	 * @param x - where the scene begins in x
-	 * @param y - where the scene begins in y
-	 * @param eventAdder - reference to the event queue
-	 * @param entities - copy of entity list, to add components
-	 * @param zoneName - name of the zone
+	 * @param image background image of the scene
+	 * @param x  where the scene begins in x
+	 * @param y  where the scene begins in y
+	 * @param eventAdder  reference to the event queue
+	 * @param entities copy of entity list, to add components
+	 * @param zoneName  name of the zone
 	 */
 	public ZoneButton (Image image, int x, int y, EventAdder eventAdder, String eventOnClick, String zoneName) {
 		super(image, x, y, eventAdder, eventOnClick);

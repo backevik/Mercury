@@ -13,15 +13,15 @@ import zlibrary.ZTextArea;
  * 
  * @author	Anton Andrén
  * @version	1.0					<2015-03-07>
- * @since	015-03-01
+ * @since	2015-03-01
  */
 
 public class CreditsViewer extends ZContainer
 {
 	/**
 	 * Constructor for CreditsViewer
-	 * @param eventAdder	-	Used to add events in the eventQueue to be processed by the game loop.
-	 * @param entities		-	Used to track player interactions with an object.
+	 * @param eventAdder reference to the event queue
+	 * @param entities copy of entity list, to add components
 	 */
 	public CreditsViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(null, 0, 0, eventAdder, entities);

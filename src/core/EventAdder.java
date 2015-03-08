@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * EventAdder lets objects add events without being able to modify the event list.
  * 
  * @author	Anton Andrén & Mattias Benngård
- * @version	0.4
+ * @version	1.0
  * @since	2015-02-16
  */
 public class EventAdder
@@ -15,7 +15,7 @@ public class EventAdder
 	
 	/**
 	 * Constructor for EventAdder
-	 * @param events
+	 * @param events reference to eventlist in eventqueue
 	 */
 	public EventAdder (LinkedList<String> events) {
 		this.events = events;
@@ -23,7 +23,7 @@ public class EventAdder
 	
 	/**
 	 * Adds s last to the eventlist
-	 * @param s
+	 * @param s name of event to be added last in event list 
 	 */
 	public void add (String s) {
 		events.addLast(s);

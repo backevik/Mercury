@@ -28,8 +28,8 @@ public class WorldMapViewer extends ZContainer implements RealTime
 	
 	/**
 	 * Constructor for WorldMapViewer
-	 * @param eventAdder
-	 * @param entities
+	 * @param eventAdder reference to the event queue 
+	 * @param entities copy of entity list, to add components
 	 */
 	public WorldMapViewer(EventAdder eventAdder, List<ZEntity> entities) {
 		super(ImageDatabase.getInstance().getImage("bgWorldMap.jpg"), 0, 0, eventAdder, entities);
