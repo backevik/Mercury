@@ -7,7 +7,7 @@ import combat.Encounter;
 /**
  * A singleton that handles all encounters in game
  * 
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @author		Anton Andrén
  * @version		1.0
  * @since		2015-03-06
  */

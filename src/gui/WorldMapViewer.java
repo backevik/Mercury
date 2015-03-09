@@ -17,8 +17,8 @@ import database.ZoneDatabase;
 /**
  * Sets up and holds all gui elements to the world map
  * 
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version		0.3.2
+ * @author		Daniel Edsinger 	
+ * @version		1.0
  * @since		2015-02-21
  */
 

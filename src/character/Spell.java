@@ -5,8 +5,7 @@ import java.io.Serializable;
 /**
  * Creates spell and handles getters
  * 
- * @author      Mattias Benngård	<mbengan@gmail.com>
- * @author 		Andreas Bäckevik	<backevik@student.chalmers.se>
+ * @author 		Andreas Bäckevik	
  * @version     1.0.1
  * @since       2015-03-07
  */

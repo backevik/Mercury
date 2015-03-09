@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Contains a list of all the spells the character owns. Also able to add spells.
  * 
- * @author      Andreas Bäckevik		<>
- * @version     1.0.1					<2015-03-07>
+ * @author      Andreas Bäckevik		
+ * @version     1.0
  * @since       2015-03-07
  */
 

@@ -18,7 +18,7 @@ import zlibrary.ZText;
 /**
  * Sets up and holds all gui elements to the load game scenes
  * 
- * @author	Mattias Benngård	<mbengan@gmail.com> (Daniel Edsinger)
+ * @author	Mattias Benngård
  * @version	1.0	
  * @since	2015-03-07
  */

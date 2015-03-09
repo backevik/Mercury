@@ -4,7 +4,7 @@ package core;
  * Interface for all objects that need real-time updates.
  * 
  * @author	Anton Andrén
- * @version	1.0					<2015-03-08>
+ * @version	1.0					
  * @since	2015-02-16
  */
 

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * EventAdder lets objects add events without being able to modify the event list.
  * 
- * @author	Anton Andrén & Mattias Benngård
+ * @author	Anton Andrén 
  * @version	1.0
  * @since	2015-02-16
  */

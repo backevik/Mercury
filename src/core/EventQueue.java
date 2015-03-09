@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * Keeps track of the Events list and lets user retrieve the first item. Wraps around EventAdder
  * 
- * @author	Anton Andrén & Mattias Benngård
+ * @author	Anton Andrén 
  * @version	1.0
  * @since	2015-02-16
  */

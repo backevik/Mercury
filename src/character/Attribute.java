@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Characteristics and settings for attributes in character.
  * 
- * @author      Andreas Backevik		<>
- * @version     1.0						<2015-03-17>
+ * @author      Andreas Backevik		
+ * @version     1.0					
  * @since       2015-03-07
  */
 

@@ -8,8 +8,8 @@ import character.Character;
 /**
  * A playable character, can get experience and level up 
  * 
- * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     1.0					<2015-03-06>
+ * @author      Mattias Benngard	
+ * @version     1.0					
  * @since       2015-03-07
  */
 
@@ -114,10 +114,10 @@ public class Playable extends Character implements Serializable
 		}
 	}
 	
-	/**
-	 * Public getter for current currency
-	 * @return
-	 */
+/**
+ * Public getter for current currency
+ * @return the  players currency
+ */
 	public double getCurrency() {
 		return currency;
 	}

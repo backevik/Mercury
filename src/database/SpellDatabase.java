@@ -7,7 +7,7 @@ import character.Spell;
 /**
  * A singleton that handles all spells in the game.
  * 
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @author		Daniel Edsinger 
  * @version		1.0
  * @since		2015-03-06
  */

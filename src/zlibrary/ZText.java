@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 /**
  * Class for creating images with text to be displayed.
  * 
- * @author	Anton Andren		<>
- * @version	1.0					<2015-03-07>
+ * @author	Anton Andren		
+ * @version	1.0					
  * @since	2015-02-16
  */
 

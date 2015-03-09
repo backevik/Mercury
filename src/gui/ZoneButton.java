@@ -9,8 +9,8 @@ import zlibrary.ZButton;
 /**
  * Wrapper for ZButton, contains a name for the Zone
  * 
- * @author	Daniel Edsinger <danieledsinger@hotmail.com>
- * @version	1.0				<2015-03-07>
+ * @author	Daniel Edsinger 
+ * @version	1.0				
  * @since	2015-02-18
  */
 

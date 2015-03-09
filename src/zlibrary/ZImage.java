@@ -5,8 +5,8 @@ import java.awt.Image;
 /**
  * A wrapper for AWT Image
  * 
- * @author	Anton Andren		<>
- * @version	1.0					<2015-03-07>
+ * @author	Anton Andren		
+ * @version	1.0					
  * @since	2015-02-16
  */
 

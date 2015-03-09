@@ -10,8 +10,8 @@ import core.RealTime;
 /**
  * Stores an animation, a list of images, if added to real time list it will automatically switch between the images.
  * 
- * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     1.0					<2015-02-27>
+ * @author      Mattias Benngard	
+ * @version     1.0					
  * @since       2015-03-07
  */
 

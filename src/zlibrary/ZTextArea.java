@@ -12,8 +12,8 @@ import java.awt.image.BufferedImage;
 /**
  * GUI component for Text Areas
  * 
- * @author	Anton Andren		<>
- * @version	1.0					<2015-03-07>
+ * @author	Anton Andren		
+ * @version	1.0					
  * @since	2015-02-16
  */
 

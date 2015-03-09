@@ -5,7 +5,6 @@ import java.io.Serializable;
 /**
  * Characteristics and settings for skills in  a character.
  * 
- * @author      Mattias Benngard	<mbengan@gmail.com>
  * @author		Andreas Backevik	<backevik@student.chalmers.se>
  * @version     1.0.1
  * @since       2015-03-07

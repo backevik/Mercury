@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Quest container for Player
  * 
- * @author      Mattias Benngård	<mbengan@gmail.com>
+ * @author      Mattias Benngård	
  * @version     1.0.1
  * @since       2015-03-07
  */

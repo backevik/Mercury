@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * Where Vitals are created and modified. Each vital has its own modifiers/getters
  * 
- * @author		Andreas Bäckevik	<backevik@student.chalmers.se>
- * @version     1.0.1
+ * @author		Andreas Bäckevik	
+ * @version     1.0
  * @since       2015-03-07
  */
 

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 /**
  * A singleton that handles all images in game. Image file formats supported are .jpg and .png.
  * 
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @author		Daniel Edsinger 	
  * @version		1.0
  * @since		2015-03-07
  */

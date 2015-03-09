@@ -16,8 +16,8 @@ import database.ImageDatabase;
 /**
  * Sets up and holds all gui elements to the character statistics frame
  * 
- * @author	Mattias Benngård	<mbengan@gmail.com
- * @version	1.0					<2015-02-27>
+ * @author	Mattias Benngård	
+ * @version	1.0					
  * @since	2015-02-17
  */
 

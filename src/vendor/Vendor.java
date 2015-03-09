@@ -10,8 +10,8 @@ import player.Player;
 /**
  * Where the vendor is created, purchases are made and items are added to inventory. 
  * 
- * @author		Martin Claesson		<>
- * @version		1.0					<2015-03-07>
+ * @author		Martin Claesson		
+ * @version		1.0					
  * @since		2015-03-03
  */
 

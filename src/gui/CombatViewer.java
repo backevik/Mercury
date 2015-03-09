@@ -21,6 +21,7 @@ import database.ImageDatabase;
 
 /**
  * Sets up and holds all gui elements to the combat frame
+ * 
  * @author Andreas Backevik
  * @version 1.0
  * @since 2015-02-21

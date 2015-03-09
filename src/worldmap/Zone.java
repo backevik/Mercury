@@ -7,8 +7,8 @@ import constants.Directions;
 /**
  * A zone on the world map.
  * 
- * @author	Daniel Edsinger 	<danieledsinger@hotmail.com>
- * @version	1.0					<2015-03-07>
+ * @author	Daniel Edsinger 	
+ * @version	1.0					
  * @since	2015-02-21
  */
 

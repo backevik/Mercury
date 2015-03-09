@@ -7,7 +7,7 @@ import combat.Enemy;
 /**
  * A singleton that handles all enemies in the game
  * 
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @author		Daniel Edsinger 	
  * @version		1.0
  * @since		2015-02-24
  */

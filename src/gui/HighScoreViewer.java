@@ -3,7 +3,6 @@ package gui;
 import highscore.Client;
 
 import java.awt.Image;
-import java.util.ArrayList;
 import java.util.List;
 
 import core.EventAdder;
@@ -16,8 +15,8 @@ import zlibrary.ZTextArea;
 /**
  * Sets up and holds all gui elements to the highscoreviewer 
  * 
- * @author	Mattias Benngård	<mbengan@gmail.com>
- * @version	1.0					<2015-02-27>
+ * @author	Mattias Benngård	
+ * @version	1.0					
  * @since	2015-02-15
  */
 
@@ -34,8 +33,6 @@ public class HighScoreViewer extends ZContainer
 	public HighScoreViewer (Image image, int x, int y, EventAdder eventAdder, List<ZEntity> entities) {
 		super(image, x, y, eventAdder, entities);
 		
-		ArrayList<String> list = new ArrayList<>();
-		
 		Client client = new Client("localhost");
 		ZButton btnBack = new ZButton("Back", 20, 520, 120, 60, eventAdder, "sceneMainMenu");
 		components.add(btnBack);
@@ -44,11 +41,9 @@ public class HighScoreViewer extends ZContainer
 		ZText text = new ZText("Level, Name",320,120,40);
 		components.add(text);
 		
-		ZTextArea scoreArea = new ZTextArea(320,200,300,300,20);
+		ZTextArea scoreArea = new ZTextArea(320,200,300,300,30);
 		components.add(scoreArea);
-		list = client.getScore();
-		System.out.println(list);
-		for(String s : list){
+		for(String s : client.getScore()){
 			scoreArea.addText(s);
 		}
 	}

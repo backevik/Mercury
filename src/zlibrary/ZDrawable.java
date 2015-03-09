@@ -5,8 +5,8 @@ import java.awt.Graphics;
 /**
  * Interface for all drawables
  * 
- * @author      Anton Andren		<>
- * @version     1.0					<2015-02-27>
+ * @author      Anton Andren		
+ * @version     1.0					
  * @since       2015-03-07
  */
 

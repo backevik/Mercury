@@ -10,8 +10,8 @@ import core.EventAdder;
 /**
  * Abstract class for creating containers for Z-objects. Contains a component list and an entity list to self keep track of its sub-components.
  * 
- * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     1.0					<2015-03-07>
+ * @author      Mattias Benngard	
+ * @version     1.0					
  * @since       2015-02-27
  */
 public abstract class ZContainer extends ZImage implements ZDrawable

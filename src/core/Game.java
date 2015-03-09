@@ -47,12 +47,8 @@ import vendor.Vendor;
 /**
  * Game Class for project Mercury, holds main method. Instantiates itself.
  * 
- * @author	Anton Andrén		<@>
- * @author	Mattias Benngård	<mbengan@gmail.com>
- * @author 	Andreas Bäckevik	<@>
- * @author	Martin Claesson		<@>
- * @author 	Daniel Edsinger		<@>
- * @version	0.9					<2015-05-25>
+ * @author	Mattias Benngård	
+ * @version	1.0					
  * @since	2015-02-21
  */
 

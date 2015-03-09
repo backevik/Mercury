@@ -11,9 +11,8 @@ import constants.Vitals;
 /**
  * Where a character essentially is created with all basic statistics and info.
  * 
- * @author      Mattias Benngard	<mbengan@gmail.com>
- * @author		Andreas Backevik	<backevik@student.chalmers.se>
- * @version     1.0.1				<2015-03-07>
+ * @author		Andreas Backevik	
+ * @version     1.0.1				
  * @since       2015-03-07
  */
 

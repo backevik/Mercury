@@ -8,7 +8,7 @@ import items.ItemPotion;
 /**
  * A singleton that handles all items in the game.
  * 
- * @author		Daniel Edsinger 	<danieledsinger@hotmail.com>
+ * @author		Daniel Edsinger 	
  * @version		1.0
  * @since		2015-03-06
  */

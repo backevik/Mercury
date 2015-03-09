@@ -6,13 +6,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 /**
  * Client to handle communication to server. Fetching high scores.
  * 
- * @author Andreas Backevik & Daniel Edsinger
- * @version 0.8 alpha
+ * @author Andreas Backevik 
+ * @version 1.0
  * @since 2015-02-26
  */
 
@@ -20,7 +19,7 @@ public class Client {
 
     private String hostname;
     private int port;
-    private Socket socketClient;
+    Socket socketClient;
 
     /**
      * Constructor for Client
@@ -28,7 +27,7 @@ public class Client {
      */
     public Client (String hostname){
         this.hostname = hostname;
-        port = 46000;
+        port = 9990;
     }
 
     /**
@@ -57,8 +56,7 @@ public class Client {
      * Public getter for high score, connects, retrieves and returns
      * @return list of highscore, each index is a character with level
      */
-    public ArrayList<String> getScore() {
-    	ArrayList<String> aList = new ArrayList<>();
+    public String[] getScore() {
     	String[] list = null;
     	try {
     		connect();
@@ -72,18 +70,13 @@ public class Client {
             System.out.println("Response from server:");
             if ((userInput = stdIn.readLine()) != null) {
             	list = userInput.split(",");
-            }
-            for(String s : list){
-            	aList.add(s);
-            }
+            }            
         } catch (UnknownHostException e) {
             System.err.println("Host unknown. Cannot establish connection");
         } catch (IOException e) {
             System.err.println("Cannot establish connection. Server may not be up."+e.getMessage());
-            aList.add("Cannot establish connection. Server may not be up.");
-            return aList;
         }
-    	return aList;
+    	return list;
     }
 
     /**

@@ -3,10 +3,10 @@ package constants;
 import java.util.HashMap;
 
 /**
- * Constnats to match opposite directions
+ * Constants to match opposite directions
  * 
- * @author	Daniel Edsinger <danieledsinger@hotmail.com>
- * @version 1.0					<2015-03-07>
+ * @author	Daniel Edsinger 
+ * @version 1.0					
  * @since   2015-02-01
  */ 
 

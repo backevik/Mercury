@@ -13,8 +13,8 @@ import core.EventAdder;
 /**
  * A GUI Button that trigger event on click
  * 
- * @author      Mattias Benngard	<mbengan@gmail.com>
- * @version     1.0					<2015-02-27>
+ * @author      Mattias Benngard	
+ * @version     1.0					
  * @since       2015-03-07
  */
 
